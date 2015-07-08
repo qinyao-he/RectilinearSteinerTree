@@ -2,8 +2,8 @@
 // Created by hqythu on 6/20/2015.
 //
 
-#ifndef EMST_GRAPH_H
-#define EMST_GRAPH_H
+#ifndef RST_GRAPH_H
+#define RST_GRAPH_H
 
 #include <cstddef>
 #include <vector>
@@ -35,4 +35,4 @@ private:
 };
 
 
-#endif //EMST_GRAPH_H
+#endif //RST_GRAPH_H
