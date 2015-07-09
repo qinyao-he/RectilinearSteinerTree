@@ -9,32 +9,15 @@
 
 double Point::distance(const Point& op) const
 {
-    double ret = 0;
-    ret += (x - op.x) * (x - op.x);
-    ret += (y - op.y) * (y - op.y);
-    return sqrt(ret);
+    return std::abs(x - op.x) + std::abs(y - op.y);
 }
 
 
 bool Point::operator < (const Point &op) const {
-    if (x < op.x) {
-        return true;
-    } else if (x > op.x) {
-        return false;
-    } else{
-        if (y < op.y) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    return (x < op.x) || (x == op.x && y < op.y);
 }
 
 
 bool Point::operator == (const Point &op) const {
-    if (x == op.x && y == op.y) {
-        return true;
-    } else {
-        return false;
-    }
+    return x == op.x && y == op.y;
 }
