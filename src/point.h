@@ -8,15 +8,15 @@
 
 class Point {
 public:
-    double x, y;
+    int x, y;
 
-    Point(double x, double y) : x(x), y(y) {}
+    Point(int x, int y) : x(x), y(y) {}
 
     bool operator < (const Point& op) const;
 
     bool operator == (const Point& op) const;
 
-    double distance(const Point& op) const;
+    int distance(const Point& op) const;
 };
 
 

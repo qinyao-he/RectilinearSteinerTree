@@ -5,12 +5,14 @@
 #ifndef RST_RST_SOLVER_H
 #define RST_RST_SOLVER_H
 
+#include <vector>
+
 #include "point.h"
 
 
 class RSTSolver {
 public:
-    RSTSolver();
+    void solve(std::vector<Point> points);
 };
 
 

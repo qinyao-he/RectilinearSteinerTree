@@ -4,10 +4,10 @@
 
 #include "point.h"
 
-#include <cmath>
+#include <cstdlib>
 
 
-double Point::distance(const Point& op) const
+int Point::distance(const Point& op) const
 {
     return std::abs(x - op.x) + std::abs(y - op.y);
 }
