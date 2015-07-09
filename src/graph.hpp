@@ -15,7 +15,7 @@ template <typename W>
 class Graph {
 public:
     struct Edge {
-        Edge(int u = 0, int v = 0, W w = 0) : u(u), v(v), w(w) {}
+        Edge(int u = 0, int v = 0, W w = W::zero) : u(u), v(v), w(w) {}
         int u, v;
         W w;
     };
@@ -38,11 +38,11 @@ public:
         using std::vector;
         size_t n = get_n_vertex();
         vector<bool> in_tree(n, false);
-        vector<W> dist(n, W((std::numeric_limits<double>::max)()));
+        vector<W> dist(n, W::max);
         vector<Edge> pre(n);
         vector<Edge> edges;
         int t = 0;
-        dist[t] = 0;
+        dist[t] = W::zero;
         for(size_t k = 1; k < n; k++) {
             in_tree[t] = true;
             for (const auto& edge : edge_list(t)) {
@@ -51,7 +51,7 @@ public:
                     pre[edge.v] = edge;
                 }
             }
-            W min = W((std::numeric_limits<double>::max)());
+            W min = W::max;
             int minv = 0;
             for(size_t i = 0; i < n; i++) {
                 if (min > dist[i] && !in_tree[i]) {

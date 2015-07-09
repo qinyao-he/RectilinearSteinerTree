@@ -7,21 +7,23 @@
 #include <cstdlib>
 #include <utility>
 #include <tuple>
+#include <limits>
 
 #include "graph.hpp"
 
+DistType DistType::max(std::numeric_limits<int>::max(), 0, 0);
+DistType DistType::zero(0, 0, 0);
+
 
 void RSTSolver::solve(std::vector<Point> points) {
-    typedef std::tuple<int, int, int> dist_type;
-
     size_t n = points.size();
-    Graph<dist_type> graph(n);
+    Graph<DistType> graph(n);
 
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
-            dist_type dist = dist_type(points[i].distance(points[j]),
-                                       -std::abs(points[i].y - points[j].y),
-                                       -std::max(points[i].x, points[j].x));
+            DistType dist = DistType(points[i].distance(points[j]),
+                                     -std::abs(points[i].y - points[j].y),
+                                     -std::max(points[i].x, points[j].x));
             graph.add_edge(i, j, dist);
             graph.add_edge(j, i, dist);
         }
