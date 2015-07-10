@@ -12,10 +12,10 @@ public:
 
 /* concrete strategies */
 
-class ImpASMST : public RSTStrategy {
-public:
-    int solveRST(RST *rst);
-};
+//class ImpASMST : public RSTStrategy {
+//public:
+//    int solveRST(RST *rst);
+//};
 
 class ImpALMST : public RSTStrategy {
 public:
