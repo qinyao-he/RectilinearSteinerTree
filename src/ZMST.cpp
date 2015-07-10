@@ -69,7 +69,7 @@ void ZMST::dfs(int root, int father, int stat, layout &lay,
 }
 
 void ZMST::exec() {
-    smst.calculateMST();
+    smst.calculate();
     //reserve before mass data pushing back
     lines_.reserve(smst.lines().size());
     for (int i = 0; i < smst.lines().size(); i++)
@@ -184,12 +184,12 @@ void ZMST::setPointsByRandom(int num, int maxRange) {
 //read data from a file
 void ZMST::setPointsFromFile(const char *fileName) {
     lines_.clear();
-    smst.setPointsFromFile(fileName);
+    smst.set_points(fileName);
 }
 
 void ZMST::setPointsFromRST(RST *rst) {
     lines_.clear();
-    smst.setPointsFromRST(rst);
+    smst.set_rst(rst);
 }
 
 void ZMST::getResult(RST *rst) {

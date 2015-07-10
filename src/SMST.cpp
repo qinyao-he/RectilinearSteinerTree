@@ -20,12 +20,12 @@ void SMST::setPointsByRandom(int num, int maxRange) {
     m_vertexs = pointsGenerator.byRandom(num, maxRange);
 }
 
-void SMST::setPointsFromFile(const std::string& filename) {
+void SMST::set_points(const std::string &filename) {
     m_vertexs.clear();
     m_vertexs = pointsGenerator.fromFile(filename);
 }
 
-void SMST::printMSTToFile(const std::string& filename) const {
+void SMST::save(const std::string &filename) const {
     std::ofstream fout(filename);
     fout << m_vertexs.size() << ' ' << m_lines.size() << std::endl;
     for (int i = 0; i < m_vertexs.size(); i++) {
@@ -60,7 +60,7 @@ bool SMST::priorLineCompare(Line *line1, Line *line2) {
     return false;
 }
 
-void SMST::lineSort(int startIndex, int endIndex) {
+void SMST::sort(int startIndex, int endIndex) {
     if (startIndex < endIndex) {
         int sIndex = startIndex;
         int eIndex = endIndex;
@@ -78,12 +78,12 @@ void SMST::lineSort(int startIndex, int endIndex) {
                 eIndex--;
             }
         }
-        if (startIndex < eIndex) lineSort(startIndex, eIndex);
-        if (sIndex < endIndex) lineSort(sIndex, endIndex);
+        if (startIndex < eIndex) sort(startIndex, eIndex);
+        if (sIndex < endIndex) sort(sIndex, endIndex);
     }
 }
 
-void SMST::calculateMST() {
+void SMST::calculate() {
     m_lines.clear();
 
     LineStatus *const minDist = new LineStatus[m_vertexs.size()];
@@ -122,7 +122,7 @@ void SMST::calculateMST() {
     delete[] parentIndex;
 }
 
-void SMST::setPointsFromRST(RST *rst) {
+void SMST::set_rst(RST *rst) {
     m_vertexs.clear();
     m_vertexs = pointsGenerator.fromRST(rst);
 }

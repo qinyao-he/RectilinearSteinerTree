@@ -27,23 +27,23 @@ public:
     void setPointsByRandom(int num = 100, int maxRange = 1000);
 
     //using PointsGenerator to set points by random
-    void setPointsFromFile(const std::string& filename);
+    void set_points(const std::string &filename);
 
     //using PointsGenerator to set points from file
-    void calculateMST();
+    void calculate();
 
     //calculate the minimum spanning tree and store the result into lines.
-    void printMSTToFile(const std::string& filename) const;
+    void save(const std::string &filename) const;
     //print the points and lines of the MST into the file of "filename"
 
-    void setPointsFromRST(RST *rst);
+    void set_rst(RST *rst);
 
 private:
     bool priorLineCompare(Line *line1, Line *line2);
 
     //Compare line1 and line2 in nondecreasing lexicographic order
     //and return true if line1 is prior to line2
-    void lineSort(int startIndex, int endIndex);
+    void sort(int startIndex, int endIndex);
 
     //Sort lines  in nondecreasing lexicographic order
     std::vector<Point> m_vertexs;

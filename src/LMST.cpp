@@ -30,7 +30,7 @@ const int INF = 0x7FFFFFFF;
 
 void LMST::init() {
     std::vector<int> ivec;
-    smst_.calculateMST();
+    smst_.calculate();
     points_ = smst_.points();
     lines_ = smst_.lines();
     assert(points_.size() > 1);
@@ -53,7 +53,7 @@ void LMST::init() {
 LMST::LMST() : smst_(), psi_result_(INF) { }
 
 LMST::LMST(const char *filename) : smst_(), psi_result_(INF) {
-    smst_.setPointsFromFile(filename);
+    smst_.set_points(filename);
     init();
 }
 
@@ -63,7 +63,7 @@ LMST::LMST(int num, int maxRange) : smst_(), psi_result_(INF) {
 }
 
 void LMST::setPointsFromFile(const char *filename) {
-    smst_.setPointsFromFile(filename);
+    smst_.set_points(filename);
 }
 
 void LMST::setPointsByRandom(int num, int maxRange) {
@@ -297,7 +297,7 @@ void LMST::OutputResultToFile(const char *filename) {
 
 void LMST::setPointsFromRST(RST *rst) {
     //qDebug("set data for LMST");
-    smst_.setPointsFromRST(rst);
+    smst_.set_rst(rst);
 }
 
 void LMST::getResult(RST *rst) {
