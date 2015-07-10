@@ -1,16 +1,9 @@
 //
-//  ZMST.h
-//  RectilinearSteinerTree
+// Created by ZhuangTianYi on 15/7/10.
 //
-//
-//
-/* Author : Wang_Tianyi
- * This file declares a class ZMST, which reads data from SMST and save the
- * stable Z-MST to m_lines, and the result could be printed to text files.
- */
-#ifndef __RectilinearSteinerTree__Z_MST__
-#define __RectilinearSteinerTree__Z_MST__
-#define DEBUG
+
+#ifndef RECTILINEARSTEINERTREE_ZMST_H
+#define RECTILINEARSTEINERTREE_ZMST_H
 
 #include <cstdio>
 #include <vector>
@@ -68,7 +61,7 @@ public:
 #ifdef DEBUG
         return points().at(i);
 #else
-    return points()[i];
+        return points()[i];
 #endif
     }
 
@@ -77,7 +70,7 @@ public:
 #ifdef DEBUG
         return lines().at(i);
 #else
-    return lines()[i];
+        return lines()[i];
 #endif
     }
 
@@ -101,4 +94,6 @@ public:
 
     void getResult(RST *rst);
 };
-#endif /* defined(__RectilinearSteinerTree__Z_MST__) */
+
+
+#endif //RECTILINEARSTEINERTREE_ZMST_H

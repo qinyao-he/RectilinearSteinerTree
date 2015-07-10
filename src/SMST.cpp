@@ -26,8 +26,9 @@ LineStatus::~LineStatus() { };
 
 bool LineStatus::operator<(const LineStatus &_LS) {
     if (this->m_dist < _LS.m_dist) return true;
-    if ((this->m_dist == _LS.m_dist) && (this->m_dist_x < _LS.m_dist_x)) return true;
-    if ((this->m_dist == _LS.m_dist) && (this->m_dist_x == _LS.m_dist_x) && (this->m_dist_y < _LS.m_dist_y)) return true;
+    if ((this->m_dist == _LS.m_dist) && (this->m_dist_x < _LS.m_dist_x)
+        || (this->m_dist == _LS.m_dist) && (this->m_dist_x == _LS.m_dist_x) && (this->m_dist_y < _LS.m_dist_y))
+        return true;
     return false;
 }
 
@@ -46,15 +47,15 @@ void SMST::setPointsFromFile(const std::string& filename) {
 }
 
 void SMST::printMSTToFile(const std::string& filename) const {
-    std::ofstream ofile(filename);
-    ofile << m_vertexs.size() << ' ' << m_lines.size() << std::endl;
+    std::ofstream fout(filename);
+    fout << m_vertexs.size() << ' ' << m_lines.size() << std::endl;
     for (int i = 0; i < m_vertexs.size(); i++) {
-        m_vertexs[i].print(ofile);
+        m_vertexs[i].print(fout);
     }
     for (int i = 0; i < m_lines.size(); i++) {
-        m_lines[i].print(ofile);
+        m_lines[i].print(fout);
     }
-    ofile.close();
+    fout.close();
 }
 
 

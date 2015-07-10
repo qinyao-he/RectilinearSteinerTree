@@ -1,20 +1,11 @@
 //
-//  ZMST.cpp
-//  RectilinearSteinerTree
-//
-//  Author : Wang_Tianyi
-//  Implementation of ZMST.
+// Created by ZhuangTianYi on 15/7/10.
 //
 
-#include <algorithm>
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
-#include <vector>
 #include "ZMST.h"
-#include "overlap.h"
 #include "rst.h"
-
+#include "overlap.h"
+#include <assert.h>
 
 using std::abs;
 using std::copy;
@@ -144,10 +135,10 @@ void ZMST::exec() {
     subProb[0].push_back(point(0));
     dfs(0, 0, head[0], subProb[0][0], lines(), subProb, head, stack);
     getAns(0, subProb[0][0], subProb, head);
-    delete[]head;
-    delete[]xgrids;
-    delete[]ygrids;
-    delete[]father;
+    delete[] head;
+    delete[] xgrids;
+    delete[] ygrids;
+    delete[] father;
 }
 
 //SubProcedure for exec(). It would examine the subProb and look for
@@ -218,6 +209,4 @@ void ZMST::getResult(RST *rst) {
         rst->v_seg.push_back(mkSegment(C, D));
         rst->v_seg.push_back(mkSegment(D, B));
     }
-    //qDebug("get result with %d segs", rst->v_seg.size());
 }
-
