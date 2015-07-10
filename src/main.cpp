@@ -31,6 +31,12 @@ int main(int argc, char const *argv[]) {
              cv::Scalar(0, 0, 0));
     }
 
+    for (const auto& p : rst->v_op) {
+        circle(picture,
+             cv::Point(p.x, p.y),
+             3, cv::Scalar(255, 0, 0), -1);
+    }
+
     namedWindow("RST");
     imshow("RST", picture);
     waitKey(0);
