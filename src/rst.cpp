@@ -53,59 +53,17 @@ RST::~RST() {
         delete myStrategy_;
 }
 
-void RST::loadPoints(const char *fileName) {
-    std::ifstream fin;
-    DTYPE x, y;
-    fin.open(fileName);
-
-    int n;
-    fin >> n;
-    v_op.clear();
-    for (int i = 0; i < n; i++) {
-        fin >> x >> y;
-        v_op.push_back(mkPoint(x, y));
-    }
-    fin.close();
-    setSolved(0);
-    isNew_ = 1;
-
-    //qDebug("%d", myStrategyIdx_);
-    pointsCert_ = rand();
-    // pointsChanged(pointsCert_);
-}
 
 void RST::loadPoints(std::vector<Point2D> &gen_p) {
     v_op.clear();
     for (int i = 0; i < gen_p.size(); i++)
         v_op.push_back(gen_p[i]);
-    setSolved(0);
     isNew_ = 1;
 
     pointsCert_ = rand();
     // pointsChanged(pointsCert_);
 }
 
-int RST::isSolved() {
-    return isSolved_;
-}
-
-void RST::setSolved(int solved) {
-    isSolved_ = solved;
-}
-
-int RST::hasData() {
-    return v_op.size();
-}
-
-int RST::getStrategy() {
-    return myStrategyIdx_;
-}
-
-DTYPE RST::overall() {
-    return overall_;
-}
-
-/* slots */
 
 int RST::changeStrategy(int s_idx) {
     if (s_idx == myStrategyIdx_) return 0;
@@ -125,67 +83,17 @@ int RST::changeStrategy(int s_idx) {
             myStrategyIdx_ = 0;
         }
     }
-    setSolved(0);
-
     // strategyChanged(s_idx);
     return myStrategyIdx_;
 }
 
-int RST::toSolveRST() {
+int RST::solve() {
     myStrategy_->solveRST(this);
 }
 
-void RST::savePoints(const char *fileName) {
-    std::ofstream fout(fileName);
-
-    fout << v_op.size() << "\n";
-    for (int i = 0; i < v_op.size(); i++) {
-        fout << v_op[i].x << ' ' << v_op[i].y << "\n";
-        //qDebug("%d %d", v_op[i].x, v_op[i].y);
-    }
-    fout.close();
-}
 
 void RST::addPoint(DTYPE x, DTYPE y) {
     v_op.push_back(mkPoint(x, y));
-    setSolved(0);
     pointsCert_ = rand();
     // pointsChanged(pointsCert_);
-}
-
-void RST::deletePoint(DTYPE x, DTYPE y) {
-    int flag = 0;
-    for (int i = v_op.size() - 1; i >= 0; i--)
-        if (std::abs(v_op[i].x - x) + std::abs(v_op[i].y - y) < 1) {
-            v_op.erase(v_op.begin() + i);
-            flag = 1;
-            break;
-        }
-    if (flag) {
-        setSolved(0);
-        pointsCert_ = rand();
-        // pointsChanged(pointsCert_);
-    }
-}
-
-void RST::deleteAndAdd(DTYPE ox, DTYPE oy, DTYPE nx, DTYPE ny) {
-    int flag = 0;
-    for (int i = v_op.size() - 1; i >= 0; i--)
-        if (std::abs(v_op[i].x - ox) + std::abs(v_op[i].y - oy) < 1) {
-            v_op.erase(v_op.begin() + i);
-            flag = 1;
-            break;
-        }
-    v_op.push_back(mkPoint(nx, ny));
-    setSolved(0);
-    pointsCert_ = rand();
-    // pointsChanged(pointsCert_);
-}
-
-int RST::isNew() {
-    return isNew_;
-}
-
-void RST::setNew(int x) {
-    isNew_ = x;
 }

@@ -49,42 +49,16 @@ public:
 
     ~RST();
 
-    void loadPoints(const char *fileName);
-
     void loadPoints(std::vector<Point2D> &gen_p);
 
     void addPoint(DTYPE x, DTYPE y);
 
-    void deletePoint(DTYPE x, DTYPE y);
-
-    void deleteAndAdd(DTYPE ox, DTYPE oy, DTYPE nx, DTYPE ny);
-
-    int isSolved();
-
-    int isNew();
-
-    void setNew(int x);
-
-    void setSolved(int solved);
-
-    int hasData();
-
-    int getStrategy();
-
-    DTYPE overall();
-
     std::vector<Point2D> v_op; // original points
     std::vector<Segment2D> v_seg; // all segments
 
-    void savePoints(const char *fileName);
-
-    // void pointsChanged(int cert);
-    // void strategyChanged(int s_idx);
-    // void solveFinished();
-
     int changeStrategy(int s_idx);
 
-    int toSolveRST();
+    int solve();
 
 private:
     int isSolved_, myStrategyIdx_, pointsCert_, isNew_;
