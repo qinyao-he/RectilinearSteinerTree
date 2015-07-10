@@ -23,7 +23,7 @@
 #include <fstream>
 #include <set>
 
-#include "../../rst.h"
+#include "../rst.h"
 
 const int INF = 0x7FFFFFFF;
 

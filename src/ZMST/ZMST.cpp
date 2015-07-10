@@ -13,7 +13,7 @@
 #include <vector>
 #include "ZMST.h"
 #include "../Headers/overlap.h"
-#include "../../rst.h"
+#include "../rst.h"
 
 namespace imp_a {
 
