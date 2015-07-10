@@ -45,7 +45,7 @@ void SMST::setPointsFromFile(const std::string& filename) {
     m_vertexs = pointsGenerator.fromFile(filename);
 }
 
-void SMST::printMSTToFile(const char *filename) const {
+void SMST::printMSTToFile(const std::string& filename) const {
     std::ofstream ofile(filename);
     ofile << m_vertexs.size() << ' ' << m_lines.size() << std::endl;
     for (int i = 0; i < m_vertexs.size(); i++) {

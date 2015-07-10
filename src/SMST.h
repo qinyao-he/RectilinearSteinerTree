@@ -54,7 +54,7 @@ public:
     void calculateMST();
 
     //calculate the minimum spanning tree and store the result into lines.
-    void printMSTToFile(const char *filename) const;
+    void printMSTToFile(const std::string& filename) const;
     //print the points and lines of the MST into the file of "filename"
 
     void setPointsFromRST(RST *rst);
