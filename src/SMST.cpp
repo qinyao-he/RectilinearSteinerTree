@@ -11,11 +11,6 @@
 #include <string>
 #include <cmath>
 
-std::ostream& operator<<(std::ostream& out, const LineStatus& l) {
-    out << l.m_dist << ' ' << l.m_dist_y << ' ' << l.m_dist_x << std::endl;
-    return out;
-}
-
 SMST::SMST() { }
 
 SMST::~SMST() { }
