@@ -15,7 +15,6 @@
 #include "overlap.h"
 #include "rst.h"
 
-namespace imp_a {
 
 using std::abs;
 using std::copy;
@@ -221,4 +220,4 @@ void ZMST::getResult(RST *rst) {
     }
     //qDebug("get result with %d segs", rst->v_seg.size());
 }
-}
+

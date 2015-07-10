@@ -13,7 +13,6 @@
 #include <fstream>
 #include <cmath>
 
-namespace imp_a {
 
 LineStatus::LineStatus(const Point *point1, const Point *point2) {
     dist_ = pow(point1->x() - point2->x(), 2) + pow(point1->y() - point2->y(), 2);
@@ -148,4 +147,3 @@ void SMST::setPointsFromRST(RST *rst) {
     points_ = pointsGenerator.fromRST(rst);
 }
 
-}

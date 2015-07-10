@@ -12,7 +12,6 @@
 #include "PointsGenerator.h"
 #include "rst.h"
 
-namespace imp_a {
 
 bool BinaryTree::insertNode(const Point *_point, Node *&_root) {
     if (_root == NULL) {
@@ -114,4 +113,4 @@ std::vector<Point> PointsGenerator::fromRST(RST *rst) {
     return pointList;
 }
 
-}
+

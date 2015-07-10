@@ -11,7 +11,6 @@
 #include <vector>
 #include <map>
 
-namespace imp_a {
 
 class LMST {
 public:
@@ -206,6 +205,6 @@ public:
     void getResult(RST *rst);
 };
 
-}
+
 
 #endif /* defined(__RectilinearSteinerTree__L_MST__) */

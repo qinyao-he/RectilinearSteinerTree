@@ -12,7 +12,6 @@
 #include <vector>
 #include "data_format.h"
 
-namespace imp_a {
 
 class BinaryTree {
 public:
@@ -72,5 +71,4 @@ public:
     std::vector<Point> fromRST(RST *rst);
 };
 
-}
 #endif /* defined(__RectilinearSteinerTree__PointsGenerator__) */

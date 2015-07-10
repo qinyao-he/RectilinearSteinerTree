@@ -6,7 +6,7 @@ RSTStrategy::RSTStrategy() {
 }
 
 int ImpALMST::solveRST(RST *rst) {
-    imp_a::LMST lmst;
+    LMST lmst;
     lmst.setPointsFromRST(rst);
     lmst.init();
     lmst.getResult(rst);
@@ -14,7 +14,7 @@ int ImpALMST::solveRST(RST *rst) {
 }
 
 int ImpAZMST::solveRST(RST *rst) {
-    imp_a::ZMST zmst;
+    ZMST zmst;
     zmst.setPointsFromRST(rst);
     zmst.exec();
     zmst.getResult(rst);
@@ -22,9 +22,5 @@ int ImpAZMST::solveRST(RST *rst) {
 }
 
 int ImpASMST::solveRST(RST *rst) {
-    // imp_a::SMST smst;
-    // smst.setPointsFromRST(rst);
-    // smst.init();
-    // smst.getResult(rst);
-    // return 1;
+
 }

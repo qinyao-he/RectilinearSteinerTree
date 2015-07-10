@@ -16,7 +16,6 @@
 
 class RST;
 
-namespace imp_a {
 class Point {
 public:
     Point(const int x = 0, const int y = 0) : x_(x), y_(y) { }
@@ -114,5 +113,5 @@ public:
 private:
     Point mid_point_;
 };
-}
+
 #endif

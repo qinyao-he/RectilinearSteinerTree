@@ -27,7 +27,6 @@
 
 const int INF = 0x7FFFFFFF;
 
-namespace imp_a {
 
 void LMST::init() {
     std::vector<int> ivec;
@@ -318,4 +317,4 @@ void LMST::getResult(RST *rst) {
     //qDebug("LMST with %d seg", rst->v_seg.size());
 }
 
-}
+

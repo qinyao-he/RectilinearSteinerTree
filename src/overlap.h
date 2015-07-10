@@ -16,7 +16,6 @@
 #include <cmath>
 #include "data_format.h"
 
-namespace imp_a {
 
 namespace Overlap {
 
@@ -265,7 +264,6 @@ inline bool compare_Interval(const Record::Interval &a, const Record::Interval &
 
 }   //namespace Overlap
 
-}
 #undef MAX
 #undef MIN
 #endif

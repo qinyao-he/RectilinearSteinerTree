@@ -13,7 +13,6 @@
 #include "data_format.h"
 #include "PointsGenerator.h"
 
-namespace imp_a {
 
 class LineStatus {
 public:
@@ -82,6 +81,5 @@ private:
     //store the line set of the minimum spanning tree of points
 };
 
-} //namespace imp A
 
 #endif /* defined(__RectilinearSteinerTree__SMST__) */

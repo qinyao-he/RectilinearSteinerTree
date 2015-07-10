@@ -17,7 +17,6 @@
 #include "data_format.h"
 #include "SMST.h"
 
-namespace imp_a {
 
 using std::vector;
 
@@ -102,5 +101,4 @@ public:
 
     void getResult(RST *rst);
 };
-}
 #endif /* defined(__RectilinearSteinerTree__Z_MST__) */
