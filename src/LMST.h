@@ -38,12 +38,12 @@ public:
     // Output the results in a file.
     void Output(const char *filename);
 
-    // Returns the vector of points_.
+    // Returns the vector of m_vertexs.
     std::vector<Point> &points() {
         return points_;
     }
 
-    // Returns the vector of lines_.
+    // Returns the vector of m_lines.
     std::vector<Line> &lines() {
         return lines_;
     }

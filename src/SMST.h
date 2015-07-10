@@ -1,13 +1,9 @@
 //
-//  SMST.h
-//  RectilinearSteinerTree
-//
-//
-//  TODO(Liang_Xihao)
+// Created by ZhuangTianYi on 15/7/10.
 //
 
-#ifndef __RectilinearSteinerTree__SMST__
-#define __RectilinearSteinerTree__SMST__
+#ifndef RECTILINEARSTEINERTREE_SMST_H
+#define RECTILINEARSTEINERTREE_SMST_H
 
 #include <vector>
 #include "data_format.h"
@@ -22,21 +18,17 @@ public:
 
     ~LineStatus();
 
-    double dist() const { return dist_; }
+    double dist() const { return m_dist; }
 
     bool operator<(const LineStatus &_LS);
 
     //Compare "this" and _LS in nondecreasing lexicographic order
     //and return true if this is prior to _LS
-    friend std::ostream &operator<<(std::ostream &out, const LineStatus &LS) {
-        out << LS.dist_ << ' ' << LS.distY_ << ' ' << LS.distX_ << '\n';
-        return out;
-    } //Output the information of LS
+    friend std::ostream &operator<<(std::ostream& out, const LineStatus& l); //Output the information of LS
 
 private:
-    double dist_;
-    int distY_;
-    int distX_;
+    double m_dist;
+    int m_dist_x, m_dist_y;
 };
 
 class SMST {
@@ -47,9 +39,9 @@ public:
 
     virtual ~SMST();
 
-    const std::vector<Point> &points() const { return points_; }
+    const std::vector<Point>& points() const { return m_vertexs; }
 
-    const std::vector<Line> &lines() const { return lines_; }
+    const std::vector<Line>& lines() const { return m_lines; }
 
     void setPointsByRandom(int num = 100, int maxRange = 1000);
 
@@ -65,8 +57,6 @@ public:
 
     void setPointsFromRST(RST *rst);
 
-    void getResult(RST *rst);
-
 private:
     bool priorLineCompare(Line *line1, Line *line2);
 
@@ -75,11 +65,10 @@ private:
     void lineSort(int startIndex, int endIndex);
 
     //Sort lines  in nondecreasing lexicographic order
-    std::vector<Point> points_;
+    std::vector<Point> m_vertexs;
     //store the point set
-    std::vector<Line> lines_;
-    //store the line set of the minimum spanning tree of points
+    std::vector<Line> m_lines;
 };
 
 
-#endif /* defined(__RectilinearSteinerTree__SMST__) */
+#endif //RECTILINEARSTEINERTREE_SMST_H

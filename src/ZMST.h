@@ -6,7 +6,7 @@
 //
 /* Author : Wang_Tianyi
  * This file declares a class ZMST, which reads data from SMST and save the
- * stable Z-MST to lines_, and the result could be printed to text files.
+ * stable Z-MST to m_lines, and the result could be printed to text files.
  */
 #ifndef __RectilinearSteinerTree__Z_MST__
 #define __RectilinearSteinerTree__Z_MST__
@@ -36,7 +36,7 @@ private:
 
     //Use smst to get data and the mst
     SMST smst;
-    //The result would be in lines_. The edges is sorted by start().
+    //The result would be in m_lines. The edges is sorted by start().
     vector<Line_Z> lines_;
 
     //SubProcedure for exec(). It would examine the subProb and look for
@@ -53,12 +53,12 @@ private:
              const int *head, int *stack);
 
 public:
-    //accessor for smst.points_
+    //accessor for smst.m_vertexs
     const vector<Point> &points() const {
         return smst.points();
     }
 
-    //accessor for lines_
+    //accessor for m_lines
     const vector<Line_Z> &lines() const {
         return lines_;
     }

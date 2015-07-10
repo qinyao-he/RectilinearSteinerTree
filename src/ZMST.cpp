@@ -84,7 +84,7 @@ void ZMST::exec() {
     for (int i = 0; i < smst.lines().size(); i++)
         lines_.push_back(Line_Z(smst.lines()[i].start(), smst.lines()[i].end(),
                                 Point()));
-    //lines is a sorted line vector, while smst.lines_ is in father-child order
+    //lines is a sorted line vector, while smst.m_lines is in father-child order
     sort(lines_.begin(), lines_.end(), lineCmp);
     //make the positive direction table
     int *head = new int[points().size() + 1];
