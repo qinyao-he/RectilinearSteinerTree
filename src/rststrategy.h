@@ -17,12 +17,12 @@ public:
 //    int solveRST(RST *rst);
 //};
 
-class ImpALMST : public RSTStrategy {
+class LMST_Strategy : public RSTStrategy {
 public:
     int solveRST(RST *rst);
 };
 
-class ImpAZMST : public RSTStrategy {
+class ZMST_strategy : public RSTStrategy {
 public:
     int solveRST(RST *rst);
 };
