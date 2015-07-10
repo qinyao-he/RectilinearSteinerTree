@@ -30,12 +30,12 @@ void SMST::save(const std::string &filename) const {
 void SMST::mst() {
     m_lines.clear();
 
-    LineStatus *const minDist = new LineStatus[m_vertexs.size()];
-    int *const parentIndex = new int[m_vertexs.size()];
+    LineStatus *const dist = new LineStatus[m_vertexs.size()];
+    int *const parent = new int[m_vertexs.size()];
 
     for (int i = 1; i < m_vertexs.size(); i++) {
-        minDist[i] = LineStatus(&m_vertexs[0], &m_vertexs[i]);
-        parentIndex[i] = 0;
+        dist[i] = LineStatus(&m_vertexs[0], &m_vertexs[i]);
+        parent[i] = 0;
     }
 
     for (int i = 1; i < m_vertexs.size(); i++) {
@@ -43,27 +43,27 @@ void SMST::mst() {
         int bestChild = -1;
 
         for (int j = 1; j < m_vertexs.size(); j++) {
-            if ((minDist[j].dist() != 0) && ((bestChild == -1) || (minDist[j] < bestDist))) {
-                bestDist = minDist[j];
+            if ((dist[j].dist() != 0) && ((bestChild == -1) || (dist[j] < bestDist))) {
+                bestDist = dist[j];
                 bestChild = j;
             }
         }
 
-        m_lines.push_back(Line(parentIndex[bestChild], bestChild));
+        m_lines.push_back(Line(parent[bestChild], bestChild));
 
         for (int j = 1; j < m_vertexs.size(); j++) {
-            if (minDist[j].dist() != 0) {
+            if (dist[j].dist() != 0) {
                 LineStatus tmpStatus(&m_vertexs[bestChild], &m_vertexs[j]);
-                if (tmpStatus < minDist[j]) {
-                    minDist[j] = tmpStatus;
-                    parentIndex[j] = bestChild;
+                if (tmpStatus < dist[j]) {
+                    dist[j] = tmpStatus;
+                    parent[j] = bestChild;
                 }
             }
         }
     }
 
-    delete[] minDist;
-    delete[] parentIndex;
+    delete[] dist;
+    delete[] parent;
 }
 
 void SMST::set_rst(RST *rst) {

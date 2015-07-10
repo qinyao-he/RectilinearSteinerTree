@@ -64,10 +64,6 @@ int LMST::Result() {
     return psi_result_;
 }
 
-void LMST::Output(const char *filename) {
-    OutputResultToFile(filename);
-}
-
 void LMST::FindPsi() {
     FindPsiL(tree_[root_][0]);
     FindPsiU(tree_[root_][0]);
@@ -263,19 +259,6 @@ void LMST::OutputResultToVectorOfLabel(int label, bool choice) {
         bool i_th = ((choice_record_ >> i) & 1) == 1;
         OutputResultToVectorOfLabel(kids[i], i_th);
     }
-}
-
-void LMST::OutputResultToFile(const char *filename) {
-    assert(result_.size() > 0);
-    std::ofstream out(filename);
-    out << points_.size() << " " << result_.size() << std::endl;
-    for (unsigned i = 0; i < points_.size(); i++) {
-        out << points_[i].x << " " << points_[i].y << std::endl;
-    }
-    for (unsigned i = 0; i < result_.size(); i++) {
-        result_[i].print(out);
-    }
-    return;
 }
 
 void LMST::setPointsFromRST(RST *rst) {

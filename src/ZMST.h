@@ -58,20 +58,12 @@ public:
 
     //access a single point
     const Point &point(int i) const {
-#ifdef DEBUG
-        return points().at(i);
-#else
         return points()[i];
-#endif
     }
 
     //access a single edge
     const Line &line(int i) const {
-#ifdef DEBUG
-        return lines().at(i);
-#else
         return lines()[i];
-#endif
     }
 
     //The main algorithm

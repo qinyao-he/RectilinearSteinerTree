@@ -25,9 +25,6 @@ public:
     // Returns the result.
     int Result();
 
-    // Output the results in a file.
-    void Output(const char *filename);
-
     // Returns the vector of m_vertexs.
     std::vector<Point> &points() {
         return points_;
@@ -178,14 +175,6 @@ private:
 
     // A recursive function used by OutputResultToVector
     void OutputResultToVectorOfLabel(int /*label*/, bool /*choice*/);
-
-    // Output the results_ into the file
-    // OutputResultToVector should be called beforehand.
-    void OutputResultToFile(const char * /*filename*/);
-    ////////////////////////////////////////////////////////////////////////////
-    // Disallowed constructors.
-    ////////////////////////////////////////////////////////////////////////////
-
 
 public:
     void setPointsFromRST(RST *rst);
