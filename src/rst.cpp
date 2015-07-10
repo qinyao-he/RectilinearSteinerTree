@@ -132,17 +132,7 @@ int RST::changeStrategy(int s_idx) {
 }
 
 int RST::toSolveRST() {
-    if (isSolved()) return 0;
-    if (!myStrategyIdx_) return 0;
-    if (!v_op.size()) return 0;
-
-    if (v_op.size() == 1)
-        setSolved(1);
-    else
-        setSolved(myStrategy_->solveRST(this));
-    if (isSolved())
-        // solveFinished();
-        return isSolved();
+    myStrategy_->solveRST(this);
 }
 
 void RST::savePoints(const char *fileName) {
