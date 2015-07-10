@@ -6,7 +6,7 @@
 #define RECTILINEARSTEINERTREE_LINESTATUS_H
 
 #include <iostream>
-#include <cmath>
+#include <cstdlib>
 #include "PointsGenerator.h"
 
 class LineStatus {
