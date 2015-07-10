@@ -77,18 +77,6 @@ public:
     //The main algorithm
     void exec();
 
-    // print the result to a file
-    void print(const char *fileName) const;
-
-    // print the result to a FILE*
-    void print(FILE *out) const;
-
-    //for debug use. generates data randomly
-    void setPointsByRandom(int num = 100, int maxRange = 1000);
-
-    //read data from a file
-    void setPointsFromFile(const char *fileName);
-
 public:
     void setPointsFromRST(RST *rst);
 

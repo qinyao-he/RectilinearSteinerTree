@@ -19,11 +19,11 @@ public:
 
     double dist() const { return m_dist; }
 
-    bool operator<(const LineStatus &_LS);
+    bool operator < (const LineStatus &_LS);
 
     //Compare "this" and _LS in nondecreasing lexicographic order
     //and return true if this is prior to _LS
-    friend std::ostream &operator<<(std::ostream &out, const LineStatus &l); //Output the information of LS
+    friend std::ostream &operator << (std::ostream &out, const LineStatus &l); //Output the information of LS
 
 private:
     double m_dist;

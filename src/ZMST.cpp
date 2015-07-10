@@ -155,39 +155,6 @@ void ZMST::getAns(int root, const layout &lay,
     }
 }
 
-// print the result to a file
-void ZMST::print(const char *fileName) const {
-    FILE *out = fopen(fileName, "w");
-    print(out);
-    fclose(out);
-}
-
-// print the result to a FILE*
-void ZMST::print(FILE *out) const {
-    fprintf(out, "%lu %lu\n", points().size(), lines().size());
-    for (vector<Point>::const_iterator it = points().begin();
-         it != points().end(); ++it) {
-        fprintf(out, "%d %d\n", it->x, it->y);
-    }
-    for (vector<Line_Z>::const_iterator it = lines().begin();
-         it != lines().end(); ++it) {
-        fprintf(out, "Z %d %d %d %d\n", it->start(), it->end(),
-                it->mid_point().x, it->mid_point().y);
-    }
-}
-
-//for debug use. generates data randomly, with n=100 by default
-void ZMST::setPointsByRandom(int num, int maxRange) {
-    srand(time(0));
-    smst.setPointsByRandom();
-}
-
-//read data from a file
-void ZMST::setPointsFromFile(const char *fileName) {
-    lines_.clear();
-    smst.set_points(fileName);
-}
-
 void ZMST::setPointsFromRST(RST *rst) {
     lines_.clear();
     smst.set_rst(rst);

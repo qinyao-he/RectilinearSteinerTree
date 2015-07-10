@@ -24,11 +24,6 @@ public:
 
     const std::vector<Line> &lines() const { return m_lines; }
 
-    void setPointsByRandom(int num = 100, int maxRange = 1000);
-
-    //using PointsGenerator to set points by random
-    void set_points(const std::string &filename);
-
     //using PointsGenerator to set points from file
     void calculate();
 
@@ -40,10 +35,6 @@ public:
 
 private:
     bool priorLineCompare(Line *line1, Line *line2);
-
-    //Compare line1 and line2 in nondecreasing lexicographic order
-    //and return true if line1 is prior to line2
-    void sort(int startIndex, int endIndex);
 
     //Sort lines  in nondecreasing lexicographic order
     std::vector<Point> m_vertexs;

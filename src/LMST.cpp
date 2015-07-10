@@ -52,23 +52,6 @@ void LMST::init() {
 
 LMST::LMST() : smst_(), psi_result_(INF) { }
 
-LMST::LMST(const char *filename) : smst_(), psi_result_(INF) {
-    smst_.set_points(filename);
-    init();
-}
-
-LMST::LMST(int num, int maxRange) : smst_(), psi_result_(INF) {
-    smst_.setPointsByRandom(num, maxRange);
-    init();
-}
-
-void LMST::setPointsFromFile(const char *filename) {
-    smst_.set_points(filename);
-}
-
-void LMST::setPointsByRandom(int num, int maxRange) {
-    smst_.setPointsByRandom(num, maxRange);
-}
 
 int LMST::Result() {
     if (psi_result_ != INF) return psi_result_;

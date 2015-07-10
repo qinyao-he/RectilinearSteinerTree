@@ -15,16 +15,6 @@ SMST::SMST() { }
 
 SMST::~SMST() { }
 
-void SMST::setPointsByRandom(int num, int maxRange) {
-    m_vertexs.clear();
-    m_vertexs = pointsGenerator.byRandom(num, maxRange);
-}
-
-void SMST::set_points(const std::string &filename) {
-    m_vertexs.clear();
-    m_vertexs = pointsGenerator.fromFile(filename);
-}
-
 void SMST::save(const std::string &filename) const {
     std::ofstream fout(filename);
     fout << m_vertexs.size() << ' ' << m_lines.size() << std::endl;
@@ -58,29 +48,6 @@ bool SMST::priorLineCompare(Line *line1, Line *line2) {
         return true;
 
     return false;
-}
-
-void SMST::sort(int startIndex, int endIndex) {
-    if (startIndex < endIndex) {
-        int sIndex = startIndex;
-        int eIndex = endIndex;
-        Line sample = m_lines[(sIndex + eIndex) / 2];
-        while (sIndex <= eIndex) {
-            while (priorLineCompare(&m_lines[sIndex], &sample)) sIndex++;
-            while (priorLineCompare(&sample, &m_lines[eIndex])) eIndex--;
-            if (sIndex <= eIndex) {
-                if (sIndex != eIndex) {
-                    Line tmpLine = m_lines[sIndex];
-                    m_lines[sIndex] = m_lines[eIndex];
-                    m_lines[eIndex] = tmpLine;
-                }
-                sIndex++;
-                eIndex--;
-            }
-        }
-        if (startIndex < eIndex) sort(startIndex, eIndex);
-        if (sIndex < endIndex) sort(sIndex, endIndex);
-    }
 }
 
 void SMST::calculate() {

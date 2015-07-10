@@ -16,16 +16,6 @@ class LMST {
 public:
     LMST();
 
-    // Constructor randomly sets up points.
-    LMST(int num, int maxRange);
-
-    // Read files from input.
-    LMST(const char *filename);
-
-    void setPointsFromFile(const char *filename);
-
-    void setPointsByRandom(int num = 100, int maxRange = 10000);
-
     ////////////////////////////////////////////////////////////////////////////
     // Interfaces.
     ////////////////////////////////////////////////////////////////////////////
@@ -196,8 +186,6 @@ private:
     // Disallowed constructors.
     ////////////////////////////////////////////////////////////////////////////
 
-    // Copy Constructor
-    LMST(const LMST & /*another_LMST*/);
 
 public:
     void setPointsFromRST(RST *rst);

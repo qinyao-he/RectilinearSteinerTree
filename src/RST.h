@@ -1,8 +1,6 @@
 #ifndef RST_H
 #define RST_H
 
-typedef int DTYPE;
-
 #include <vector>
 
 #include "DataFormat.h"
@@ -22,7 +20,7 @@ public:
 
     void loadPoints(std::vector<Point> &gen_p);
 
-    void addPoint(DTYPE x, DTYPE y);
+    void addPoint(int x, int y);
 
     std::vector<Point> v_op; // original points
     std::vector<Segment> v_seg; // all segments
@@ -33,7 +31,6 @@ public:
 
 private:
     int isSolved_, myStrategyIdx_, pointsCert_, isNew_;
-    DTYPE overall_;
     RSTStrategy *myStrategy_;
 };
 

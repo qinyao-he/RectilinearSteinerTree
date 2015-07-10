@@ -39,11 +39,11 @@ int RST::changeStrategy(int s_idx) {
     myStrategyIdx_ = s_idx;
     switch (s_idx) {
         case 1  : {
-            myStrategy_ = new LMST_Strategy;
+            myStrategy_ = new LMSTStrategy;
             break;
         }
         case 2  : {
-            myStrategy_ = new ZMST_strategy;
+            myStrategy_ = new ZMSTStrategy;
             break;
         }
         default : {
@@ -59,7 +59,7 @@ int RST::solve() {
 }
 
 
-void RST::addPoint(DTYPE x, DTYPE y) {
+void RST::addPoint(int x, int y) {
     v_op.push_back(Point(x, y));
     pointsCert_ = rand();
     // pointsChanged(pointsCert_);
