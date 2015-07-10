@@ -10,21 +10,9 @@
 #include <string>
 #include <cmath>
 
-MST::MST() { }
+
 
 MST::~MST() { }
-
-void MST::save(const std::string &filename) const {
-    std::ofstream fout(filename);
-    fout << m_vertexs.size() << ' ' << m_lines.size() << std::endl;
-    for (int i = 0; i < m_vertexs.size(); i++) {
-        m_vertexs[i].print(fout);
-    }
-    for (int i = 0; i < m_lines.size(); i++) {
-        m_lines[i].print(fout);
-    }
-    fout.close();
-}
 
 void MST::mst() {
     m_lines.clear();

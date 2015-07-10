@@ -29,17 +29,13 @@ public:
                 point(*_point), leftChild(NULL), rightChild(NULL) { }
 
         bool operator>(const Point *_point) {
-            if ((point.x > _point->x) ||
-                (point.x == _point->x && point.y > _point->y))
-                return true;
-            else return false;
+            return ((point.x > _point->x) ||
+                (point.x == _point->x && point.y > _point->y));
         }
 
         bool operator<(const Point *_point) {
-            if ((point.x < _point->x) ||
-                (point.x == _point->x && point.y < _point->y))
-                return true;
-            else return false;
+            return ((point.x < _point->x) ||
+                (point.x == _point->x && point.y < _point->y));
         }
     } *Root;
 
