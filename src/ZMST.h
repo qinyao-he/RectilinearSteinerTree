@@ -8,7 +8,7 @@
 #include <cstdio>
 #include <vector>
 #include "DataFormat.h"
-#include "SMST.h"
+#include "MST.h"
 
 
 using std::vector;
@@ -28,7 +28,7 @@ private:
     };
 
     //Use smst to get data and the mst
-    SMST smst;
+    MST smst;
     //The result would be in m_lines. The edges is sorted by start().
     vector<Line_Z> lines_;
 

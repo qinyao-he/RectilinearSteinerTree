@@ -12,13 +12,34 @@
 #include <string>
 
 
-class SMST {
+class MST {
 public:
     PointsGenerator pointsGenerator;
 
-    SMST();
+    class Dist {
+    public:
+        Dist() { };
 
-    virtual ~SMST();
+        Dist(const Point *point1, const Point *point2);
+
+        ~Dist();
+
+        double dist() const { return m_dist; }
+
+        bool operator < (const Dist &_LS);
+
+        //Compare "this" and _LS in nondecreasing lexicographic order
+        //and return true if this is prior to _LS
+        friend std::ostream &operator << (std::ostream &out, const Dist &l); //Output the information of LS
+
+    private:
+        double m_dist;
+        int m_dist_x, m_dist_y;
+    };
+
+    MST();
+
+    virtual ~MST();
 
     const std::vector<Point> &points() const { return m_vertexs; }
 

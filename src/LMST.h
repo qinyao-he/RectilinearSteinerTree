@@ -6,7 +6,7 @@
 #define __RectilinearSteinerTree__LMST__
 
 #include "DataFormat.h"
-#include "SMST.h"
+#include "MST.h"
 #include "PointsGenerator.h"
 #include <vector>
 #include <map>
@@ -66,9 +66,9 @@ private:
         return x > 0 ? x : -x;
     }
 
-    // the class created for calculating the SMST.
-    SMST smst_;
-    // The points and lines of the SMST given.
+    // the class created for calculating the MST.
+    MST smst_;
+    // The points and lines of the MST given.
     std::vector<Point> points_;
     std::vector<Line> lines_;
 

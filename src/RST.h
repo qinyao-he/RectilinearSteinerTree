@@ -5,7 +5,7 @@
 
 #include "DataFormat.h"
 #include "Overlap.h"
-#include "SMST.h"
+#include "MST.h"
 #include "LMST.h"
 #include "ZMST.h"
 #include "Point.h"
