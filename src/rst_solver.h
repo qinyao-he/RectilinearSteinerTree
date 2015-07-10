@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "point.h"
+#include "graph.hpp"
 
 
 class DistType {
@@ -32,7 +33,11 @@ private:
 
 class RSTSolver {
 public:
-    void solve(std::vector<Point> points);
+    void solve(const std::vector<Point>& points);
+private:
+    int find_root(size_t n, const std::vector<Graph<DistType>::Edge>& edges);
+
+    void dfs(int node, const Graph<int>& origin_tree, Graph<int> &tree);
 };
 
 
