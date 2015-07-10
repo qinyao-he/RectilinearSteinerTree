@@ -27,7 +27,7 @@ public:
 
     int changeStrategy(int s_idx);
 
-    int solve();
+    void solve();
 
 private:
     int isSolved_, myStrategyIdx_, pointsCert_, isNew_;

@@ -71,9 +71,15 @@ MST::Dist::~Dist() { };
 
 bool MST::Dist::operator < (const Dist &_LS) {
     if (this->m_dist < _LS.m_dist) return true;
-    if ((this->m_dist == _LS.m_dist) && (this->m_dist_x < _LS.m_dist_x)
-        || (this->m_dist == _LS.m_dist) && (this->m_dist_x == _LS.m_dist_x) && (this->m_dist_y < _LS.m_dist_y))
-        return true;
+    if (this->m_dist == _LS.m_dist) {
+        if (this->m_dist_x < _LS.m_dist_x
+            || (this->m_dist == _LS.m_dist) && (this->m_dist_x == _LS.m_dist_x) && (this->m_dist_y < _LS.m_dist_y))
+            return true;
+    }
+    else {
+        if ((this->m_dist == _LS.m_dist) && (this->m_dist_x == _LS.m_dist_x) && (this->m_dist_y < _LS.m_dist_y))
+            return true;
+    }
     return false;
 }
 

@@ -34,7 +34,8 @@ void RST::loadPoints(std::vector<Point> &gen_p) {
 
 int RST::changeStrategy(int s_idx) {
     if (s_idx == myStrategyIdx_) return 0;
-    if (myStrategyIdx_) delete myStrategy_;
+    if (myStrategyIdx_)
+        delete myStrategy_;
 
     myStrategyIdx_ = s_idx;
     switch (s_idx) {
@@ -54,7 +55,7 @@ int RST::changeStrategy(int s_idx) {
     return myStrategyIdx_;
 }
 
-int RST::solve() {
+void RST::solve() {
     myStrategy_->solveRST(this);
 }
 
@@ -62,5 +63,4 @@ int RST::solve() {
 void RST::addPoint(int x, int y) {
     v_op.push_back(Point(x, y));
     pointsCert_ = rand();
-    // pointsChanged(pointsCert_);
 }

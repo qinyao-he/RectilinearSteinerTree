@@ -36,7 +36,7 @@ public:
         double m_dist;
         int m_dist_x, m_dist_y;
     };
-    
+
     virtual ~MST();
 
 
