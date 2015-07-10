@@ -30,7 +30,7 @@ const int INF = 0x7FFFFFFF;
 
 void LMST::init() {
     std::vector<int> ivec;
-    smst_.calculate();
+    smst_.mst();
     points_ = smst_.points();
     lines_ = smst_.lines();
     assert(points_.size() > 1);

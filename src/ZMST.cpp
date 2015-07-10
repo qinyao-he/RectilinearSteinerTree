@@ -70,7 +70,7 @@ void ZMST::dfs(int root, int father, int stat, layout &lay,
 }
 
 void ZMST::exec() {
-    smst.calculate();
+    smst.mst();
     //reserve before mass data pushing back
     lines_.reserve(smst.lines().size());
     for (int i = 0; i < smst.lines().size(); i++)

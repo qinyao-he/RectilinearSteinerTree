@@ -25,7 +25,7 @@ public:
     const std::vector<Line> &lines() const { return m_lines; }
 
     //using PointsGenerator to set points from file
-    void calculate();
+    void mst();
 
     //calculate the minimum spanning tree and store the result into lines.
     void save(const std::string &filename) const;

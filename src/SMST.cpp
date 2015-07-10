@@ -27,30 +27,7 @@ void SMST::save(const std::string &filename) const {
     fout.close();
 }
 
-
-bool SMST::priorLineCompare(Line *line1, Line *line2) {
-    if (m_vertexs[line1->start()].x < m_vertexs[line2->start()].x)
-        return true;
-
-    if (m_vertexs[line1->start()].x == m_vertexs[line2->start()].x
-        && m_vertexs[line1->start()].y < m_vertexs[line2->start()].y)
-        return true;
-
-    if (m_vertexs[line1->start()].x == m_vertexs[line2->start()].x
-        && m_vertexs[line1->start()].y == m_vertexs[line2->start()].y
-        && m_vertexs[line1->end()].x < m_vertexs[line2->end()].x)
-        return true;
-
-    if (m_vertexs[line1->start()].x == m_vertexs[line2->start()].x
-        && m_vertexs[line1->start()].y == m_vertexs[line2->start()].y
-        && m_vertexs[line1->end()].x == m_vertexs[line2->end()].x
-        && m_vertexs[line1->end()].y < m_vertexs[line2->end()].y)
-        return true;
-
-    return false;
-}
-
-void SMST::calculate() {
+void SMST::mst() {
     m_lines.clear();
 
     LineStatus *const minDist = new LineStatus[m_vertexs.size()];
