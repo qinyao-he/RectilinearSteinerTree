@@ -1,4 +1,0 @@
-/Users/zhuangtianyi/Codes/projects/SolveRST/ImplementationA/SMST/CMakeFiles/smst.dir
-/Users/zhuangtianyi/Codes/projects/SolveRST/ImplementationA/LMST/CMakeFiles/lmst.dir
-/Users/zhuangtianyi/Codes/projects/SolveRST/ImplementationA/ZMST/CMakeFiles/zmst.dir
-/Users/zhuangtianyi/Codes/projects/SolveRST/ImplementationA/Test/CMakeFiles/test.dir

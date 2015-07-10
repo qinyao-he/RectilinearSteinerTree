@@ -1,13 +1,11 @@
 #include "rst.h"
 #include "rststrategy.h"
 
-RSTStrategy::RSTStrategy()
-{
-    
+RSTStrategy::RSTStrategy() {
+
 }
 
-int ImpALMST::solveRST(RST *rst)
-{
+int ImpALMST::solveRST(RST *rst) {
     imp_a::LMST lmst;
     lmst.setPointsFromRST(rst);
     lmst.init();
@@ -15,8 +13,7 @@ int ImpALMST::solveRST(RST *rst)
     return 1;
 }
 
-int ImpAZMST::solveRST(RST *rst)
-{
+int ImpAZMST::solveRST(RST *rst) {
     imp_a::ZMST zmst;
     zmst.setPointsFromRST(rst);
     zmst.exec();
@@ -24,8 +21,7 @@ int ImpAZMST::solveRST(RST *rst)
     return 1;
 }
 
-int ImpASMST::solveRST(RST* rst) 
-{
+int ImpASMST::solveRST(RST *rst) {
     // imp_a::SMST smst;
     // smst.setPointsFromRST(rst);
     // smst.init();

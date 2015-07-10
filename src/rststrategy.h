@@ -3,8 +3,7 @@
 
 /* rst strategy */
 
-class RSTStrategy
-{
+class RSTStrategy {
 public:
     RSTStrategy();
 
@@ -13,20 +12,17 @@ public:
 
 /* concrete strategies */
 
-class ImpASMST : public RSTStrategy
-{
+class ImpASMST : public RSTStrategy {
 public:
     int solveRST(RST *rst);
 };
 
-class ImpALMST : public RSTStrategy
-{
+class ImpALMST : public RSTStrategy {
 public:
     int solveRST(RST *rst);
 };
 
-class ImpAZMST : public RSTStrategy
-{
+class ImpAZMST : public RSTStrategy {
 public:
     int solveRST(RST *rst);
 };
