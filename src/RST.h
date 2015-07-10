@@ -10,38 +10,9 @@ typedef int DTYPE;
 #include "SMST.h"
 #include "LMST.h"
 #include "ZMST.h"
-
-const double eps = 1e-6;
-
-inline bool dEq(DTYPE x, DTYPE y);
-
-inline bool dLe(DTYPE x, DTYPE y);
-
-struct Point2D {
-    DTYPE x, y;
-};
-
-Point2D mkPoint(DTYPE x, DTYPE y);
-
-bool operator==(Point2D p, Point2D q);
-
-bool operator<(Point2D p, Point2D q);
-
-struct Segment2D {
-    Point2D u, v;
-};
-
-Segment2D mkSegment(DTYPE x1, DTYPE y1, DTYPE x2, DTYPE y2);
-
-Segment2D mkSegment(Point2D u, Point2D v);
-
-bool operator==(Segment2D a, Segment2D b);
-
-bool operator<(Segment2D a, Segment2D b);
-
-class RST;
-
-class RSTStrategy;
+#include "Point.h"
+#include "Segment.h"
+#include "RSTStrategy.h"
 
 class RST {
 public:
@@ -49,12 +20,12 @@ public:
 
     ~RST();
 
-    void loadPoints(std::vector<Point2D> &gen_p);
+    void loadPoints(std::vector<Point> &gen_p);
 
     void addPoint(DTYPE x, DTYPE y);
 
-    std::vector<Point2D> v_op; // original points
-    std::vector<Segment2D> v_seg; // all segments
+    std::vector<Point> v_op; // original points
+    std::vector<Segment> v_seg; // all segments
 
     int changeStrategy(int s_idx);
 

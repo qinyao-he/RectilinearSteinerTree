@@ -59,7 +59,7 @@ public:
     class IsLessThanForPoint {
     public:
         bool operator()(const Point &a, const Point &b) const {
-            return (a.m_x < b.m_x || (a.m_x == b.m_x && a.m_y < b.m_y));
+            return (a.x < b.x || (a.x == b.x && a.y < b.y));
         }
     };
 
@@ -71,7 +71,7 @@ private:
 
     // Measures the Manhattan Distance btwn. Point x and Point y.
     int dist(Point x, Point y) {
-        return abs(x.m_x - y.m_x) + abs(x.m_y - y.m_y);
+        return abs(x.x - y.x) + abs(x.y - y.y);
     }
 
     // The function used for calculating absolute values.

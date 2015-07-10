@@ -9,18 +9,18 @@
 
 
 struct Point {
-    Point(const int x = 0, const int y = 0) : m_x(x), m_y(y) { }
+    Point(const int x = 0, const int y = 0) : x(x), y(y) { }
 
     void print(std::ostream &out) const {
-        out << m_x << " " << m_y << std::endl;
+        out << x << " " << y << std::endl;
     }
 
     friend bool operator<(Point a, Point b) {
-        return (a.m_x < b.m_x) || (a.m_x == b.m_x && a.m_y < b.m_y);
+        return (a.x < b.x) || (a.x == b.x && a.y < b.y);
     }
 
-    int m_x;
-    int m_y;
+    int x;
+    int y;
 };
 
 

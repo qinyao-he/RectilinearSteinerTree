@@ -100,8 +100,8 @@ static double overlap(const vector<Point> &points, const vector<Line> &lines) {
     double sum = 0;
     Points_Array data = convert_format(points, lines);
     for (int i = 0; i < (int) data.start.size(); ++i) {
-        double delta_x = data.start[i].m_x - data.end[i].m_x;
-        double delta_y = data.start[i].m_y - data.end[i].m_y;
+        double delta_x = data.start[i].x - data.end[i].x;
+        double delta_y = data.start[i].y - data.end[i].y;
         sum += sqrt(delta_x * delta_x + delta_y * delta_y);
     }
     std::cout << "sum2 = " << sum << std::endl;
@@ -118,12 +118,12 @@ static Points_Array convert_format(const vector<Point> &points,
         start = points[i->start()];
         end = points[i->end()];
         mid1 = i->mid_point();
-        if (start.m_y == mid1.m_y) {
-            mid2.m_x = mid1.m_x;
-            mid2.m_y = end.m_y;
-        } else if (start.m_x == mid1.m_x) {
-            mid2.m_x = end.m_x;
-            mid2.m_y = mid1.m_y;
+        if (start.y == mid1.y) {
+            mid2.x = mid1.x;
+            mid2.y = end.y;
+        } else if (start.x == mid1.x) {
+            mid2.x = end.x;
+            mid2.y = mid1.y;
         } else {
             start.print(std::cout);
             mid1.print(std::cout);
@@ -153,11 +153,11 @@ static Points_Array convert_format(const vector<Point> &points,
         start = points[i->start()];
         end = points[i->end()];
         if (i->direction()) {
-            mid.m_x = end.m_x;
-            mid.m_y = start.m_y;
+            mid.x = end.x;
+            mid.y = start.y;
         } else {
-            mid.m_x = start.m_x;
-            mid.m_y = end.m_y;
+            mid.x = start.x;
+            mid.y = end.y;
         }
         data.start.push_back(start);
         data.end.push_back(mid);
@@ -209,12 +209,12 @@ static int compute_sum(vector<Record::Interval> &intervals) {
 
 //add a interval into records
 static void add_line(const Point &a, const Point &b, vector<Record> &records) {
-    if (a.m_y == b.m_y) {
+    if (a.y == b.y) {
         int flag = 0;
         for (vector<Record>::iterator j = records.begin();
              j != records.end(); ++j) {
-            if (j->coodinate == a.m_y && j->type == Record::HORIZONTAL) {
-                add_interval(a.m_x, b.m_x, *j);
+            if (j->coodinate == a.y && j->type == Record::HORIZONTAL) {
+                add_interval(a.x, b.x, *j);
                 flag = 1;
                 break;
             }
@@ -222,16 +222,16 @@ static void add_line(const Point &a, const Point &b, vector<Record> &records) {
         if (flag == 0) {
             Record record;
             record.type = Record::HORIZONTAL;
-            record.coodinate = a.m_y;
-            add_interval(a.m_x, b.m_x, record);
+            record.coodinate = a.y;
+            add_interval(a.x, b.x, record);
             records.push_back(record);
         }
-    } else if (a.m_x == b.m_x) {
+    } else if (a.x == b.x) {
         int flag = 0;
         for (vector<Record>::iterator j = records.begin();
              j != records.end(); ++j) {
-            if (j->coodinate == a.m_x && j->type == Record::VERTICAL) {
-                add_interval(a.m_y, b.m_y, *j);
+            if (j->coodinate == a.x && j->type == Record::VERTICAL) {
+                add_interval(a.y, b.y, *j);
                 flag = 1;
                 break;
             }
@@ -239,8 +239,8 @@ static void add_line(const Point &a, const Point &b, vector<Record> &records) {
         if (flag == 0) {
             Record record;
             record.type = Record::VERTICAL;
-            record.coodinate = a.m_x;
-            add_interval(a.m_y, b.m_y, record);
+            record.coodinate = a.x;
+            add_interval(a.y, b.y, record);
             records.push_back(record);
         }
     }

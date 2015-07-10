@@ -128,7 +128,7 @@ void LMST::DesperseData() {
     typedef std::set<int>::iterator st_iter;
     std::set<int> x_coord, y_coord;
     for (pt_iter it = points_.begin(); it != points_.end(); ++it) {
-        int x = it->m_x, y = it->m_y;
+        int x = it->x, y = it->y;
         if (x_coord.find(x) == x_coord.end()) x_coord.insert(x);
         if (y_coord.find(y) == y_coord.end()) y_coord.insert(y);
     }
@@ -140,7 +140,7 @@ void LMST::DesperseData() {
         y_coord_.push_back((*it));
     }
     for (pt_iter it = points_.begin(); it != points_.end(); ++it) {
-        int x = it->m_x, y = it->m_y;
+        int x = it->x, y = it->y;
         int disp_x = find(x_coord_.begin(), x_coord_.end(), x) - x_coord_.begin();
         int disp_y = find(y_coord_.begin(), y_coord_.end(), y) - y_coord_.begin();
         disp_points_.push_back(Point(disp_x, disp_y));
@@ -181,8 +181,8 @@ void LMST::PaintVerti(int u, int v, int x, int color, int &value) {
 }
 
 void LMST::Paint(Point start, Point finish, bool direction, int color, int &value) {
-    int x1 = start.m_x, y1 = start.m_y;
-    int x2 = finish.m_x, y2 = finish.m_y;
+    int x1 = start.x, y1 = start.y;
+    int x2 = finish.x, y2 = finish.y;
     int x3, y3;
     if (!direction) {
         x3 = x1, y3 = y2;
@@ -287,7 +287,7 @@ void LMST::OutputResultToFile(const char *filename) {
     std::ofstream out(filename);
     out << points_.size() << " " << result_.size() << std::endl;
     for (unsigned i = 0; i < points_.size(); i++) {
-        out << points_[i].m_x << " " << points_[i].m_y << std::endl;
+        out << points_[i].x << " " << points_[i].y << std::endl;
     }
     for (unsigned i = 0; i < result_.size(); i++) {
         result_[i].print(out);
@@ -304,15 +304,15 @@ void LMST::getResult(RST *rst) {
     //qDebug("LMST end");
     rst->v_seg.clear();
     for (int i = 0; i < result_.size(); i++) {
-        Point2D A = mkPoint(points_[result_[i].start()].m_x, points_[result_[i].start()].m_y);
-        Point2D B = mkPoint(points_[result_[i].end()].m_x, points_[result_[i].end()].m_y);
-        Point2D C;
+        Point A(points_[result_[i].start()].x, points_[result_[i].start()].y);
+        Point B(points_[result_[i].end()].x, points_[result_[i].end()].y);
+        Point C;
         if (result_[i].direction()) // horizontal
-            C = mkPoint(B.x, A.y);
+            C = Point(B.x, A.y);
         else
-            C = mkPoint(A.x, B.y);
-        rst->v_seg.push_back(mkSegment(A, C));
-        rst->v_seg.push_back(mkSegment(C, B));
+            C = Point(A.x, B.y);
+        rst->v_seg.push_back(Segment(A, C));
+        rst->v_seg.push_back(Segment(C, B));
     }
     //qDebug("LMST with %d seg", rst->v_seg.size());
 }

@@ -5,9 +5,9 @@
 #include "LineStatus.h"
 
 LineStatus::LineStatus(const Point *point1, const Point *point2) {
-    m_dist = pow(point1->m_x - point2->m_x, 2) + pow(point1->m_y - point2->m_y, 2);
-    m_dist_x = -std::abs(point1->m_y - point2->m_y);
-    m_dist_y = -((point1->m_x >= point2->m_x) ? point1->m_x : point2->m_x);
+    m_dist = pow(point1->x - point2->x, 2) + pow(point1->y - point2->y, 2);
+    m_dist_x = -std::abs(point1->y - point2->y);
+    m_dist_y = -((point1->x >= point2->x) ? point1->x : point2->x);
 }
 
 LineStatus::~LineStatus() { };

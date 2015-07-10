@@ -75,7 +75,7 @@ public:
 
     void print(std::ostream &out) const {
         out << "Z " << start() << ' ' << end() << ' ' <<
-        mid_point().m_x << ' ' << mid_point().m_y << std::endl;
+        mid_point().x << ' ' << mid_point().y << std::endl;
     }
 
     //Accessor
