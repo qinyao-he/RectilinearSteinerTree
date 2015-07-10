@@ -12,15 +12,7 @@ LineStatus::LineStatus(const Point *point1, const Point *point2) {
 
 LineStatus::~LineStatus() { };
 
-bool LineStatus::operator < (const LineStatus &_LS) {
-    if (this->m_dist < _LS.m_dist) return true;
-    if ((this->m_dist == _LS.m_dist) && (this->m_dist_x < _LS.m_dist_x)
-        || (this->m_dist == _LS.m_dist) && (this->m_dist_x == _LS.m_dist_x) && (this->m_dist_y < _LS.m_dist_y))
-        return true;
-    return false;
-}
-
-std::ostream& operator<<(std::ostream& out, const LineStatus& l) {
-    out << l.m_dist << ' ' << l.m_dist_y << ' ' << l.m_dist_x << std::endl;
-    return out;
+bool LineStatus::operator < (const LineStatus &op) {
+    return m_dist < op.m_dist || (m_dist == op.m_dist && m_dist_x < op.m_dist_x)
+            || (m_dist == op.m_dist && m_dist_x == op.m_dist_x && m_dist_y < op.m_dist_y);
 }
