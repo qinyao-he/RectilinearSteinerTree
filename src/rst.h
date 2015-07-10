@@ -5,11 +5,11 @@ typedef int DTYPE;
 
 #include <vector>
 
-#include "Headers/data_format.h"
-#include "Headers/overlap.h"
-#include "SMST/SMST.h"
-#include "LMST/LMST.h"
-#include "ZMST/ZMST.h"
+#include "data_format.h"
+#include "overlap.h"
+#include "SMST.h"
+#include "LMST.h"
+#include "ZMST.h"
 
 const double eps = 1e-6;
 

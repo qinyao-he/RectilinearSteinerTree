@@ -10,7 +10,7 @@
 #define __RectilinearSteinerTree__PointsGenerator__
 
 #include <vector>
-#include "../Headers/data_format.h"
+#include "data_format.h"
 
 namespace imp_a {
 

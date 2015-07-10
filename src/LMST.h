@@ -1,27 +1,13 @@
 /// Project name: New Algorithms for the Rectilinear Steiner Tree Problem
 /// Sub-project: LMST
 //  LMST.h
-//  
-//  Created by Tony Soong on 2013/6/9
-//  Modified by Tony Soong on 2013/6/12
-//
-//  Copyright (c) Tony Soong(Jiaming Song).
-//  All rights reserved.
-//  
-//  This file contains the declarations of class LMST.
-//
-//  Modifications(Tony):
-//		Added accessors for points_, lines_, and result_.
-//    Reviewed and enhanced comments.
-//  To-Do(Tony): I need to check the disallowed constructors.
-//
 
 #ifndef __RectilinearSteinerTree__LMST__
 #define __RectilinearSteinerTree__LMST__
 
-#include "../Headers/data_format.h"
-#include "../SMST/SMST.h"
-#include "../SMST/PointsGenerator.h"
+#include "data_format.h"
+#include "SMST.h"
+#include "PointsGenerator.h"
 #include <vector>
 #include <map>
 
@@ -29,9 +15,6 @@ namespace imp_a {
 
 class LMST {
 public:
-    ////////////////////////////////////////////////////////////////////////////
-    // Constuctors.
-    ////////////////////////////////////////////////////////////////////////////
     LMST();
 
     // Constructor randomly sets up points.

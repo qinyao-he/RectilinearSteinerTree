@@ -14,7 +14,6 @@
 
 //Point's data format
 
-//RST fore declare
 class RST;
 
 namespace imp_a {

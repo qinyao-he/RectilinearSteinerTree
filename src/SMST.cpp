@@ -7,8 +7,8 @@
 //
 
 #include "SMST.h"
-#include "../Headers/data_format.h"
-#include "../rst.h"
+#include "data_format.h"
+#include "rst.h"
 #include <iostream>
 #include <fstream>
 #include <cmath>

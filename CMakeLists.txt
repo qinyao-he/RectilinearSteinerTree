@@ -8,11 +8,6 @@ set(OpenCV_INCLUDE_DIRS "${OpenCV_CONFIG_PATH}/include" "${OpenCV_CONFIG_PATH}/i
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 aux_source_directory(src SOURCE_FILES)
-aux_source_directory(src/ImplementationA SOURCE_FILES)
-aux_source_directory(src/Headers SOURCE_FILES)
-aux_source_directory(src/LMST SOURCE_FILES)
-aux_source_directory(src/SMST SOURCE_FILES)
-aux_source_directory(src/ZMST SOURCE_FILES)
 
 add_executable(RectilinearSteinerTree ${SOURCE_FILES})
 target_link_libraries(RectilinearSteinerTree ${OpenCV_LIBS})

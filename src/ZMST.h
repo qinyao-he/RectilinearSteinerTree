@@ -14,8 +14,8 @@
 
 #include <cstdio>
 #include <vector>
-#include "../Headers/data_format.h"
-#include "../SMST/SMST.h"
+#include "data_format.h"
+#include "SMST.h"
 
 namespace imp_a {
 

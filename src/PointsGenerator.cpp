@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <fstream>
 #include "PointsGenerator.h"
-#include "../rst.h"
+#include "rst.h"
 
 namespace imp_a {
 
