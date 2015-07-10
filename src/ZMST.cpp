@@ -3,8 +3,8 @@
 //
 
 #include "ZMST.h"
-#include "rst.h"
-#include "overlap.h"
+#include "RST.h"
+#include "Overlap.h"
 
 #include <ctime>
 #include <cassert>

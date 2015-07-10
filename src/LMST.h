@@ -5,7 +5,7 @@
 #ifndef __RectilinearSteinerTree__LMST__
 #define __RectilinearSteinerTree__LMST__
 
-#include "data_format.h"
+#include "DataFormat.h"
 #include "SMST.h"
 #include "PointsGenerator.h"
 #include <vector>

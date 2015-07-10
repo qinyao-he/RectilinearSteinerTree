@@ -5,8 +5,8 @@ typedef int DTYPE;
 
 #include <vector>
 
-#include "data_format.h"
-#include "overlap.h"
+#include "DataFormat.h"
+#include "Overlap.h"
 #include "SMST.h"
 #include "LMST.h"
 #include "ZMST.h"

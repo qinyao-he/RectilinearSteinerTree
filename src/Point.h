@@ -5,6 +5,8 @@
 #ifndef RECTILINEARSTEINERTREE_POINT_H
 #define RECTILINEARSTEINERTREE_POINT_H
 
+#include <iostream>
+
 
 struct Point {
     Point(const int x = 0, const int y = 0) : m_x(x), m_y(y) { }

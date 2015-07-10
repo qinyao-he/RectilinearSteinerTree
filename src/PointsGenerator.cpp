@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <fstream>
 #include "PointsGenerator.h"
-#include "rst.h"
+#include "RST.h"
 
 
 bool BinaryTree::insertNode(const Point *_point, Node *&_root) {

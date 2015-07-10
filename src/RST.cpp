@@ -1,5 +1,5 @@
-#include "rst.h"
-#include "rststrategy.h"
+#include "RST.h"
+#include "RSTStrategy.h"
 
 #include <cstdlib>
 #include <fstream>

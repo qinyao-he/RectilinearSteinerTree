@@ -3,8 +3,8 @@
 //
 
 #include "SMST.h"
-#include "data_format.h"
-#include "rst.h"
+#include "DataFormat.h"
+#include "RST.h"
 #include "LineStatus.h"
 #include <iostream>
 #include <fstream>

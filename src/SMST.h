@@ -5,7 +5,7 @@
 #ifndef RECTILINEARSTEINERTREE_SMST_H
 #define RECTILINEARSTEINERTREE_SMST_H
 
-#include "data_format.h"
+#include "DataFormat.h"
 #include "PointsGenerator.h"
 
 #include <vector>
