@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/smst.dir/main.o CMakeFiles/smst.dir/PointsGenerator.o CMakeFiles/smst.dir/SMST.o  -o ../bin/smst  
