@@ -73,7 +73,7 @@ void PointsGenerator::printPointsToFile(const char *filename, int num, int maxRa
     fout.close();
 }
 
-std::vector<Point> PointsGenerator::fromFile(const char *filename) {
+std::vector<Point> PointsGenerator::fromFile(const std::string& filename) {
     BinaryTree binaryTree;
 
     std::ifstream ifile(filename);

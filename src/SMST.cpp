@@ -7,6 +7,7 @@
 #include "rst.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <cmath>
 
 std::ostream& operator<<(std::ostream& out, const LineStatus& l) {
@@ -39,7 +40,7 @@ void SMST::setPointsByRandom(int num, int maxRange) {
     m_vertexs = pointsGenerator.byRandom(num, maxRange);
 }
 
-void SMST::setPointsFromFile(const char *filename) {
+void SMST::setPointsFromFile(const std::string& filename) {
     m_vertexs.clear();
     m_vertexs = pointsGenerator.fromFile(filename);
 }

@@ -10,6 +10,7 @@
 #define __RectilinearSteinerTree__PointsGenerator__
 
 #include <vector>
+#include <string>
 #include "data_format.h"
 
 
@@ -65,7 +66,7 @@ public:
     std::vector<Point> byRandom(int num = 100, int maxRange = 1000);
 
     //Generate Point by random.
-    std::vector<Point> fromFile(const char *filename);
+    std::vector<Point> fromFile(const std::string& filename);
 
     //Generate Point from a given file.
     std::vector<Point> fromRST(RST *rst);

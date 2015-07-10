@@ -5,9 +5,11 @@
 #ifndef RECTILINEARSTEINERTREE_SMST_H
 #define RECTILINEARSTEINERTREE_SMST_H
 
-#include <vector>
 #include "data_format.h"
 #include "PointsGenerator.h"
+
+#include <vector>
+#include <string>
 
 
 class LineStatus {
@@ -24,7 +26,7 @@ public:
 
     //Compare "this" and _LS in nondecreasing lexicographic order
     //and return true if this is prior to _LS
-    friend std::ostream &operator<<(std::ostream& out, const LineStatus& l); //Output the information of LS
+    friend std::ostream &operator<<(std::ostream &out, const LineStatus &l); //Output the information of LS
 
 private:
     double m_dist;
@@ -39,14 +41,14 @@ public:
 
     virtual ~SMST();
 
-    const std::vector<Point>& points() const { return m_vertexs; }
+    const std::vector<Point> &points() const { return m_vertexs; }
 
-    const std::vector<Line>& lines() const { return m_lines; }
+    const std::vector<Line> &lines() const { return m_lines; }
 
     void setPointsByRandom(int num = 100, int maxRange = 1000);
 
     //using PointsGenerator to set points by random
-    void setPointsFromFile(const char *filename);
+    void setPointsFromFile(const std::string& filename);
 
     //using PointsGenerator to set points from file
     void calculateMST();
