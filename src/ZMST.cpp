@@ -189,12 +189,10 @@ void ZMST::setPointsFromFile(const char *fileName) {
 
 void ZMST::setPointsFromRST(RST *rst) {
     lines_.clear();
-    //qDebug("get points for ZMST");
     smst.setPointsFromRST(rst);
 }
 
 void ZMST::getResult(RST *rst) {
-    //qDebug("ZMST end");
     rst->v_seg.clear();
     for (int i = 0; i < lines_.size(); i++) {
         Point2D A = mkPoint(smst.points()[lines_[i].start()].x(), smst.points()[lines_[i].start()].y());
