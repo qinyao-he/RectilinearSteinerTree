@@ -5,7 +5,9 @@
 #include "ZMST.h"
 #include "rst.h"
 #include "overlap.h"
-#include <assert.h>
+
+#include <ctime>
+#include <cassert>
 
 using std::abs;
 using std::copy;
@@ -13,7 +15,6 @@ using std::lower_bound;
 using std::max;
 using std::min;
 using std::sort;
-using std::time;
 using std::unique;
 using std::vector;
 
@@ -177,7 +178,7 @@ void ZMST::print(FILE *out) const {
 
 //for debug use. generates data randomly, with n=100 by default
 void ZMST::setPointsByRandom(int num, int maxRange) {
-    srand(std::time(0));
+    srand(time(0));
     smst.setPointsByRandom();
 }
 
