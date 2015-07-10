@@ -19,7 +19,7 @@ using std::vector;
 
 //This function should have been provided in class Points, but there isn't one.
 inline bool operator==(const Point &a, const Point &b) {
-    return a.x() == b.x() && a.y() == b.y();
+    return a.m_x == b.m_x && a.m_y == b.m_y;
 }
 
 //Compare the line by the start node.
@@ -29,7 +29,7 @@ inline bool lineCmp(const Line_Z &a, const Line_Z &b) {
 
 //The Manhattan distance of two points.
 inline int dist(const Point &a, const Point &b) {
-    return abs(a.x() - b.x()) + abs(a.y() - b.y());
+    return abs(a.m_x - b.m_x) + abs(a.m_y - b.m_y);
 }
 
 //SubProcedure for exec(). It would examine all the layouts for the sons of a
@@ -95,8 +95,8 @@ void ZMST::exec() {
     }
     father[0] = -1;
     for (int i = 0; i < points().size(); i++) {
-        xgrids[i] = point(i).x();
-        ygrids[i] = point(i).y();
+        xgrids[i] = point(i).m_x;
+        ygrids[i] = point(i).m_y;
     }
     sort(xgrids, xgrids + points().size());
     sort(ygrids, ygrids + points().size());
@@ -107,19 +107,19 @@ void ZMST::exec() {
     //Enumerate all layouts
     for (vector<Line_Z>::iterator it = lines_.begin();
          it != lines_.end(); ++it) {
-        int minx = min(point(it->start()).x(), point(it->end()).x()),
-                maxx = max(point(it->start()).x(), point(it->end()).x()),
-                miny = min(point(it->start()).y(), point(it->end()).y()),
-                maxy = max(point(it->start()).y(), point(it->end()).y());
+        int minx = min(point(it->start()).m_x, point(it->end()).m_x),
+                maxx = max(point(it->start()).m_x, point(it->end()).m_x),
+                miny = min(point(it->start()).m_y, point(it->end()).m_y),
+                maxy = max(point(it->start()).m_y, point(it->end()).m_y);
         int minxid = lower_bound(xgrids, xgrids + xgridsize, minx) - xgrids,
                 maxxid = lower_bound(xgrids, xgrids + xgridsize, maxx) - xgrids,
                 minyid = lower_bound(ygrids, ygrids + ygridsize, miny) - ygrids,
                 maxyid = lower_bound(ygrids, ygrids + ygridsize, maxy) - ygrids;
         for (int i = minxid; i <= maxxid; i++) {
-            subProb[it->end()].push_back(Point(xgrids[i], point(it->start()).y()));
+            subProb[it->end()].push_back(Point(xgrids[i], point(it->start()).m_y));
         }
         for (int i = minyid; i <= maxyid; i++) {
-            subProb[it->end()].push_back(Point(point(it->start()).x(), ygrids[i]));
+            subProb[it->end()].push_back(Point(point(it->start()).m_x, ygrids[i]));
         }
     }
     //Caculate from leaves to root
@@ -166,12 +166,12 @@ void ZMST::print(FILE *out) const {
     fprintf(out, "%lu %lu\n", points().size(), lines().size());
     for (vector<Point>::const_iterator it = points().begin();
          it != points().end(); ++it) {
-        fprintf(out, "%d %d\n", it->x(), it->y());
+        fprintf(out, "%d %d\n", it->m_x, it->m_y);
     }
     for (vector<Line_Z>::const_iterator it = lines().begin();
          it != lines().end(); ++it) {
         fprintf(out, "Z %d %d %d %d\n", it->start(), it->end(),
-                it->mid_point().x(), it->mid_point().y());
+                it->mid_point().m_x, it->mid_point().m_y);
     }
 }
 
@@ -195,9 +195,9 @@ void ZMST::setPointsFromRST(RST *rst) {
 void ZMST::getResult(RST *rst) {
     rst->v_seg.clear();
     for (int i = 0; i < lines_.size(); i++) {
-        Point2D A = mkPoint(smst.points()[lines_[i].start()].x(), smst.points()[lines_[i].start()].y());
-        Point2D B = mkPoint(smst.points()[lines_[i].end()].x(), smst.points()[lines_[i].end()].y());
-        Point2D C = mkPoint(lines_[i].mid_point().x(), lines_[i].mid_point().y());
+        Point2D A = mkPoint(smst.points()[lines_[i].start()].m_x, smst.points()[lines_[i].start()].m_y);
+        Point2D B = mkPoint(smst.points()[lines_[i].end()].m_x, smst.points()[lines_[i].end()].m_y);
+        Point2D C = mkPoint(lines_[i].mid_point().m_x, lines_[i].mid_point().m_y);
         Point2D D; // A - C -(default:vertical when A==C) D - B
         if (std::abs(A.y - C.y) < 0.1)
             D = mkPoint(C.x, B.y);

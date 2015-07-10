@@ -39,22 +39,22 @@ void SMST::save(const std::string &filename) const {
 
 
 bool SMST::priorLineCompare(Line *line1, Line *line2) {
-    if (m_vertexs[line1->start()].x() < m_vertexs[line2->start()].x())
+    if (m_vertexs[line1->start()].m_x < m_vertexs[line2->start()].m_x)
         return true;
 
-    if (m_vertexs[line1->start()].x() == m_vertexs[line2->start()].x()
-        && m_vertexs[line1->start()].y() < m_vertexs[line2->start()].y())
+    if (m_vertexs[line1->start()].m_x == m_vertexs[line2->start()].m_x
+        && m_vertexs[line1->start()].m_y < m_vertexs[line2->start()].m_y)
         return true;
 
-    if (m_vertexs[line1->start()].x() == m_vertexs[line2->start()].x()
-        && m_vertexs[line1->start()].y() == m_vertexs[line2->start()].y()
-        && m_vertexs[line1->end()].x() < m_vertexs[line2->end()].x())
+    if (m_vertexs[line1->start()].m_x == m_vertexs[line2->start()].m_x
+        && m_vertexs[line1->start()].m_y == m_vertexs[line2->start()].m_y
+        && m_vertexs[line1->end()].m_x < m_vertexs[line2->end()].m_x)
         return true;
 
-    if (m_vertexs[line1->start()].x() == m_vertexs[line2->start()].x()
-        && m_vertexs[line1->start()].y() == m_vertexs[line2->start()].y()
-        && m_vertexs[line1->end()].x() == m_vertexs[line2->end()].x()
-        && m_vertexs[line1->end()].y() < m_vertexs[line2->end()].y())
+    if (m_vertexs[line1->start()].m_x == m_vertexs[line2->start()].m_x
+        && m_vertexs[line1->start()].m_y == m_vertexs[line2->start()].m_y
+        && m_vertexs[line1->end()].m_x == m_vertexs[line2->end()].m_x
+        && m_vertexs[line1->end()].m_y < m_vertexs[line2->end()].m_y)
         return true;
 
     return false;

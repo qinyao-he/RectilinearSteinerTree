@@ -12,36 +12,13 @@
 #include <iostream>
 #include <vector>
 
+#include "Point.h"
+
 //Point's data format
 
 class RST;
 
-class Point {
-public:
-    Point(const int x = 0, const int y = 0) : x_(x), y_(y) { }
 
-    void print(std::ostream &out) const {
-        out << x_ << " " << y_ << std::endl;
-    }
-
-    friend bool operator<(Point a, Point b) {
-        return (a.x() < b.x()) || (a.x() == b.x() && a.y() < b.y());
-    }
-
-    //Accessors
-    int x() const { return x_; }
-
-    int y() const { return y_; }
-
-    //Setters
-    int &x_set() { return x_; }
-
-    int &y_set() { return y_; }
-
-private:
-    int x_;
-    int y_;
-};
 
 //Line's data format for SMST
 class Line {
@@ -97,11 +74,8 @@ public:
             Line(start, end), mid_point_(mid) { }
 
     void print(std::ostream &out) const {
-        //start_point_id end_point_id
-        //mid_point1_x mid_point1_y (connected to the start point)
-        //mid_point2_x mid_point2_y (connected to the end point)
         out << "Z " << start() << ' ' << end() << ' ' <<
-        mid_point().x() << ' ' << mid_point().y() << std::endl;
+        mid_point().m_x << ' ' << mid_point().m_y << std::endl;
     }
 
     //Accessor
