@@ -104,8 +104,7 @@ void ZRST::solve() {
 
     discretize_data();
 
-    vector<vector<layout> > layouts(vector<vector<layout> >(points().size(),
-                                                            vector<layout>()));
+    vector<vector<layout> > layouts(points().size(), vector<layout>());
 
     for (const auto& line : m_lines) {
         int min_x = min(point(line.start()).x, point(line.end()).x),
