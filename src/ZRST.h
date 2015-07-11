@@ -28,7 +28,7 @@ private:
     };
 
     //Use smst to get data and the mst
-    MST smst;
+    MST mst;
     //The result would be in m_lines. The edges is sorted by start().
     vector<Line_Z> m_lines;
 
@@ -36,19 +36,19 @@ private:
     //best solutions for each node.
     void getAns(int root, const layout &lay,
                 const vector<vector<layout> > subProb,
-                const int *head);
+                const vector<int>& head);
 
     //SubProcedure for solve(). It would examine all the layouts for the sons of a
     //node and get the best one.layout::subAns and layout::bestLay should be
     //filled after this procedure.
     void dfs(int root, int father, int stat, ZRST::layout &lay,
              const vector<Line_Z> &lines, vector<vector<layout> > &subProb,
-             const int *head, int *stack);
+             const vector<int>& head, int *stack);
 
 public:
     //accessor for smst.m_vertexs
     const vector<Point> &points() const {
-        return smst.points();
+        return mst.points();
     }
 
     //accessor for m_lines
