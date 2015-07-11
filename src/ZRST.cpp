@@ -19,20 +19,15 @@ using std::unique;
 using std::vector;
 
 
-//SubProcedure for solve(). It would examine all the layouts for the sons of a
-//node and get the best one.layout::subAns and layout::bestLay should be
-//filled after this procedure.
 void ZRST::dfs(int root, int father, int stat, layout &lay,
                const vector<Line_Z> &lines, vector<vector<layout>> &subProb,
                const vector<int>& head, vector<size_t>& stack) {
     using Overlap::overlap;
-    //current node is a leaf
     if (head[root] == head[root + 1]) {
         lay.subAns = 0;
         return;
     }
     int id = stat - head[root], son = lines[stat].end();
-    //A node has no more than 6 childs
     assert(id < 6);
     if (stat == head[root + 1]) {
         int ans = 0;
@@ -42,7 +37,6 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
             overLap.push_back(Line_Z(root, son, subProb[son][stack[i]].midPoint));
         }
         overLap.push_back(Line_Z(father, root, lay.midPoint));
-        //current answer exclude the edge upon the node itself
         ans += overlap(points(), overLap) - point(root).distance(point(father));
         if (ans < lay.subAns) {
             lay.subAns = ans;
@@ -57,16 +51,12 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
 
 void ZRST::solve() {
     mst.mst();
-    //reserve before mass data pushing back
-    m_lines.reserve(mst.lines().size());
     for (const auto& line : mst.lines()) {
         m_lines.push_back(Line_Z(line.start(), line.end(), Point()));
     }
-    //lines is a sorted line vector, while smst.m_lines is in parent-child order
     sort(m_lines.begin(), m_lines.end(), [](const Line_Z &a, const Line_Z &b) {
         return a.start() < b.start();
     });
-    //make the positive direction table
     vector<int> head(points().size() + 1);
     for (size_t i = 0, j = 0; i <= points().size() && j <= lines().size();) {
         if (j == lines().size() || line(j).start() != i - 1)
@@ -74,7 +64,7 @@ void ZRST::solve() {
         else
             j++;
     }
-    //Discretization
+
     vector<int> parent(points().size());
     vector<int> x_grids(points().size()), y_grids(points().size());
     for (size_t i = 0; i < m_lines.size(); i++) {
@@ -93,7 +83,7 @@ void ZRST::solve() {
     y_grids.erase(y_f, y_grids.end());
     vector<vector<layout> > subProb(vector<vector<layout> >(points().size(),
                                                             vector<layout>()));
-    //Enumerate all layouts
+
     for (const auto& line : m_lines) {
         int min_x = min(point(line.start()).x, point(line.end()).x),
                 max_x = max(point(line.start()).x, point(line.end()).x),
@@ -110,7 +100,7 @@ void ZRST::solve() {
             subProb[line.end()].push_back(Point(point(line.start()).x, y_grids[i]));
         }
     }
-    //Caculate from leaves to root
+
     vector<size_t> stack(6); // at most 6 child
     for (vector<Line>::const_reverse_iterator it = mst.lines().rbegin();
          it != mst.lines().rend(); ++it) {
@@ -125,8 +115,6 @@ void ZRST::solve() {
     getAns(0, subProb[0][0], subProb, head);
 }
 
-//SubProcedure for solve(). It would examine the subProb and look for
-//best solutions for each node.
 void ZRST::getAns(int root, const layout &lay,
                   const vector<vector<layout> > subProb,
                   const vector<int>& head) {
@@ -149,7 +137,7 @@ void ZRST::getResult(RST *rst) {
         Point A(mst.points()[m_lines[i].start()].x, mst.points()[m_lines[i].start()].y);
         Point B(mst.points()[m_lines[i].end()].x, mst.points()[m_lines[i].end()].y);
         Point C(m_lines[i].mid_point.x, m_lines[i].mid_point.y);
-        Point D; // A - C -(default:vertical when A==C) D - B
+        Point D;
         if (std::abs(A.y - C.y) < 0.1)
             D = Point(C.x, B.y);
         else
