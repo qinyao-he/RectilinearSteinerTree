@@ -134,12 +134,14 @@ void LRST::paintHori(int u, int v, int y, int color, int &value) {
     assert(u <= v && (color * color == 1));
     for (int i = u; i < v; i++) {
         int hori = x_coord[i + 1] - x_coord[i];
-        assert(hori_line.find(Point(i, y))->second + color >= 0);
-        if (color > 0 && hori_line.find(Point(i, y))->second > 0)
+        assert(hori_line[Point(i, y)] + color >= 0);
+        if (color > 0 && hori_line[Point(i, y)] > 0) {
             value += hori;
-        hori_line.find(Point(i, y))->second += color;
-        if (color < 0 && hori_line.find(Point(i, y))->second > 0)
+        }
+        if (color < 0 && hori_line[Point(i, y)] > 0) {
             value -= hori;
+        }
+        hori_line[Point(i, y)] += color;
     }
 }
 
@@ -147,12 +149,14 @@ void LRST::paintVerti(int u, int v, int x, int color, int &value) {
     assert(u <= v && (color * color == 1));
     for (int i = u; i < v; i++) {
         int verti = y_coord[i + 1] - y_coord[i];
-        assert(verti_line.find(Point(x, i))->second + color >= 0);
-        if (color > 0 && verti_line.find(Point(x, i))->second > 0)
+        assert(verti_line[Point(x, i)] + color >= 0);
+        if (color > 0 && verti_line[Point(x, i)] > 0) {
             value += verti;
-        verti_line.find(Point(x, i))->second += color;
-        if (color < 0 && verti_line.find(Point(x, i))->second > 0)
+        }
+        if (color < 0 && verti_line[Point(x, i)] > 0) {
             value -= verti;
+        }
+        verti_line[Point(x, i)] += color;
     }
 }
 
@@ -204,16 +208,17 @@ void LRST::draw(int parent, std::vector<int> &kids,
 }
 
 int LRST::findPsiL(int label) {
-    if (psi_l[label] != -1)
+    if (psi_l[label] != -1) {
         return psi_l[label];
+    }
     if (tree[label].empty()) {
         psi_l[label] = 0;
         return 0;
     }
     std::vector<int> &kids = tree[label];
-    for (unsigned i = 0; i < kids.size(); i++) {
-        findPsiL(kids[i]);
-        findPsiU(kids[i]);
+    for (const auto& kid : kids) {
+        findPsiL(kid);
+        findPsiU(kid);
     }
     int value = 0, choice = 0;
     paint(disp_points[parent[label]], disp_points[label], false, 1, value);
@@ -230,9 +235,9 @@ int LRST::findPsiU(int label) {
         return 0;
     }
     std::vector<int> &kids = tree[label];
-    for (unsigned i = 0; i < kids.size(); i++) {
-        findPsiL(kids[i]);
-        findPsiU(kids[i]);
+    for (const auto& kid : kids) {
+        findPsiL(kid);
+        findPsiU(kid);
     }
     int value = 0, choice = 0;
     paint(disp_points[parent[label]], disp_points[label], true, 1, value);
@@ -259,12 +264,10 @@ void LRST::outputResultToVectorOfLabel(int label, bool choice) {
 }
 
 void LRST::setPointsFromRST(RST *rst) {
-    //qDebug("set data for LRST");
     mst.set_rst(rst);
 }
 
 void LRST::getResult(RST *rst) {
-    //qDebug("LRST end");
     rst->v_seg.clear();
     for (size_t i = 0; i < m_result.size(); i++) {
         Point A(m_points[m_result[i].start()].x, m_points[m_result[i].start()].y);
@@ -277,7 +280,6 @@ void LRST::getResult(RST *rst) {
         rst->v_seg.push_back(Segment(A, C));
         rst->v_seg.push_back(Segment(C, B));
     }
-    //qDebug("LRST with %d seg", rst->v_seg.size());
 }
 
 

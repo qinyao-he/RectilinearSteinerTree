@@ -10,6 +10,7 @@
 #include "PointsGenerator.h"
 #include <vector>
 #include <map>
+#include <cstdlib>
 
 
 class LRST {
@@ -48,12 +49,7 @@ private:
 
     // Measures the Manhattan Distance btwn. Point x and Point y.
     int dist(Point x, Point y) {
-        return abs(x.x - y.x) + abs(x.y - y.y);
-    }
-
-    // The function used for calculating absolute values.
-    int abs(int x) {
-        return x > 0 ? x : -x;
+        return std::abs(x.x - y.x) + std::abs(x.y - y.y);
     }
 
     // the class created for calculating the MST.
