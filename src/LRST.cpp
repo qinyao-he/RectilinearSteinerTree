@@ -95,6 +95,7 @@ void LRST::build_tree(int father) {
             continue;
         }
         tree[father].push_back(child);
+        parent[child] = father;
         build_tree(child);
     }
 }
