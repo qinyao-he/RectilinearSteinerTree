@@ -40,11 +40,11 @@ int RST::changeStrategy(int s_idx) {
     myStrategyIdx_ = s_idx;
     switch (s_idx) {
         case 1  : {
-            myStrategy_ = new LMSTStrategy;
+            myStrategy_ = new LRSTStrategy;
             break;
         }
         case 2  : {
-            myStrategy_ = new ZMSTStrategy;
+            myStrategy_ = new ZRSTStrategy;
             break;
         }
         default : {
