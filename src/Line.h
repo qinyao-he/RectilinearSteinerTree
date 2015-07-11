@@ -1,20 +1,14 @@
 //
-//  data_format.h
-//  RectilinearSteinerTree
-//
-//  Created by Yue Shichao on 1/6/13.
-//  Copyright (c) 2013 Yue Shichao. All rights reserved.
+// Created by ZhuangTianYi on 15/7/11.
 //
 
-#ifndef RectilinearSteinerTree_data_format_h
-#define RectilinearSteinerTree_data_format_h
+#ifndef RECTILINEARSTEINERTREE_LINE_H
+#define RECTILINEARSTEINERTREE_LINE_H
 
 #include <iostream>
 #include <vector>
 
 #include "Point.h"
-
-//Point's data format
 
 class RST;
 
@@ -22,7 +16,6 @@ class Line {
 public:
     Line(const size_t start = -1, const size_t end = -1) : start_(start), end_(end) { }
 
-    //initalize points vector
     virtual void print(std::ostream &out) const {
         out << "E " << start() << ' ' << end() << std::endl;
     }
@@ -65,4 +58,5 @@ public:
     Point mid_point;
 };
 
-#endif
+
+#endif //RECTILINEARSTEINERTREE_LINE_H
