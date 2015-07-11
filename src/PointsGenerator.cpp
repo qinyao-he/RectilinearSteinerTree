@@ -23,7 +23,7 @@ void PointsGenerator::print_points_to_file(const std::string &filename, int num 
     while (points.size() < num) {
         int x = uniform(rand_generator);
         int y = uniform(rand_generator);
-        points.insert(Point(y));
+        points.insert(Point(x, y));
     }
     for (std::set<Point>::iterator i = points.begin(); i != points.end(); ++i) {
         i->print(fout);
