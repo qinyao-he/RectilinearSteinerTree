@@ -31,7 +31,7 @@ void LRST::solve() {
     build_tree(root);
     assert(tree[root].size() == 1);
     descretize_data();
-    findPsi();
+    find_layout();
     get_result();
     to_vector();
 }
@@ -50,9 +50,9 @@ int LRST::get_result() {
     return layout_result;
 }
 
-void LRST::findPsi() {
-    findPsiL(tree[root][0]);
-    findPsiU(tree[root][0]);
+void LRST::find_layout() {
+    find_layout_L(tree[root][0]);
+    find_layout_U(tree[root][0]);
 }
 
 int LRST::find_root() {
@@ -199,7 +199,7 @@ void LRST::dfs(int parent, std::vector<int> &kids,
     paint(discr_points[parent], discr_points[kids[num]], true, -1, value);
 }
 
-int LRST::findPsiL(int label) {
+int LRST::find_layout_L(int label) {
     if (layout_l[label] != -1) {
         return layout_l[label];
     }
@@ -209,8 +209,8 @@ int LRST::findPsiL(int label) {
     }
     std::vector<int> &kids = tree[label];
     for (const auto& kid : kids) {
-        findPsiL(kid);
-        findPsiU(kid);
+        find_layout_L(kid);
+        find_layout_U(kid);
     }
     int value = 0, choice = 0;
     paint(discr_points[parent[label]], discr_points[label], false, 1, value);
@@ -219,7 +219,7 @@ int LRST::findPsiL(int label) {
     return layout_l[label];
 }
 
-int LRST::findPsiU(int label) {
+int LRST::find_layout_U(int label) {
     if (layout_u[label] != -1)
         return layout_u[label];
     if (tree[label].empty()) {
@@ -228,8 +228,8 @@ int LRST::findPsiU(int label) {
     }
     std::vector<int> &kids = tree[label];
     for (const auto& kid : kids) {
-        findPsiL(kid);
-        findPsiU(kid);
+        find_layout_L(kid);
+        find_layout_U(kid);
     }
     int value = 0, choice = 0;
     paint(discr_points[parent[label]], discr_points[label], true, 1, value);

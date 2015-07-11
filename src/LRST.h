@@ -39,7 +39,7 @@ private:
     std::vector<Point> m_points;
     std::vector<Line> m_lines;
 
-    void findPsi();
+    void find_layout();
 
     std::vector<int> layout_l;
     std::vector<int> layout_u;
@@ -48,9 +48,9 @@ private:
     std::vector<int> choice_l;
     std::vector<int> choice_u;
 
-    int findPsiL(int label);
+    int find_layout_L(int label);
 
-    int findPsiU(int label);
+    int find_layout_U(int label);
 
     int root;
 
