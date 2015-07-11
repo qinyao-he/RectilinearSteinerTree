@@ -28,7 +28,7 @@ int main(int argc, char const *argv[]) {
 
     std::vector<Point> points = p->generate_points_from_file(filename);
     rst->loadPoints(points);
-    rst->solve();
+    std::cout << "Total Cost: " << rst->solve() << std::endl;
 
     Visualizer* visualizer = Visualizer::instance();
     visualizer->show(rst);

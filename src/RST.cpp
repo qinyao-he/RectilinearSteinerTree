@@ -53,8 +53,8 @@ int RST::changeStrategy(int s_idx) {
     return myStrategyIdx_;
 }
 
-void RST::solve() {
-    myStrategy_->solveRST(this);
+int RST::solve() {
+    return myStrategy_->solveRST(this);
 }
 
 

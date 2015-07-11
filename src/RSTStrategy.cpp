@@ -8,13 +8,13 @@ int LRSTStrategy::solveRST(RST *rst) {
     lmst.set_points(rst);
     lmst.solve();
     lmst.get_result(rst);
-    return 1;
+    return lmst.get_result();
 }
 
 int ZRSTStrategy::solveRST(RST *rst) {
     ZRST zmst;
-    zmst.setPointsFromRST(rst);
+    zmst.set_points(rst);
     zmst.solve();
-    zmst.getResult(rst);
-    return 1;
+    zmst.get_result(rst);
+    return zmst.get_result();
 }

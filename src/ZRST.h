@@ -64,6 +64,8 @@ private:
     void dfs(int root, int father, size_t stat, layout &lay, vector<size_t>& stack);
 
 public:
+    ZRST() {}
+
     const vector<Point> &points() const {
         return mst.points();
     }
@@ -82,10 +84,11 @@ public:
 
     void solve();
 
-public:
-    void setPointsFromRST(RST *rst);
+    void set_points(RST *rst);
 
-    void getResult(RST *rst);
+    void get_result(RST *rst);
+
+    int get_result();
 };
 
 

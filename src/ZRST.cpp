@@ -167,12 +167,12 @@ void ZRST::get_ans(int root, const layout &lay) {
     }
 }
 
-void ZRST::setPointsFromRST(RST *rst) {
+void ZRST::set_points(RST *rst) {
     m_lines.clear();
     mst.set_rst(rst);
 }
 
-void ZRST::getResult(RST *rst) {
+void ZRST::get_result(RST *rst) {
     rst->v_seg.clear();
     for (size_t i = 0; i < m_lines.size(); i++) {
         Point A(mst.points()[m_lines[i].start()].x, mst.points()[m_lines[i].start()].y);
@@ -196,4 +196,8 @@ void ZRST::find_layout(int label) {
     for (auto& layout : layouts[label]) {
         dfs(label, parent[label], 0, layout, stack);
     }
+}
+
+int ZRST::get_result() {
+    return layouts[root][0].sub_ans;
 }
