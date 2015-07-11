@@ -15,7 +15,7 @@ public:
 
     virtual ~PointsGenerator() { }
 
-    void printPointsToFile(const std::string& filename, int num, int maxRange);
+    void printPointsToFile(const std::string& filename, int num, int max_range);
 
 //    std::vector<Point> byRandom(int num = 100, int maxRange = 1000);
 

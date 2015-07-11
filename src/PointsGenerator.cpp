@@ -9,18 +9,20 @@
 #include <fstream>
 #include <string>
 #include <set>
+#include <random>
 
 #include "RST.h"
 #include "common.h"
 
-void PointsGenerator::printPointsToFile(const std::string& filename, int num = NUM, int maxRange = MAX_RANGE) {
+void PointsGenerator::printPointsToFile(const std::string& filename, int num = NUM, int max_range = MAX_RANGE) {
     std::set<Point> points;
-    std::srand(std::time(nullptr));
     std::ofstream fout(filename);
+    std::mt19937 rand_generator;
+    std::uniform_int_distribution<int> uniform(0, max_range);
 
     while (points.size() < num) {
-        int x = std::rand() % maxRange;
-        int y = std::rand() % maxRange;
+        int x = uniform(rand_generator);
+        int y = uniform(rand_generator);
         points.insert(Point(y));
     }
     for (std::set<Point>::iterator i = points.begin(); i != points.end(); ++i) {
