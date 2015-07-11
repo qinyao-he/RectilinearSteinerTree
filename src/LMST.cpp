@@ -41,10 +41,10 @@ void LMST::solve() {
     psi_u.resize(m_points.size(), -1);
     choice_l.resize(m_points.size(), -1);
     choice_u.resize(m_points.size(), -1);
-    FindRoot();
-    OrganizeTree(root);
+    root = findRoot();
+    organizeTree(root);
     assert(tree[root].size() == 1);
-    DesperseData();
+    desperseData();
     FindPsi();
     get_result();
     outputResultToVector();
@@ -65,11 +65,11 @@ int LMST::get_result() {
 }
 
 void LMST::FindPsi() {
-    FindPsiL(tree[root][0]);
-    FindPsiU(tree[root][0]);
+    findPsiL(tree[root][0]);
+    findPsiU(tree[root][0]);
 }
 
-void LMST::FindRoot() {
+int LMST::findRoot() {
     std::vector<int> degree_(m_points.size(), 0);
     typedef std::vector<Line>::iterator li_iter;
     for (li_iter it = m_lines.begin(); it != m_lines.end(); ++it) {
@@ -79,14 +79,13 @@ void LMST::FindRoot() {
     typedef std::vector<int>::iterator it_iter;
     for (it_iter it = degree_.begin(); it != degree_.end(); ++it) {
         if ((*it) == 1) {
-            root = (it - degree_.begin());
-            return;
+            return (it - degree_.begin());
         }
     }
     assert(false);
 }
 
-void LMST::OrganizeTree(int father) {
+void LMST::organizeTree(int father) {
     typedef std::vector<Line>::iterator li_iter;
     int son;
     has_set[father] = true;
@@ -96,25 +95,25 @@ void LMST::OrganizeTree(int father) {
         else son = it->start();
         if (has_set[son]) continue;
         tree[father].push_back(son);
-        father[son] = father;
-        OrganizeTree(son);
+        parent[son] = father;
+        organizeTree(son);
     }
     return;
 }
 
-void LMST::DesperseData() {
+void LMST::desperseData() {
     typedef std::vector<Point>::iterator pt_iter;
     typedef std::set<int>::iterator st_iter;
-    std::set<int> x_coord, y_coord;
+    std::set<int> x_coord_set, y_coord_set;
     for (pt_iter it = m_points.begin(); it != m_points.end(); ++it) {
         int x = it->x, y = it->y;
-        if (x_coord.find(x) == x_coord.end()) x_coord.insert(x);
-        if (y_coord.find(y) == y_coord.end()) y_coord.insert(y);
+        if (x_coord_set.find(x) == x_coord_set.end()) x_coord_set.insert(x);
+        if (y_coord_set.find(y) == y_coord_set.end()) y_coord_set.insert(y);
     }
-    for (st_iter it = x_coord.begin(); it != x_coord.end(); ++it) {
+    for (st_iter it = x_coord_set.begin(); it != x_coord_set.end(); ++it) {
         x_coord.push_back((*it));
     }
-    for (st_iter it = y_coord.begin(); it != y_coord.end(); ++it) {
+    for (st_iter it = y_coord_set.begin(); it != y_coord_set.end(); ++it) {
         y_coord.push_back((*it));
     }
     for (pt_iter it = m_points.begin(); it != m_points.end(); ++it) {
@@ -123,8 +122,8 @@ void LMST::DesperseData() {
         int disp_y = find(y_coord.begin(), y_coord.end(), y) - y_coord.begin();
         disp_points.push_back(Point(disp_x, disp_y));
     }
-    for (unsigned i = 0; i < x_coord.size(); i++) {
-        for (unsigned j = 0; j < y_coord.size(); j++) {
+    for (unsigned i = 0; i < x_coord_set.size(); i++) {
+        for (unsigned j = 0; j < y_coord_set.size(); j++) {
             hori_line.insert(std::pair<Point, int>(Point(i, j), 0));
             verti_line.insert(std::pair<Point, int>(Point(i, j), 0));
         }
@@ -205,7 +204,7 @@ void LMST::draw(int parent, std::vector<int> &kids,
     return;
 }
 
-int LMST::FindPsiL(int label) {
+int LMST::findPsiL(int label) {
     if (psi_l[label] != -1)
         return psi_l[label];
     if (tree[label].empty()) {
@@ -214,8 +213,8 @@ int LMST::FindPsiL(int label) {
     }
     std::vector<int> &kids = tree[label];
     for (unsigned i = 0; i < kids.size(); i++) {
-        FindPsiL(kids[i]);
-        FindPsiU(kids[i]);
+        findPsiL(kids[i]);
+        findPsiU(kids[i]);
     }
     int value = 0, choice = 0;
     paint(disp_points[parent[label]], disp_points[label], false, 1, value);
@@ -224,7 +223,7 @@ int LMST::FindPsiL(int label) {
     return psi_l[label];
 }
 
-int LMST::FindPsiU(int label) {
+int LMST::findPsiU(int label) {
     if (psi_u[label] != -1)
         return psi_u[label];
     if (tree[label].empty()) {
@@ -233,8 +232,8 @@ int LMST::FindPsiU(int label) {
     }
     std::vector<int> &kids = tree[label];
     for (unsigned i = 0; i < kids.size(); i++) {
-        FindPsiL(kids[i]);
-        FindPsiU(kids[i]);
+        findPsiL(kids[i]);
+        findPsiU(kids[i]);
     }
     int value = 0, choice = 0;
     paint(disp_points[parent[label]], disp_points[label], true, 1, value);

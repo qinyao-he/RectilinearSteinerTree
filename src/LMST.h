@@ -81,7 +81,7 @@ private:
     void FindPsi();
 
     // psi_l and psi_u are denoted just as the paper describes.
-    // We use FindPsiL and FindPsiU to find the psi_l and psi_u,
+    // We use findPsiL and findPsiU to find the psi_l and psi_u,
     // and save the choices(L-shape or U-shape?) in result_for_l_.
     std::vector<int> psi_l;
     std::vector<int> psi_u;
@@ -93,9 +93,9 @@ private:
 
     // Note that if we already have calculated the edge, we don't need to
     // calculate it again. Instead we put them into psi_l and psi_u.
-    int FindPsiL(int /*label*/);
+    int findPsiL(int /*label*/);
 
-    int FindPsiU(int /*label*/);
+    int findPsiU(int /*label*/);
 
     ////////////////////////////////////////////////////////////////////////////
     // Tree Producing Section:
@@ -107,7 +107,7 @@ private:
     int root;
 
     // Find the root of the tree, any leaf is ok.
-    void FindRoot();
+    int findRoot();
 
     // A temporary vector used to set the tree.
     std::vector<bool> has_set;
@@ -117,7 +117,7 @@ private:
     std::vector<std::vector<int> > tree;
 
     // Organize the tree and save it as an adjacent table.
-    void OrganizeTree(int /*parent*/);
+    void organizeTree(int /*parent*/);
 
     ////////////////////////////////////////////////////////////////////////////
     // Disperse Section:
@@ -131,9 +131,9 @@ private:
     std::vector<int> y_coord;
 
     // Desperse the coordinates.
-    void DesperseData();
+    void desperseData();
 
-    // The x and y member disp_points and disp_lines_ represents the xth or
+    // The x and y member disp_points_ and disp_lines_ represents the xth or
     // yth member of x_coord and y_coord
     std::vector<Point> disp_points;
 
