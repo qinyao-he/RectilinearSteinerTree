@@ -20,7 +20,7 @@ class RST;
 
 
 
-//Line's data format for SMST
+//Line's data format for MST
 class Line {
 public:
     Line(const int start = -1, const int end = -1) : start_(start), end_(end) { }

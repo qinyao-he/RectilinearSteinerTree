@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "DataFormat.h"
+#include "Line.h"
 #include "Overlap.h"
 #include "MST.h"
 #include "LMST.h"
