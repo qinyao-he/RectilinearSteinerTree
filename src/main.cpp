@@ -1,4 +1,5 @@
 #include <random>
+#include <string>
 
 #include "RST.h"
 #include "RSTStrategy.h"
@@ -15,14 +16,15 @@ int main(int argc, char const *argv[]) {
     rst->changeStrategy(ZRST);
 
     if (argc > 1) {
-        if (!strcmp(argv[1], "ZRST"))
+        std::string arg(argv[1]);
+        if (arg == "ZRST")
             rst->changeStrategy(ZRST);
-        else if (!strcmp(argv[1], "LRST"))
+        else if (arg == "LRST")
             rst->changeStrategy(LRST);
-        else if (!strcmp(argv[1], "test")){
+        else if (arg == "test"){
             p->print_points_to_file(filename, NUM, MAX_RANGE);
         }
-    } 
+    }
 
     std::vector<Point> points = p->generate_points_from_file(filename);
     rst->loadPoints(points);
