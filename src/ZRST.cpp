@@ -19,19 +19,19 @@ using std::unique;
 using std::vector;
 
 
-void ZRST::dfs(int root, int father, int stat, layout &lay, vector<size_t>& stack) {
+void ZRST::dfs(int root, int father, size_t stat, layout &lay, vector<size_t>& stack) {
     using Overlap::overlap;
-    if (head[root] == head[root + 1]) {
+    if (tree[root].size() == 0) {
         lay.sub_ans = 0;
         return;
     }
-    int id = stat - head[root], son = m_lines[stat].end();
+    int id = stat, son;
     assert(id < 6);
-    if (stat == head[root + 1]) {
+    if (stat == tree[root].size()) {
         int ans = 0;
         vector<Line_Z> overLap;
         for (int i = 0; i < id; i++) {
-            ans += layouts[son = m_lines[head[root] + i].end()][stack[i]].sub_ans;
+            ans += layouts[son = tree[root][i]][stack[i]].sub_ans;
             overLap.push_back(Line_Z(root, son, layouts[son][stack[i]].mid_point));
         }
         overLap.push_back(Line_Z(father, root, lay.mid_point));
@@ -41,9 +41,46 @@ void ZRST::dfs(int root, int father, int stat, layout &lay, vector<size_t>& stac
             copy(stack.begin(), stack.begin() + id, lay.best_lay);
         }
     } else {
+        son = tree[root][stat];
         for (size_t i = 0; (stack[id] = i) < layouts[son].size(); i++) {
             dfs(root, father, stat + 1, lay, stack);
         }
+    }
+}
+
+int ZRST::find_root() {
+    std::vector<int> degree(m_points.size(), 0);
+    for (const auto& line : m_lines) {
+        degree[line.start()]++;
+        degree[line.end()]++;
+    }
+    for (auto it = degree.begin(); it != degree.end(); ++it) {
+        if ((*it) == 1) {
+            return (it - degree.begin());
+        }
+    }
+    assert(false);
+    return -1;
+}
+
+void ZRST::build_tree(size_t father) {
+    size_t child;
+    intree[father] = true;
+    for (const auto& line : m_lines) {
+        if (line.start() != father && line.end() != father) {
+            continue;
+        }
+        if (line.start() == father) {
+            child = line.end();
+        } else {
+            child = line.start();
+        }
+        if (intree[child]) {
+            continue;
+        }
+        tree[father].push_back(child);
+        parent[child] = father;
+        build_tree(child);
     }
 }
 
@@ -84,26 +121,17 @@ void ZRST::solve() {
     for (const auto& line : mst.lines()) {
         m_lines.push_back(Line_Z(line.start(), line.end(), Point()));
     }
-    sort(m_lines.begin(), m_lines.end(), [](const Line_Z &a, const Line_Z &b) {
-        return a.start() < b.start();
-    });
-    head.resize(points().size() + 1);
-    for (size_t i = 0, j = 0; i <= points().size() && j <= lines().size();) {
-        if (j == lines().size() || line(j).start() != i - 1)
-            head[i++] = j;
-        else
-            j++;
-    }
 
-    vector<int> parent(points().size());
-    for (size_t i = 0; i < m_lines.size(); i++) {
-        parent[m_lines[i].end()] = m_lines[i].start();
-    }
-    parent[0] = -1;
+    intree.resize(m_points.size(), false);
+    parent.resize(m_points.size(), -1);
+    tree.resize(m_points.size(), vector<int>());
+    root = find_root();
+    build_tree(root);
 
     discretize_data();
 
     layouts.resize(points().size());
+    stack.resize(6);
 
     for (const auto& line : m_lines) {
         int min_x = min(point(line.start()).x, point(line.end()).x),
@@ -122,22 +150,20 @@ void ZRST::solve() {
         }
     }
 
-    vector<size_t> stack(6); // at most 6 child
-    for (auto it = mst.lines().rbegin(); it != mst.lines().rend(); ++it) {
-        for (auto lit = layouts[it->end()].begin(); lit != layouts[it->end()].end(); ++lit) {
-            dfs(it->end(), parent[it->end()], head[it->end()], *lit, stack);
-        }
-    }
-    layouts[0].push_back(point(0));
-    dfs(0, 0, head[0], layouts[0][0], stack);
-    get_ans(0, layouts[0][0]);
+    find_layout(tree[root][0]);
+
+    layouts[root].push_back(point(0));
+    dfs(root, root, 0, layouts[root][0], stack);
+    m_lines.clear();
+    get_ans(root, layouts[root][0]);
 }
 
 void ZRST::get_ans(int root, const layout &lay) {
-    for (int i = head[root]; i < head[root + 1]; i++) {
-        m_lines[i].mid_point =
-                layouts[line(i).end()][lay.best_lay[i - head[root]]].mid_point;
-        get_ans(line(i).end(), layouts[line(i).end()][lay.best_lay[i - head[root]]]);
+    int i = 0;
+    for (const auto& child : tree[root]) {
+        m_lines.push_back(Line_Z(root, child, layouts[child][lay.best_lay[i]].mid_point));
+        get_ans(child, layouts[child][lay.best_lay[i]]);
+        i++;
     }
 }
 
@@ -160,5 +186,14 @@ void ZRST::getResult(RST *rst) {
         rst->v_seg.push_back(Segment(A, C));
         rst->v_seg.push_back(Segment(C, D));
         rst->v_seg.push_back(Segment(D, B));
+    }
+}
+
+void ZRST::find_layout(int label) {
+    for (const auto& child : tree[label]) {
+        find_layout(child);
+    }
+    for (auto& layout : layouts[label]) {
+        dfs(label, parent[label], 0, layout, stack);
     }
 }

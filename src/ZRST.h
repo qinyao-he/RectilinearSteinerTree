@@ -30,6 +30,20 @@ private:
     vector<Point> m_points;
     vector<Line_Z> m_lines;
 
+    int root;
+
+    int find_root();
+
+    void find_layout(int label);
+
+    vector<size_t> stack; // at most 6 child
+
+    std::vector<bool> intree;
+    std::vector<int> parent;
+    std::vector<std::vector<int>> tree;
+
+    void build_tree(size_t parent);
+
     std::vector<int> x_coord;
     std::vector<int> y_coord;
 
@@ -47,7 +61,7 @@ private:
 
     void get_ans(int root, const layout &lay);
 
-    void dfs(int root, int father, int stat, layout &lay, vector<size_t>& stack);
+    void dfs(int root, int father, size_t stat, layout &lay, vector<size_t>& stack);
 
 public:
     const vector<Point> &points() const {
