@@ -1,17 +1,9 @@
-/// Project name: New Algorithms for the Rectilinear Steiner Tree Problem
-/// Sub-project: LRST
-//  LRST.cpp
-//  
 //
-//  Created by Tony Soong on 2013/6/9
-//  Modified by Tony Soong on 2013/6/9
-//  Copyright (c) Tony Soong(Jiaming Song) All rights reserved.
-//
-//	This file implements the functions of class LRST, namely the sections.
-//  TODO(Tony): I need more tests, and I need to make the code more beautiful.
+// Created by ZhuangTianYi on 15/7/11.
 //
 
 #include "LRST.h"
+
 #include <list>
 #include <algorithm>
 #include <cassert>
@@ -42,7 +34,7 @@ void LRST::solve() {
     desperse_data();
     findPsi();
     get_result();
-    outputResultToVector();
+    to_vector();
 }
 
 LRST::LRST() : mst(), psi_result(INF) { }
@@ -247,7 +239,7 @@ int LRST::findPsiU(int label) {
     return psi_u[label];
 }
 
-void LRST::outputResultToVector() {
+void LRST::to_vector() {
     if (m_result.size() != 0) return;
     int child_ = tree[root][0];
     bool choice = psi_l[child_] < psi_u[child_];
@@ -264,11 +256,11 @@ void LRST::outputResultToVectorOfLabel(int label, bool choice) {
     }
 }
 
-void LRST::setPointsFromRST(RST *rst) {
+void LRST::set_points(RST *rst) {
     mst.set_rst(rst);
 }
 
-void LRST::getResult(RST *rst) {
+void LRST::get_result(RST *rst) {
     rst->v_seg.clear();
     for (size_t i = 0; i < m_result.size(); i++) {
         Point A(m_points[m_result[i].start()].x, m_points[m_result[i].start()].y);
@@ -282,5 +274,3 @@ void LRST::getResult(RST *rst) {
         rst->v_seg.push_back(Segment(C, B));
     }
 }
-
-

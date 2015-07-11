@@ -1,9 +1,9 @@
-/// Project name: New Algorithms for the Rectilinear Steiner Tree Problem
-/// Sub-project: LRST
-//  LRST.h
+//
+// Created by ZhuangTianYi on 15/7/11.
+//
 
-#ifndef __RectilinearSteinerTree__LMST__
-#define __RectilinearSteinerTree__LMST__
+#ifndef RECTILINEARSTEINERTREE_LRST_H
+#define RECTILINEARSTEINERTREE_LRST_H
 
 #include "Line.h"
 #include "MST.h"
@@ -17,157 +17,86 @@ class LRST {
 public:
     LRST();
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Interfaces.
-    ////////////////////////////////////////////////////////////////////////////
-    // Initializes Data. In fact it calculates the psi_l, psi_u, and the LRST.
     void solve();
 
-    // Returns the result.
     int get_result();
 
-    // Returns the vector of m_vertexs.
     std::vector<Point> &points() {
         return m_points;
     }
 
-    // Returns the vector of m_lines.
     std::vector<Line> &lines() {
         return m_lines;
     }
 
-    // Returns the vector of m_result.
     std::vector<Line_L> &result() {
         return m_result;
     }
 
 private:
-    ////////////////////////////////////////////////////////////////////////////
-    // Basic Utilities Section: Some basic functions and data.
-    ////////////////////////////////////////////////////////////////////////////
-
-
-    // Measures the Manhattan Distance btwn. Point x and Point y.
     int dist(Point x, Point y) {
         return std::abs(x.x - y.x) + std::abs(x.y - y.y);
     }
 
-    // the class created for calculating the MST.
     MST mst;
-    // The points and lines of the MST given.
+
     std::vector<Point> m_points;
     std::vector<Line> m_lines;
 
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Algorithm Control Section: Controls the flow of the core algorithm.
-    ////////////////////////////////////////////////////////////////////////////
-
-    // Find the Psi of all the edges.
     void findPsi();
 
-    // psi_l and psi_u are denoted just as the paper describes.
-    // We use findPsiL and findPsiU to find the psi_l and psi_u,
-    // and save the choices(L-shape or U-shape?) in result_for_l_.
     std::vector<int> psi_l;
     std::vector<int> psi_u;
     int psi_result;
-    // choice_l and choice_u denotes the best method of l or u, in binary
-    // notation. 1 means true and 0 means false
+
     std::vector<int> choice_l;
     std::vector<int> choice_u;
 
-    // Note that if we already have calculated the edge, we don't need to
-    // calculate it again. Instead we put them into psi_l and psi_u.
-    int findPsiL(int /*label*/);
+    int findPsiL(int label);
 
-    int findPsiU(int /*label*/);
+    int findPsiU(int label);
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Tree Producing Section:
-    // Before we do the dp, we should first produce a tree for our dp, so that
-    // we can avoid useless calculations.
-    ////////////////////////////////////////////////////////////////////////////
-
-    // The root of the tree.
     int root;
 
-    // Find the root of the tree, any leaf is ok.
     int find_root();
 
-    // A temporary vector used to set the tree.
     std::vector<bool> has_set;
-    // The fathers of the points, the parent of root is denoted as -1.
     std::vector<int> parent;
-    // The adjacent table which stores the tree.
     std::vector<std::vector<int> > tree;
 
-    // Organize the tree and save it as an adjacent table.
-    void build_tree(int /*parent*/);
+    void build_tree(int parent);
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Disperse Section:
-    // Since the points are only 100, we can easily change the former graph into
-    // a graph with at most 10000 points. Also it is safe when we input
-    // arbitrarily large integers for coordinates.
-    ////////////////////////////////////////////////////////////////////////////
-
-    // The coordinates of the despersed points.
     std::vector<int> x_coord;
     std::vector<int> y_coord;
 
-    // Desperse the coordinates.
     void desperse_data();
 
-    // The x and y member disp_points_ and disp_lines_ represents the xth or
-    // yth member of x_coord and y_coord
     std::vector<Point> disp_points;
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Painting Section: Used to enumerate the conditions and calculate the
-    // number of overlaps.
-    ////////////////////////////////////////////////////////////////////////////
-
-    // Sets the lines for painting.
     std::map<Point, int> hori_line;
     std::map<Point, int> verti_line;
 
-    // dfs is the function that implements the dynamic programming process of
-    // finding psi_l and psi_u by enumerating the kids of point label.
-    void dfs(int parent, std::vector<int> & /*kids*/, size_t /*num*/,
-             int & /*value*/, int & /*result*/, int /*choice*/, int & /*decision*/);
+    void dfs(int parent, std::vector<int> & kids, size_t num,
+             int & value, int & result, int choice, int & decision);
 
-    // "paint" the L-shaped line from point start to point finish through
-    // point middle, on the hash map board_
-    void paint(Point /*start*/, Point /*middle*/, bool /*direction*/,
-               int color, int &/*value*/);
+    void paint(Point start, Point middle, bool direction,
+               int color, int &value);
 
-    // "Paints" from (u, y) to (v, y). u must not be greater than v.
-    void paintHori(int /*u*/, int /*v*/, int /*y*/, int /*color*/, int &/*value*/);
+    void paintHori(int u, int v, int y, int color, int &value);
 
-    // "Paints" from (x, u) to (x, v). u must not be greater than v.
-    void paintVerti(int /*u*/, int /*v*/, int /*x*/, int /*color*/, int &/*value*/);
+    void paintVerti(int u, int v, int x, int color, int &value);
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Output Section: Output the results into vectors and files which is easier
-    // to read.
-    ////////////////////////////////////////////////////////////////////////////
-
-    // The Line_L vector which stores the result of the LRST.
     std::vector<Line_L> m_result;
 
-    // Output the results into the vector m_result
-    void outputResultToVector();
+    void to_vector();
 
-    // A recursive function used by outputResultToVector
-    void outputResultToVectorOfLabel(int /*label*/, bool /*choice*/);
+    void outputResultToVectorOfLabel(int label, bool choice);
 
 public:
-    void setPointsFromRST(RST *rst);
+    void set_points(RST *rst);
 
-    void getResult(RST *rst);
+    void get_result(RST *rst);
 };
 
 
-
-#endif /* defined(__RectilinearSteinerTree__L_MST__) */
+#endif //RECTILINEARSTEINERTREE_LRST_H

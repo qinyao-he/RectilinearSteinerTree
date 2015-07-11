@@ -5,9 +5,9 @@ RSTStrategy::RSTStrategy() { }
 
 int LMSTStrategy::solveRST(RST *rst) {
     LRST lmst;
-    lmst.setPointsFromRST(rst);
+    lmst.set_points(rst);
     lmst.solve();
-    lmst.getResult(rst);
+    lmst.get_result(rst);
     return 1;
 }
 
