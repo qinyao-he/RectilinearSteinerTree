@@ -132,7 +132,7 @@ void ZRST::getAns(int root, const layout &lay,
                   const vector<vector<layout> > subProb,
                   const vector<int>& head) {
     for (int i = head[root]; i < head[root + 1]; i++) {
-        m_lines[i].mid_point_set() =
+        m_lines[i].mid_point =
                 subProb[line(i).end()][lay.bestLay[i - head[root]]].midPoint;
         getAns(line(i).end(), subProb[line(i).end()][lay.bestLay[i - head[root]]],
                subProb, head);
@@ -149,7 +149,7 @@ void ZRST::getResult(RST *rst) {
     for (size_t i = 0; i < m_lines.size(); i++) {
         Point A(mst.points()[m_lines[i].start()].x, mst.points()[m_lines[i].start()].y);
         Point B(mst.points()[m_lines[i].end()].x, mst.points()[m_lines[i].end()].y);
-        Point C(m_lines[i].mid_point().x, m_lines[i].mid_point().y);
+        Point C(m_lines[i].mid_point.x, m_lines[i].mid_point.y);
         Point D; // A - C -(default:vertical when A==C) D - B
         if (std::abs(A.y - C.y) < 0.1)
             D = Point(C.x, B.y);

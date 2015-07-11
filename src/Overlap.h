@@ -58,12 +58,6 @@ inline bool compare_Interval(const Record::Interval &a, const Record::Interval &
 static Points_Array convert_format(const vector<Point> &points,
                                    const vector<Line_Z> &lines_z);
 
-static Points_Array convert_format(const vector<Point> &points,
-                                   const vector<Line_L> &lines_l);
-
-static Points_Array convert_format(const vector<Point> &points,
-                                   const vector<Line> &lines);
-
 //This funtion's aim is to compute the sum in given Line_Z vector
 static int overlap(const vector<Point> &points, const vector<Line_Z> &lines) {
     vector<Record> records;
@@ -78,22 +72,6 @@ static int overlap(const vector<Point> &points, const vector<Line_Z> &lines) {
     return sum;
 }
 
-//This funtion's aim is to compute the sum in given Line_L vector
-static int overlap(const vector<Point> &points, const vector<Line_L> &lines) {
-    vector<Record> records;
-    Points_Array data = convert_format(points, lines);
-    for (int i = 0; i < (int) data.start.size(); ++i) {
-        add_line(data.start[i], data.end[i], records);
-    }
-    int sum = 0;
-    for (vector<Record>::iterator i = records.begin(); i != records.end(); ++i) {
-        sum += compute_sum(i->intervals);
-    }
-    std::cout << "sum1 = " << sum << std::endl;
-    return sum;
-}
-
-//convert Line_Z vector into Points_Array
 static Points_Array convert_format(const vector<Point> &points,
                                    const vector<Line_Z> &lines_z) {
     Points_Array data;
@@ -102,7 +80,7 @@ static Points_Array convert_format(const vector<Point> &points,
         Point start, end, mid1, mid2;
         start = points[i->start()];
         end = points[i->end()];
-        mid1 = i->mid_point();
+        mid1 = i->mid_point;
         if (start.y == mid1.y) {
             mid2.x = mid1.x;
             mid2.y = end.y;
@@ -128,48 +106,6 @@ static Points_Array convert_format(const vector<Point> &points,
     return data;
 }
 
-//convert Line_L vector into Points_Array
-static Points_Array convert_format(const vector<Point> &points,
-                                   const vector<Line_L> &lines_l) {
-    Points_Array data;
-    for (vector<Line_L>::const_iterator i = lines_l.begin(); i != lines_l.end();
-         ++i) {
-        Point start, end, mid;
-        start = points[i->start()];
-        end = points[i->end()];
-        if (i->direction()) {
-            mid.x = end.x;
-            mid.y = start.y;
-        } else {
-            mid.x = start.x;
-            mid.y = end.y;
-        }
-        data.start.push_back(start);
-        data.end.push_back(mid);
-        data.start.push_back(mid);
-        data.end.push_back(end);
-    }
-    assert(data.start.size() == data.end.size());
-    return data;
-}
-
-//convert Line vector into Points_Array
-static Points_Array convert_format(const vector<Point> &points,
-                                   const vector<Line> &lines) {
-    Points_Array data;
-    for (vector<Line>::const_iterator i = lines.begin(); i != lines.end();
-         ++i) {
-        Point start, end;
-        start = points[i->start()];
-        end = points[i->end()];
-        data.start.push_back(start);
-        data.end.push_back(end);
-    }
-    assert(data.start.size() == data.end.size());
-    return data;
-}
-
-//compute the sum by adding all the intervals together
 static int compute_sum(vector<Record::Interval> &intervals) {
     assert(intervals.size() > 0);
     std::sort(&intervals[0], &intervals[0] + intervals.size(), compare_Interval);
