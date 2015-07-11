@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
-#include "DataFormat.h"
+#include "Line.h"
 
 
 namespace Overlap {

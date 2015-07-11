@@ -22,22 +22,14 @@ public:
 
         Dist(const Point *point1, const Point *point2);
 
-        ~Dist();
+        int dist() const { return m_dist; }
 
-        double dist() const { return m_dist; }
-
-        bool operator < (const Dist &_LS);
-
-        //Compare "this" and _LS in nondecreasing lexicographic order
-        //and return true if this is prior to _LS
-        friend std::ostream &operator << (std::ostream &out, const Dist &l); //Output the information of LS
+        bool operator < (const Dist &op);
 
     private:
-        double m_dist;
+        int m_dist;
         int m_dist_x, m_dist_y;
     };
-
-    virtual ~MST();
 
 
     const std::vector<Point> &points() const { return m_vertexs; }

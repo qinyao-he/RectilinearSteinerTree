@@ -8,11 +8,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cmath>
+#include <cstdlib>
 
-
-
-MST::~MST() { }
 
 void MST::mst() {
     m_lines.clear();
@@ -62,28 +59,13 @@ void MST::set_rst(RST *rst) {
 // Dist
 
 MST::Dist::Dist(const Point *point1, const Point *point2) {
-    m_dist = pow(point1->x - point2->x, 2) + pow(point1->y - point2->y, 2);
+    m_dist = std::abs(point1->x - point2->x) + std::abs(point1->y - point2->y);
     m_dist_x = -std::abs(point1->y - point2->y);
-    m_dist_y = -((point1->x >= point2->x) ? point1->x : point2->x);
+    m_dist_y = -std::max(point1->x, point2->x);
 }
 
-MST::Dist::~Dist() { };
 
-bool MST::Dist::operator < (const Dist &_LS) {
-    if (this->m_dist < _LS.m_dist) return true;
-    if (this->m_dist == _LS.m_dist) {
-        if (this->m_dist_x < _LS.m_dist_x
-            || (this->m_dist == _LS.m_dist) && (this->m_dist_x == _LS.m_dist_x) && (this->m_dist_y < _LS.m_dist_y))
-            return true;
-    }
-    else {
-        if ((this->m_dist == _LS.m_dist) && (this->m_dist_x == _LS.m_dist_x) && (this->m_dist_y < _LS.m_dist_y))
-            return true;
-    }
-    return false;
-}
-
-std::ostream& operator<<(std::ostream& out, const MST::Dist & l) {
-    out << l.m_dist << ' ' << l.m_dist_y << ' ' << l.m_dist_x << std::endl;
-    return out;
+bool MST::Dist::operator < (const Dist &op) {
+    return (m_dist < op.m_dist) || (m_dist ==op.m_dist && m_dist_x < op.m_dist_x)
+            || (m_dist == op.m_dist && m_dist_x == op.m_dist_x && m_dist_y < op.m_dist_y);
 }
