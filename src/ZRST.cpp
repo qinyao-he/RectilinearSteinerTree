@@ -94,25 +94,24 @@ void ZRST::solve() {
     vector<vector<layout> > subProb(vector<vector<layout> >(points().size(),
                                                             vector<layout>()));
     //Enumerate all layouts
-    for (vector<Line_Z>::iterator it = m_lines.begin();
-         it != m_lines.end(); ++it) {
-        int minx = min(point(it->start()).x, point(it->end()).x),
-                maxx = max(point(it->start()).x, point(it->end()).x),
-                miny = min(point(it->start()).y, point(it->end()).y),
-                maxy = max(point(it->start()).y, point(it->end()).y);
-        int minxid = lower_bound(x_grids.begin(), x_grids.end(), minx) - x_grids.begin(),
-                maxxid = lower_bound(x_grids.begin(), x_grids.end(), maxx) - x_grids.begin(),
-                minyid = lower_bound(y_grids.begin(), y_grids.end(), miny) - y_grids.begin(),
-                maxyid = lower_bound(y_grids.begin(), y_grids.end(), maxy) - y_grids.begin();
-        for (int i = minxid; i <= maxxid; i++) {
-            subProb[it->end()].push_back(Point(x_grids[i], point(it->start()).y));
+    for (const auto& line : m_lines) {
+        int min_x = min(point(line.start()).x, point(line.end()).x),
+                max_x = max(point(line.start()).x, point(line.end()).x),
+                min_y = min(point(line.start()).y, point(line.end()).y),
+                max_y = max(point(line.start()).y, point(line.end()).y);
+        int min_x_id = lower_bound(x_grids.begin(), x_grids.end(), min_x) - x_grids.begin(),
+                max_x_id = lower_bound(x_grids.begin(), x_grids.end(), max_x) - x_grids.begin(),
+                min_y_id = lower_bound(y_grids.begin(), y_grids.end(), min_y) - y_grids.begin(),
+                max_y_id = lower_bound(y_grids.begin(), y_grids.end(), max_y) - y_grids.begin();
+        for (int i = min_x_id; i <= max_x_id; i++) {
+            subProb[line.end()].push_back(Point(x_grids[i], point(line.start()).y));
         }
-        for (int i = minyid; i <= maxyid; i++) {
-            subProb[it->end()].push_back(Point(point(it->start()).x, y_grids[i]));
+        for (int i = min_y_id; i <= max_y_id; i++) {
+            subProb[line.end()].push_back(Point(point(line.start()).x, y_grids[i]));
         }
     }
     //Caculate from leaves to root
-    vector<size_t> stack(6);
+    vector<size_t> stack(6); // at most 6 child
     for (vector<Line>::const_reverse_iterator it = mst.lines().rbegin();
          it != mst.lines().rend(); ++it) {
         for (vector<layout>::iterator lit = subProb[it->end()].begin();
