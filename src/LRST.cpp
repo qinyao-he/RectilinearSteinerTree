@@ -70,7 +70,7 @@ int LRST::find_root() {
     return -1;
 }
 
-void LRST::build_tree(int father) {
+void LRST::build_tree(size_t father) {
     int child;
     intree[father] = true;
     for (const auto& line : m_lines) {

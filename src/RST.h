@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Line.h"
-#include "Overlap.h"
 #include "MST.h"
 #include "LRST.h"
 #include "ZRST.h"

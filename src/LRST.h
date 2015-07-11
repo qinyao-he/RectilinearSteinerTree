@@ -60,7 +60,7 @@ private:
     std::vector<int> parent;
     std::vector<std::vector<int>> tree;
 
-    void build_tree(int parent);
+    void build_tree(size_t parent);
 
     std::vector<int> x_coord;
     std::vector<int> y_coord;

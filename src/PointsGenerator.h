@@ -15,7 +15,7 @@ public:
 
     virtual ~PointsGenerator() { }
 
-    void print_points_to_file(const std::string &filename, int num, int max_range);
+    void print_points_to_file(const std::string &filename, size_t num, int max_range);
 
     std::vector<Point> generate_points_from_file(const std::string &filename);
 

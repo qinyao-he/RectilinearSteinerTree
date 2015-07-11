@@ -20,9 +20,9 @@ public:
         out << "E " << start() << ' ' << end() << std::endl;
     }
 
-    int start() const { return start_; }
+    size_t start() const { return start_; }
 
-    int end() const { return end_; }
+    size_t end() const { return end_; }
 
 private:
     size_t start_;

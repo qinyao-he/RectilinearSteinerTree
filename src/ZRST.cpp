@@ -23,8 +23,8 @@ using std::vector;
 //node and get the best one.layout::subAns and layout::bestLay should be
 //filled after this procedure.
 void ZRST::dfs(int root, int father, int stat, layout &lay,
-               const vector<Line_Z> &lines, vector<vector<layout> > &subProb,
-               const vector<int>& head, vector<int>& stack) {
+               const vector<Line_Z> &lines, vector<vector<layout>> &subProb,
+               const vector<int>& head, vector<size_t>& stack) {
     using Overlap::overlap;
     //current node is a leaf
     if (head[root] == head[root + 1]) {
@@ -112,7 +112,7 @@ void ZRST::solve() {
         }
     }
     //Caculate from leaves to root
-    vector<int> stack(6);
+    vector<size_t> stack(6);
     for (vector<Line>::const_reverse_iterator it = mst.lines().rbegin();
          it != mst.lines().rend(); ++it) {
         for (vector<layout>::iterator lit = subProb[it->end()].begin();

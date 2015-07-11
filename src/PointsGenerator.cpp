@@ -14,7 +14,7 @@
 #include "RST.h"
 #include "common.h"
 
-void PointsGenerator::print_points_to_file(const std::string &filename, int num = NUM, int max_range = MAX_RANGE) {
+void PointsGenerator::print_points_to_file(const std::string &filename, size_t num = NUM, int max_range = MAX_RANGE) {
     std::set<Point> points;
     std::ofstream fout(filename);
     std::mt19937 rand_generator;

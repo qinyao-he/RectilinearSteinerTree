@@ -43,7 +43,7 @@ private:
     //filled after this procedure.
     void dfs(int root, int father, int stat, ZRST::layout &lay,
              const vector<Line_Z> &lines, vector<vector<layout> > &subProb,
-             const vector<int>& head, vector<int>& stack);
+             const vector<int>& head, vector<size_t>& stack);
 
 public:
     //accessor for smst.m_vertexs
