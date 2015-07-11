@@ -7,6 +7,11 @@
 
 #include <limits>
 
+enum Strategy {
+    LRST = 1,
+    ZRST = 2
+};
+
 const int INF = INT_MAX;
 
 const int NUM = 500;
