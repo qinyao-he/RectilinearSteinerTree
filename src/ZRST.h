@@ -43,11 +43,11 @@ private:
 
     vector<int> head;
 
-    void get_ans(int root, const layout &lay,
-                 const vector<vector<layout> >& layouts);
+    vector<vector<layout> > layouts;
 
-    void dfs(int root, int father, int stat, layout &lay,
-             vector<vector<layout> > &layouts, vector<size_t>& stack);
+    void get_ans(int root, const layout &lay);
+
+    void dfs(int root, int father, int stat, layout &lay, vector<size_t>& stack);
 
 public:
     const vector<Point> &points() const {

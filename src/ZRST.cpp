@@ -19,8 +19,7 @@ using std::unique;
 using std::vector;
 
 
-void ZRST::dfs(int root, int father, int stat, layout &lay,
-               vector<vector<layout>> &layouts, vector<size_t>& stack) {
+void ZRST::dfs(int root, int father, int stat, layout &lay, vector<size_t>& stack) {
     using Overlap::overlap;
     if (head[root] == head[root + 1]) {
         lay.sub_ans = 0;
@@ -43,7 +42,7 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
         }
     } else {
         for (size_t i = 0; (stack[id] = i) < layouts[son].size(); i++) {
-            dfs(root, father, stat + 1, lay, layouts, stack);
+            dfs(root, father, stat + 1, lay, stack);
         }
     }
 }
@@ -104,7 +103,7 @@ void ZRST::solve() {
 
     discretize_data();
 
-    vector<vector<layout> > layouts(points().size(), vector<layout>());
+    layouts.resize(points().size());
 
     for (const auto& line : m_lines) {
         int min_x = min(point(line.start()).x, point(line.end()).x),
@@ -126,21 +125,19 @@ void ZRST::solve() {
     vector<size_t> stack(6); // at most 6 child
     for (auto it = mst.lines().rbegin(); it != mst.lines().rend(); ++it) {
         for (auto lit = layouts[it->end()].begin(); lit != layouts[it->end()].end(); ++lit) {
-            dfs(it->end(), parent[it->end()], head[it->end()], *lit, layouts, stack);
+            dfs(it->end(), parent[it->end()], head[it->end()], *lit, stack);
         }
     }
     layouts[0].push_back(point(0));
-    dfs(0, 0, head[0], layouts[0][0], layouts, stack);
-    get_ans(0, layouts[0][0], layouts);
+    dfs(0, 0, head[0], layouts[0][0], stack);
+    get_ans(0, layouts[0][0]);
 }
 
-void ZRST::get_ans(int root, const layout &lay,
-                   const vector<vector<layout> >& layouts) {
+void ZRST::get_ans(int root, const layout &lay) {
     for (int i = head[root]; i < head[root + 1]; i++) {
         m_lines[i].mid_point =
                 layouts[line(i).end()][lay.best_lay[i - head[root]]].mid_point;
-        get_ans(line(i).end(), layouts[line(i).end()][lay.best_lay[i - head[root]]],
-                layouts);
+        get_ans(line(i).end(), layouts[line(i).end()][lay.best_lay[i - head[root]]]);
     }
 }
 
