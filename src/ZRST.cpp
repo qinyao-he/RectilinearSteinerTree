@@ -20,7 +20,7 @@ using std::vector;
 
 
 void ZRST::dfs(int root, int father, int stat, layout &lay,
-               vector<vector<layout>> &subProb, vector<size_t>& stack) {
+               vector<vector<layout>> &layouts, vector<size_t>& stack) {
     using Overlap::overlap;
     if (head[root] == head[root + 1]) {
         lay.sub_ans = 0;
@@ -32,8 +32,8 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
         int ans = 0;
         vector<Line_Z> overLap;
         for (int i = 0; i < id; i++) {
-            ans += subProb[son = m_lines[head[root] + i].end()][stack[i]].sub_ans;
-            overLap.push_back(Line_Z(root, son, subProb[son][stack[i]].mid_point));
+            ans += layouts[son = m_lines[head[root] + i].end()][stack[i]].sub_ans;
+            overLap.push_back(Line_Z(root, son, layouts[son][stack[i]].mid_point));
         }
         overLap.push_back(Line_Z(father, root, lay.mid_point));
         ans += overlap(points(), overLap) - point(root).distance(point(father));
@@ -42,8 +42,8 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
             copy(stack.begin(), stack.begin() + id, lay.best_lay);
         }
     } else {
-        for (size_t i = 0; (stack[id] = i) < subProb[son].size(); i++) {
-            dfs(root, father, stat + 1, lay, subProb, stack);
+        for (size_t i = 0; (stack[id] = i) < layouts[son].size(); i++) {
+            dfs(root, father, stat + 1, lay, layouts, stack);
         }
     }
 }
@@ -104,7 +104,7 @@ void ZRST::solve() {
 
     discretize_data();
 
-    vector<vector<layout> > subProb(vector<vector<layout> >(points().size(),
+    vector<vector<layout> > layouts(vector<vector<layout> >(points().size(),
                                                             vector<layout>()));
 
     for (const auto& line : m_lines) {
@@ -117,31 +117,31 @@ void ZRST::solve() {
                 min_y_id = lower_bound(y_coord.begin(), y_coord.end(), min_y) - y_coord.begin(),
                 max_y_id = lower_bound(y_coord.begin(), y_coord.end(), max_y) - y_coord.begin();
         for (int i = min_x_id; i <= max_x_id; i++) {
-            subProb[line.end()].push_back(Point(x_coord[i], point(line.start()).y));
+            layouts[line.end()].push_back(Point(x_coord[i], point(line.start()).y));
         }
         for (int i = min_y_id; i <= max_y_id; i++) {
-            subProb[line.end()].push_back(Point(point(line.start()).x, y_coord[i]));
+            layouts[line.end()].push_back(Point(point(line.start()).x, y_coord[i]));
         }
     }
 
     vector<size_t> stack(6); // at most 6 child
     for (auto it = mst.lines().rbegin(); it != mst.lines().rend(); ++it) {
-        for (auto lit = subProb[it->end()].begin(); lit != subProb[it->end()].end(); ++lit) {
-            dfs(it->end(), parent[it->end()], head[it->end()], *lit, subProb, stack);
+        for (auto lit = layouts[it->end()].begin(); lit != layouts[it->end()].end(); ++lit) {
+            dfs(it->end(), parent[it->end()], head[it->end()], *lit, layouts, stack);
         }
     }
-    subProb[0].push_back(point(0));
-    dfs(0, 0, head[0], subProb[0][0], subProb, stack);
-    get_ans(0, subProb[0][0], subProb);
+    layouts[0].push_back(point(0));
+    dfs(0, 0, head[0], layouts[0][0], layouts, stack);
+    get_ans(0, layouts[0][0], layouts);
 }
 
 void ZRST::get_ans(int root, const layout &lay,
-                   const vector<vector<layout> > subProb) {
+                   const vector<vector<layout> >& layouts) {
     for (int i = head[root]; i < head[root + 1]; i++) {
         m_lines[i].mid_point =
-                subProb[line(i).end()][lay.best_lay[i - head[root]]].mid_point;
-        get_ans(line(i).end(), subProb[line(i).end()][lay.best_lay[i - head[root]]],
-                subProb);
+                layouts[line(i).end()][lay.best_lay[i - head[root]]].mid_point;
+        get_ans(line(i).end(), layouts[line(i).end()][lay.best_lay[i - head[root]]],
+                layouts);
     }
 }
 

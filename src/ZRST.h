@@ -44,10 +44,10 @@ private:
     vector<int> head;
 
     void get_ans(int root, const layout &lay,
-                 const vector<vector<layout> > subProb);
+                 const vector<vector<layout> >& layouts);
 
     void dfs(int root, int father, int stat, layout &lay,
-             vector<vector<layout> > &subProb, vector<size_t>& stack);
+             vector<vector<layout> > &layouts, vector<size_t>& stack);
 
 public:
     const vector<Point> &points() const {

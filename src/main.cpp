@@ -8,7 +8,7 @@
 int main(int argc, char const *argv[]) {
     const int n = NUM;
     RST* rst = new RST;
-    rst->changeStrategy(1);
+    rst->changeStrategy(2);
     PointsGenerator* p = new PointsGenerator;
     std::string filename = "../test/data_0.txt";
 //    p->print_points_to_file(filename, NUM, MAX_RANGE);
