@@ -7,6 +7,7 @@
 
 #include <cstdio>
 #include <vector>
+#include <map>
 #include "Line.h"
 #include "MST.h"
 
@@ -26,7 +27,18 @@ private:
     };
 
     MST mst;
+    vector<Point> m_points;
     vector<Line_Z> m_lines;
+
+    std::vector<int> x_coord;
+    std::vector<int> y_coord;
+
+    void discretize_data();
+
+    std::vector<Point> discr_points;
+
+    std::map<Point, int> hori_lines;
+    std::map<Point, int> verti_lines;
 
     void get_ans(int root, const layout &lay,
                  const vector<vector<layout> > subProb,

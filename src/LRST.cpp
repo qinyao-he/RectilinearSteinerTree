@@ -30,7 +30,7 @@ void LRST::solve() {
     root = find_root();
     build_tree(root);
     assert(tree[root].size() == 1);
-    descretize_data();
+    discretize_data();
     find_layout();
     get_result();
     to_vector();
@@ -91,7 +91,7 @@ void LRST::build_tree(size_t father) {
     }
 }
 
-void LRST::descretize_data() {
+void LRST::discretize_data() {
     x_coord.resize(0);
     y_coord.resize(0);
     std::map<int, int> x_coord_map, y_coord_map;

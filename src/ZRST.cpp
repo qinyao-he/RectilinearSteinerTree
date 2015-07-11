@@ -49,8 +49,40 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
     }
 }
 
+void ZRST::discretize_data() {
+    x_coord.resize(0);
+    y_coord.resize(0);
+    std::map<int, int> x_coord_map, y_coord_map;
+    for (const auto& point : m_points) {
+        int x = point.x, y = point.y;
+        x_coord_map[x] = 0;
+        y_coord_map[y] = 0;
+    }
+    for (const auto& x : x_coord_map) {
+        x_coord_map[x.first] = x_coord.size();
+        x_coord.push_back(x.first);
+    }
+    for (const auto& y : y_coord_map) {
+        y_coord_map[y.first] = y_coord.size();
+        y_coord.push_back(y.first);
+    }
+    for (const auto& point : m_points) {
+        int x = point.x, y = point.y;
+        int disp_x = x_coord_map[x];
+        int disp_y = y_coord_map[y];
+        discr_points.push_back(Point(disp_x, disp_y));
+    }
+    for (size_t i = 0; i < x_coord_map.size(); i++) {
+        for (size_t j = 0; j < y_coord_map.size(); j++) {
+            hori_lines.insert(std::pair<Point, int>(Point(i, j), 0));
+            verti_lines.insert(std::pair<Point, int>(Point(i, j), 0));
+        }
+    }
+}
+
 void ZRST::solve() {
     mst.mst();
+    m_points = mst.points();
     for (const auto& line : mst.lines()) {
         m_lines.push_back(Line_Z(line.start(), line.end(), Point()));
     }
@@ -66,21 +98,13 @@ void ZRST::solve() {
     }
 
     vector<int> parent(points().size());
-    vector<int> x_grids(points().size()), y_grids(points().size());
     for (size_t i = 0; i < m_lines.size(); i++) {
         parent[m_lines[i].end()] = m_lines[i].start();
     }
     parent[0] = -1;
-    for (size_t i = 0; i < points().size(); i++) {
-        x_grids[i] = point(i).x;
-        y_grids[i] = point(i).y;
-    }
-    sort(x_grids.begin(), x_grids.end());
-    sort(y_grids.begin(), y_grids.end());
-    auto x_f = unique(x_grids.begin(), x_grids.end());
-    auto y_f = unique(y_grids.begin(), y_grids.end());
-    x_grids.erase(x_f, x_grids.end());
-    y_grids.erase(y_f, y_grids.end());
+
+    discretize_data();
+
     vector<vector<layout> > subProb(vector<vector<layout> >(points().size(),
                                                             vector<layout>()));
 
@@ -89,15 +113,15 @@ void ZRST::solve() {
                 max_x = max(point(line.start()).x, point(line.end()).x),
                 min_y = min(point(line.start()).y, point(line.end()).y),
                 max_y = max(point(line.start()).y, point(line.end()).y);
-        int min_x_id = lower_bound(x_grids.begin(), x_grids.end(), min_x) - x_grids.begin(),
-                max_x_id = lower_bound(x_grids.begin(), x_grids.end(), max_x) - x_grids.begin(),
-                min_y_id = lower_bound(y_grids.begin(), y_grids.end(), min_y) - y_grids.begin(),
-                max_y_id = lower_bound(y_grids.begin(), y_grids.end(), max_y) - y_grids.begin();
+        int min_x_id = lower_bound(x_coord.begin(), x_coord.end(), min_x) - x_coord.begin(),
+                max_x_id = lower_bound(x_coord.begin(), x_coord.end(), max_x) - x_coord.begin(),
+                min_y_id = lower_bound(y_coord.begin(), y_coord.end(), min_y) - y_coord.begin(),
+                max_y_id = lower_bound(y_coord.begin(), y_coord.end(), max_y) - y_coord.begin();
         for (int i = min_x_id; i <= max_x_id; i++) {
-            subProb[line.end()].push_back(Point(x_grids[i], point(line.start()).y));
+            subProb[line.end()].push_back(Point(x_coord[i], point(line.start()).y));
         }
         for (int i = min_y_id; i <= max_y_id; i++) {
-            subProb[line.end()].push_back(Point(point(line.start()).x, y_grids[i]));
+            subProb[line.end()].push_back(Point(point(line.start()).x, y_coord[i]));
         }
     }
 

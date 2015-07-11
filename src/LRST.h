@@ -65,7 +65,7 @@ private:
     std::vector<int> x_coord;
     std::vector<int> y_coord;
 
-    void descretize_data();
+    void discretize_data();
 
     std::vector<Point> discr_points;
 
