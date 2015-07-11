@@ -23,7 +23,7 @@ class RST;
 //Line's data format for MST
 class Line {
 public:
-    Line(const int start = -1, const int end = -1) : start_(start), end_(end) { }
+    Line(const size_t start = -1, const size_t end = -1) : start_(start), end_(end) { }
 
     //initalize points vector
     virtual void print(std::ostream &out) const {
@@ -36,13 +36,13 @@ public:
     int end() const { return end_; }
 
     //Setters
-    int &start_set() { return start_; }
+    size_t &start_set() { return start_; }
 
-    int &end_set() { return end_; }
+    size_t &end_set() { return end_; }
 
 private:
-    int start_;
-    int end_;
+    size_t start_;
+    size_t end_;
 };
 
 //Line's data format for L-MST

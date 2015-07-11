@@ -98,7 +98,7 @@ std::vector<Point> PointsGenerator::fromFile(const std::string& filename) {
 std::vector<Point> PointsGenerator::fromRST(RST *rst) {
     BinaryTree binaryTree;
 
-    for (int i = 0; i < rst->v_op.size(); i++) {
+    for (size_t i = 0; i < rst->v_op.size(); i++) {
         int x, y;
         x = rst->v_op[i].x, y = rst->v_op[i].y;
 

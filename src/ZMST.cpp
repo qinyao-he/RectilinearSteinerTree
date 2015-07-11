@@ -63,7 +63,7 @@ void ZMST::dfs(int root, int father, int stat, layout &lay,
             copy(stack, stack + id, lay.bestLay);
         }
     } else {
-        for (int i = 0; (stack[id] = i) < subProb[son].size(); i++) {
+        for (size_t i = 0; (stack[id] = i) < subProb[son].size(); i++) {
             dfs(root, father, stat + 1, lay, lines, subProb, head, stack);
         }
     }
@@ -73,14 +73,14 @@ void ZMST::exec() {
     smst.mst();
     //reserve before mass data pushing back
     lines_.reserve(smst.lines().size());
-    for (int i = 0; i < smst.lines().size(); i++)
+    for (size_t i = 0; i < smst.lines().size(); i++)
         lines_.push_back(Line_Z(smst.lines()[i].start(), smst.lines()[i].end(),
                                 Point()));
     //lines is a sorted line vector, while smst.m_lines is in father-child order
     sort(lines_.begin(), lines_.end(), lineCmp);
     //make the positive direction table
     int *head = new int[points().size() + 1];
-    for (int i = 0, j = 0; i <= points().size() && j <= lines().size();) {
+    for (size_t i = 0, j = 0; i <= points().size() && j <= lines().size();) {
         if (j == lines().size() || line(j).start() != i - 1)
             head[i++] = j;
         else
@@ -91,11 +91,11 @@ void ZMST::exec() {
             *xgrids = new int[points().size()],
             *ygrids = new int[points().size()],
             xgridsize, ygridsize;
-    for (int i = 0; i < lines_.size(); i++) {
+    for (size_t i = 0; i < lines_.size(); i++) {
         father[lines_[i].end()] = lines_[i].start();
     }
     father[0] = -1;
-    for (int i = 0; i < points().size(); i++) {
+    for (size_t i = 0; i < points().size(); i++) {
         xgrids[i] = point(i).x;
         ygrids[i] = point(i).y;
     }
@@ -162,7 +162,7 @@ void ZMST::setPointsFromRST(RST *rst) {
 
 void ZMST::getResult(RST *rst) {
     rst->v_seg.clear();
-    for (int i = 0; i < lines_.size(); i++) {
+    for (size_t i = 0; i < lines_.size(); i++) {
         Point A(smst.points()[lines_[i].start()].x, smst.points()[lines_[i].start()].y);
         Point B(smst.points()[lines_[i].end()].x, smst.points()[lines_[i].end()].y);
         Point C(lines_[i].mid_point().x, lines_[i].mid_point().y);

@@ -111,7 +111,6 @@ void LMST::DesperseData() {
         if (x_coord.find(x) == x_coord.end()) x_coord.insert(x);
         if (y_coord.find(y) == y_coord.end()) y_coord.insert(y);
     }
-    int xlen = x_coord.size(), ylen = y_coord.size();
     for (st_iter it = x_coord.begin(); it != x_coord.end(); ++it) {
         x_coord_.push_back((*it));
     }
@@ -182,7 +181,7 @@ void LMST::Paint(Point start, Point finish, bool direction, int color, int &valu
 }
 
 void LMST::Draw(int parent, std::vector<int> &kids,
-                int num,
+                size_t num,
                 int &value, int &result, int choice, int &decision) {
     if (num == kids.size()) {
         if (result < value) {
@@ -269,7 +268,7 @@ void LMST::setPointsFromRST(RST *rst) {
 void LMST::getResult(RST *rst) {
     //qDebug("LMST end");
     rst->v_seg.clear();
-    for (int i = 0; i < result_.size(); i++) {
+    for (size_t i = 0; i < result_.size(); i++) {
         Point A(points_[result_[i].start()].x, points_[result_[i].start()].y);
         Point B(points_[result_[i].end()].x, points_[result_[i].end()].y);
         Point C;

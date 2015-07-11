@@ -148,7 +148,7 @@ private:
 
     // Draw is the function that implements the dynamic programming process of
     // finding psi_l_ and psi_u_ by enumerating the kids of point label.
-    void Draw(int parent, std::vector<int> & /*kids*/, int /*num*/,
+    void Draw(int parent, std::vector<int> & /*kids*/, size_t /*num*/,
               int & /*value*/, int & /*result*/, int /*choice*/, int & /*decision*/);
 
     // "Paint" the L-shaped line from point start to point finish through

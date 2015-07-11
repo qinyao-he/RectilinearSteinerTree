@@ -6,6 +6,7 @@
 class RSTStrategy {
 public:
     RSTStrategy();
+    virtual ~RSTStrategy() {}
 
     virtual int solveRST(RST *rst) = 0;
 };

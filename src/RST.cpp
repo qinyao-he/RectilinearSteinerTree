@@ -23,7 +23,7 @@ RST::~RST() {
 
 void RST::loadPoints(std::vector<Point> &gen_p) {
     v_op.clear();
-    for (int i = 0; i < gen_p.size(); i++)
+    for (size_t i = 0; i < gen_p.size(); i++)
         v_op.push_back(gen_p[i]);
     isNew_ = 1;
 

@@ -26,12 +26,12 @@ void MST::mst() {
     vector<int> parent(n, 0);
     vector<bool> in_tree(n, false);
 
-    int t = 0;
+    size_t t = 0;
     dist[t] = Dist(m_vertexs[t], m_vertexs[t]);
 
     for (size_t k = 0; k < n - 1; k++) {
         in_tree[t] = true;
-        for (int j = 0; j < n; j++)
+        for (size_t j = 0; j < n; j++)
             if (j != t) {
                 Dist tmp(m_vertexs[t], m_vertexs[j]);
                 if (tmp < dist[j]) {
@@ -40,7 +40,7 @@ void MST::mst() {
                 }
             }
         Dist min = dist_max;
-        int min_v;
+        size_t min_v;
         for (size_t i = 0; i < n; i++) {
             if (dist[i] < min && !in_tree[i]) {
                 min = dist[i];

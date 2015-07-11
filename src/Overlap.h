@@ -14,13 +14,11 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <cstdlib>
 #include "Line.h"
 
 
 namespace Overlap {
-
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 using std::vector;
 
@@ -95,19 +93,6 @@ static int overlap(const vector<Point> &points, const vector<Line_L> &lines) {
     return sum;
 }
 
-//This funtion's aim is to compute the sum in given Line vector
-static double overlap(const vector<Point> &points, const vector<Line> &lines) {
-    double sum = 0;
-    Points_Array data = convert_format(points, lines);
-    for (int i = 0; i < (int) data.start.size(); ++i) {
-        double delta_x = data.start[i].x - data.end[i].x;
-        double delta_y = data.start[i].y - data.end[i].y;
-        sum += sqrt(delta_x * delta_x + delta_y * delta_y);
-    }
-    std::cout << "sum2 = " << sum << std::endl;
-    return sum;
-}
-
 //convert Line_Z vector into Points_Array
 static Points_Array convert_format(const vector<Point> &points,
                                    const vector<Line_Z> &lines_z) {
@@ -168,7 +153,7 @@ static Points_Array convert_format(const vector<Point> &points,
     return data;
 }
 
-//convert Line vector into Points_Array  
+//convert Line vector into Points_Array
 static Points_Array convert_format(const vector<Point> &points,
                                    const vector<Line> &lines) {
     Points_Array data;
@@ -247,7 +232,7 @@ static void add_line(const Point &a, const Point &b, vector<Record> &records) {
 }
 
 inline void add_interval(const int a, const int b, Record &record) {
-    Record::Interval interval(MIN(a, b), MAX(a, b));
+    Record::Interval interval(std::min(a, b), std::max(a, b));
     record.intervals.push_back(interval);
 }
 
