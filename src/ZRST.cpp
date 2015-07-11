@@ -20,20 +20,19 @@ using std::vector;
 
 
 void ZRST::dfs(int root, int father, int stat, layout &lay,
-               const vector<Line_Z> &lines, vector<vector<layout>> &subProb,
-               const vector<int>& head, vector<size_t>& stack) {
+               vector<vector<layout>> &subProb, vector<size_t>& stack) {
     using Overlap::overlap;
     if (head[root] == head[root + 1]) {
         lay.sub_ans = 0;
         return;
     }
-    int id = stat - head[root], son = lines[stat].end();
+    int id = stat - head[root], son = m_lines[stat].end();
     assert(id < 6);
     if (stat == head[root + 1]) {
         int ans = 0;
         vector<Line_Z> overLap;
         for (int i = 0; i < id; i++) {
-            ans += subProb[son = lines[head[root] + i].end()][stack[i]].sub_ans;
+            ans += subProb[son = m_lines[head[root] + i].end()][stack[i]].sub_ans;
             overLap.push_back(Line_Z(root, son, subProb[son][stack[i]].mid_point));
         }
         overLap.push_back(Line_Z(father, root, lay.mid_point));
@@ -44,7 +43,7 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
         }
     } else {
         for (size_t i = 0; (stack[id] = i) < subProb[son].size(); i++) {
-            dfs(root, father, stat + 1, lay, lines, subProb, head, stack);
+            dfs(root, father, stat + 1, lay, subProb, stack);
         }
     }
 }
@@ -89,7 +88,7 @@ void ZRST::solve() {
     sort(m_lines.begin(), m_lines.end(), [](const Line_Z &a, const Line_Z &b) {
         return a.start() < b.start();
     });
-    vector<int> head(points().size() + 1);
+    head.resize(points().size() + 1);
     for (size_t i = 0, j = 0; i <= points().size() && j <= lines().size();) {
         if (j == lines().size() || line(j).start() != i - 1)
             head[i++] = j;
@@ -128,23 +127,21 @@ void ZRST::solve() {
     vector<size_t> stack(6); // at most 6 child
     for (auto it = mst.lines().rbegin(); it != mst.lines().rend(); ++it) {
         for (auto lit = subProb[it->end()].begin(); lit != subProb[it->end()].end(); ++lit) {
-            dfs(it->end(), parent[it->end()], head[it->end()], *lit, lines(),
-                subProb, head, stack);
+            dfs(it->end(), parent[it->end()], head[it->end()], *lit, subProb, stack);
         }
     }
     subProb[0].push_back(point(0));
-    dfs(0, 0, head[0], subProb[0][0], lines(), subProb, head, stack);
-    get_ans(0, subProb[0][0], subProb, head);
+    dfs(0, 0, head[0], subProb[0][0], subProb, stack);
+    get_ans(0, subProb[0][0], subProb);
 }
 
 void ZRST::get_ans(int root, const layout &lay,
-                   const vector<vector<layout> > subProb,
-                   const vector<int> &head) {
+                   const vector<vector<layout> > subProb) {
     for (int i = head[root]; i < head[root + 1]; i++) {
         m_lines[i].mid_point =
                 subProb[line(i).end()][lay.best_lay[i - head[root]]].mid_point;
         get_ans(line(i).end(), subProb[line(i).end()][lay.best_lay[i - head[root]]],
-                subProb, head);
+                subProb);
     }
 }
 

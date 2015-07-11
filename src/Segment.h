@@ -11,6 +11,7 @@
 class Segment {
 public:
     Segment(Point u, Point v) : u(u), v(v) { }
+    int length() const { return u.distance(v); }
     Point u, v;
 };
 

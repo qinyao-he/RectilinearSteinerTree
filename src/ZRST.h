@@ -40,13 +40,14 @@ private:
     std::map<Point, int> hori_lines;
     std::map<Point, int> verti_lines;
 
-    void get_ans(int root, const layout &lay,
-                 const vector<vector<layout> > subProb,
-                 const vector<int> &head);
 
-    void dfs(int root, int father, int stat, ZRST::layout &lay,
-             const vector<Line_Z> &lines, vector<vector<layout> > &subProb,
-             const vector<int>& head, vector<size_t>& stack);
+    vector<int> head;
+
+    void get_ans(int root, const layout &lay,
+                 const vector<vector<layout> > subProb);
+
+    void dfs(int root, int father, int stat, layout &lay,
+             vector<vector<layout> > &subProb, vector<size_t>& stack);
 
 public:
     const vector<Point> &points() const {

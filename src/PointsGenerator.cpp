@@ -17,7 +17,7 @@
 void PointsGenerator::print_points_to_file(const std::string &filename, size_t num = NUM, int max_range = MAX_RANGE) {
     std::set<Point> points;
     std::ofstream fout(filename);
-    std::mt19937 rand_generator;
+    std::mt19937 rand_generator(time(0));
     std::uniform_int_distribution<int> uniform(0, max_range);
 
     while (points.size() < num) {
