@@ -8,4 +8,6 @@
 const int NUM = 100;
 const int MAX_RANGE = 1000;
 
+const int SCREEN_SIZE = 500;
+
 #endif //RECTILINEARSTEINERTREE_COMMON_H
