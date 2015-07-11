@@ -18,7 +18,3 @@ int ZRSTStrategy::solveRST(RST *rst) {
     zmst.getResult(rst);
     return 1;
 }
-//
-//int ImpASMST::solveRST(RST *rst) {
-//
-//}

@@ -68,8 +68,7 @@ static int overlap(const vector<Point> &points, const vector<Line_Z> &lines) {
 static PointsArray convert_format(const vector<Point> &points,
                                    const vector<Line_Z> &lines_z) {
     PointsArray data;
-    for (vector<Line_Z>::const_iterator i = lines_z.begin(); i != lines_z.end();
-         ++i) {
+    for (vector<Line_Z>::const_iterator i = lines_z.begin(); i != lines_z.end(); ++i) {
         Point start, end, mid1, mid2;
         start = points[i->start()];
         end = points[i->end()];
@@ -85,7 +84,7 @@ static PointsArray convert_format(const vector<Point> &points,
             mid1.print(std::cout);
             mid2.print(std::cout);
             end.print(std::cout);
-            std::cout << "There are something wrong in the data\n";
+            std::cerr << "DATA ERROR";
             abort();
         }
         data.start.push_back(start);
