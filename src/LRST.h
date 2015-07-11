@@ -132,10 +132,10 @@ private:
     std::map<Point, int> hori_line;
     std::map<Point, int> verti_line;
 
-    // draw is the function that implements the dynamic programming process of
+    // dfs is the function that implements the dynamic programming process of
     // finding psi_l and psi_u by enumerating the kids of point label.
-    void draw(int parent, std::vector<int> & /*kids*/, size_t /*num*/,
-              int & /*value*/, int & /*result*/, int /*choice*/, int & /*decision*/);
+    void dfs(int parent, std::vector<int> & /*kids*/, size_t /*num*/,
+             int & /*value*/, int & /*result*/, int /*choice*/, int & /*decision*/);
 
     // "paint" the L-shaped line from point start to point finish through
     // point middle, on the hash map board_

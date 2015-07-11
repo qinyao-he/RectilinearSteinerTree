@@ -167,7 +167,7 @@ void LRST::paint(Point start, Point finish, bool direction, int color, int &valu
     if (!direction) {
         x3 = x1, y3 = y2;
         int u = std::min(y1, y3), v = std::max(y1, y3);
-        // draw from (x1, u) to (x1, v)
+        // dfs from (x1, u) to (x1, v)
         paintVerti(u, v, x1, color, value);
         u = std::min(x2, x3), v = std::max(x2, x3);
         paintHori(u, v, y2, color, value);
@@ -182,9 +182,9 @@ void LRST::paint(Point start, Point finish, bool direction, int color, int &valu
     return;
 }
 
-void LRST::draw(int parent, std::vector<int> &kids,
-                size_t num,
-                int &value, int &result, int choice, int &decision) {
+void LRST::dfs(int parent, std::vector<int> &kids,
+               size_t num,
+               int &value, int &result, int choice, int &decision) {
     if (num == kids.size()) {
         if (result < value) {
             result = value;
@@ -195,16 +195,16 @@ void LRST::draw(int parent, std::vector<int> &kids,
     // if the shape is L
     paint(disp_points[parent], disp_points[kids[num]], false, 1, value);
     value += psi_l[kids[num]];
-    draw(parent, kids, num + 1, value, result, choice, decision);
+    dfs(parent, kids, num + 1, value, result, choice, decision);
     value -= psi_l[kids[num]];
     paint(disp_points[parent], disp_points[kids[num]], false, -1, value);
+
     // if the shape is U
     paint(disp_points[parent], disp_points[kids[num]], true, 1, value);
     value += psi_u[kids[num]];
-    draw(parent, kids, num + 1, value, result, choice + (1 << num), decision);
+    dfs(parent, kids, num + 1, value, result, choice + (1 << num), decision);
     value -= psi_u[kids[num]];
     paint(disp_points[parent], disp_points[kids[num]], true, -1, value);
-    return;
 }
 
 int LRST::findPsiL(int label) {
@@ -222,7 +222,7 @@ int LRST::findPsiL(int label) {
     }
     int value = 0, choice = 0;
     paint(disp_points[parent[label]], disp_points[label], false, 1, value);
-    draw(label, kids, 0, value, psi_l[label], choice, choice_l[label]);
+    dfs(label, kids, 0, value, psi_l[label], choice, choice_l[label]);
     paint(disp_points[parent[label]], disp_points[label], false, -1, value);
     return psi_l[label];
 }
@@ -241,7 +241,7 @@ int LRST::findPsiU(int label) {
     }
     int value = 0, choice = 0;
     paint(disp_points[parent[label]], disp_points[label], true, 1, value);
-    draw(label, kids, 0, value, psi_u[label], choice, choice_u[label]);
+    dfs(label, kids, 0, value, psi_u[label], choice, choice_u[label]);
     paint(disp_points[parent[label]], disp_points[label], true, -1, value);
     return psi_u[label];
 }
