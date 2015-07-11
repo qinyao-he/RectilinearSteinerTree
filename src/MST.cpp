@@ -54,7 +54,7 @@ void MST::mst() {
 
 void MST::set_rst(RST *rst) {
     m_vertexs.clear();
-    m_vertexs = pointsGenerator.fromRST(rst);
+    m_vertexs = pointsGenerator.generate_points_from_RST(rst);
 }
 
 

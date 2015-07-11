@@ -14,7 +14,7 @@
 #include "RST.h"
 #include "common.h"
 
-void PointsGenerator::printPointsToFile(const std::string& filename, int num = NUM, int max_range = MAX_RANGE) {
+void PointsGenerator::print_points_to_file(const std::string &filename, int num = NUM, int max_range = MAX_RANGE) {
     std::set<Point> points;
     std::ofstream fout(filename);
     std::mt19937 rand_generator;
@@ -31,7 +31,7 @@ void PointsGenerator::printPointsToFile(const std::string& filename, int num = N
     fout.close();
 }
 
-std::vector<Point> PointsGenerator::fromFile(const std::string& filename) {
+std::vector<Point> PointsGenerator::generate_points_from_file(const std::string &filename) {
     std::ifstream fin(filename);
     std::vector<Point> points;
     while (fin) {
@@ -46,7 +46,7 @@ std::vector<Point> PointsGenerator::fromFile(const std::string& filename) {
     return points;
 }
 
-std::vector<Point> PointsGenerator::fromRST(RST *rst) {
+std::vector<Point> PointsGenerator::generate_points_from_RST(RST *rst) {
     std::vector<Point> points;
     for (size_t i = 0; i < rst->v_op.size(); i++) {
         int x = rst->v_op[i].x;
