@@ -126,14 +126,14 @@ void LRST::paint_hori(int u, int v, int y, int color, int &value) {
     assert(u <= v && (color * color == 1));
     for (int i = u; i < v; i++) {
         int hori = x_coord[i + 1] - x_coord[i];
-        assert(hori_lines[Point(i, y)] + color >= 0);
-        if (color > 0 && hori_lines[Point(i, y)] > 0) {
+        assert(hori_lines.find(Point(i, y))->second + color >= 0);
+        if (color > 0 && hori_lines.find(Point(i, y))->second > 0) {
             value += hori;
         }
-        if (color < 0 && hori_lines[Point(i, y)] > 0) {
+        hori_lines[Point(i, y)] += color;
+        if (color < 0 && hori_lines.find(Point(i, y))->second > 0) {
             value -= hori;
         }
-        hori_lines[Point(i, y)] += color;
     }
 }
 
@@ -141,14 +141,14 @@ void LRST::paint_verti(int u, int v, int x, int color, int &value) {
     assert(u <= v && (color * color == 1));
     for (int i = u; i < v; i++) {
         int verti = y_coord[i + 1] - y_coord[i];
-        assert(verti_lines[Point(x, i)] + color >= 0);
-        if (color > 0 && verti_lines[Point(x, i)] > 0) {
+        assert(verti_lines.find(Point(x, i))->second + color >= 0);
+        if (color > 0 && verti_lines.find(Point(x, i))->second > 0) {
             value += verti;
         }
-        if (color < 0 && verti_lines[Point(x, i)] > 0) {
+        verti_lines[Point(x, i)] += color;
+        if (color < 0 && verti_lines.find(Point(x, i))->second > 0) {
             value -= verti;
         }
-        verti_lines[Point(x, i)] += color;
     }
 }
 
