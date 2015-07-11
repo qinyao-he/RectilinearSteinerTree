@@ -4,7 +4,7 @@
 RSTStrategy::RSTStrategy() { }
 
 int LMSTStrategy::solveRST(RST *rst) {
-    LMST lmst;
+    LRST lmst;
     lmst.setPointsFromRST(rst);
     lmst.solve();
     lmst.getResult(rst);
@@ -12,7 +12,7 @@ int LMSTStrategy::solveRST(RST *rst) {
 }
 
 int ZMSTStrategy::solveRST(RST *rst) {
-    ZMST zmst;
+    ZRST zmst;
     zmst.setPointsFromRST(rst);
     zmst.solve();
     zmst.getResult(rst);

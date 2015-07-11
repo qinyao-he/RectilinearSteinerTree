@@ -1,6 +1,6 @@
 /// Project name: New Algorithms for the Rectilinear Steiner Tree Problem
-/// Sub-project: LMST
-//  LMST.h
+/// Sub-project: LRST
+//  LRST.h
 
 #ifndef __RectilinearSteinerTree__LMST__
 #define __RectilinearSteinerTree__LMST__
@@ -12,14 +12,14 @@
 #include <map>
 
 
-class LMST {
+class LRST {
 public:
-    LMST();
+    LRST();
 
     ////////////////////////////////////////////////////////////////////////////
     // Interfaces.
     ////////////////////////////////////////////////////////////////////////////
-    // Initializes Data. In fact it calculates the psi_l, psi_u, and the LMST.
+    // Initializes Data. In fact it calculates the psi_l, psi_u, and the LRST.
     void solve();
 
     // Returns the result.
@@ -97,7 +97,7 @@ private:
     int root;
 
     // Find the root of the tree, any leaf is ok.
-    int findRoot();
+    int find_root();
 
     // A temporary vector used to set the tree.
     std::vector<bool> has_set;
@@ -157,7 +157,7 @@ private:
     // to read.
     ////////////////////////////////////////////////////////////////////////////
 
-    // The Line_L vector which stores the result of the LMST.
+    // The Line_L vector which stores the result of the LRST.
     std::vector<Line_L> m_result;
 
     // Output the results into the vector m_result

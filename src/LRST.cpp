@@ -1,17 +1,17 @@
 /// Project name: New Algorithms for the Rectilinear Steiner Tree Problem
-/// Sub-project: LMST  
-//  LMST.cpp
+/// Sub-project: LRST
+//  LRST.cpp
 //  
 //
 //  Created by Tony Soong on 2013/6/9
 //  Modified by Tony Soong on 2013/6/9
 //  Copyright (c) Tony Soong(Jiaming Song) All rights reserved.
 //
-//	This file implements the functions of class LMST, namely the sections.
+//	This file implements the functions of class LRST, namely the sections.
 //  TODO(Tony): I need more tests, and I need to make the code more beautiful.
 //
 
-#include "LMST.h"
+#include "LRST.h"
 #include <list>
 #include <algorithm>
 #include <cassert>
@@ -23,7 +23,7 @@
 const int INF = 0x7FFFFFFF;
 
 
-void LMST::solve() {
+void LRST::solve() {
     std::vector<int> ivec;
     mst.mst();
     m_points = mst.points();
@@ -36,7 +36,7 @@ void LMST::solve() {
     psi_u.resize(m_points.size(), -1);
     choice_l.resize(m_points.size(), -1);
     choice_u.resize(m_points.size(), -1);
-    root = findRoot();
+    root = find_root();
     build_tree(root);
     assert(tree[root].size() == 1);
     desperse_data();
@@ -45,10 +45,10 @@ void LMST::solve() {
     outputResultToVector();
 }
 
-LMST::LMST() : mst(), psi_result(INF) { }
+LRST::LRST() : mst(), psi_result(INF) { }
 
 
-int LMST::get_result() {
+int LRST::get_result() {
     if (psi_result != INF) return psi_result;
     int result = 0;
     for (unsigned i = 0; i < m_lines.size(); i++) {
@@ -59,12 +59,12 @@ int LMST::get_result() {
     return psi_result;
 }
 
-void LMST::findPsi() {
+void LRST::findPsi() {
     findPsiL(tree[root][0]);
     findPsiU(tree[root][0]);
 }
 
-int LMST::findRoot() {
+int LRST::find_root() {
     std::vector<int> degree(m_points.size(), 0);
     for (const auto& line : m_lines) {
         degree[line.start()]++;
@@ -79,7 +79,7 @@ int LMST::findRoot() {
     return -1;
 }
 
-void LMST::build_tree(int father) {
+void LRST::build_tree(int father) {
     int child;
     has_set[father] = true;
     for (const auto& line : m_lines) {
@@ -99,7 +99,7 @@ void LMST::build_tree(int father) {
     }
 }
 
-void LMST::desperse_data() {
+void LRST::desperse_data() {
     x_coord.resize(0);
     y_coord.resize(0);
     std::map<int, int> x_coord_map, y_coord_map;
@@ -130,7 +130,7 @@ void LMST::desperse_data() {
     }
 }
 
-void LMST::paintHori(int u, int v, int y, int color, int &value) {
+void LRST::paintHori(int u, int v, int y, int color, int &value) {
     assert(u <= v && (color * color == 1));
     for (int i = u; i < v; i++) {
         int hori = x_coord[i + 1] - x_coord[i];
@@ -143,7 +143,7 @@ void LMST::paintHori(int u, int v, int y, int color, int &value) {
     }
 }
 
-void LMST::paintVerti(int u, int v, int x, int color, int &value) {
+void LRST::paintVerti(int u, int v, int x, int color, int &value) {
     assert(u <= v && (color * color == 1));
     for (int i = u; i < v; i++) {
         int verti = y_coord[i + 1] - y_coord[i];
@@ -156,7 +156,7 @@ void LMST::paintVerti(int u, int v, int x, int color, int &value) {
     }
 }
 
-void LMST::paint(Point start, Point finish, bool direction, int color, int &value) {
+void LRST::paint(Point start, Point finish, bool direction, int color, int &value) {
     int x1 = start.x, y1 = start.y;
     int x2 = finish.x, y2 = finish.y;
     int x3, y3;
@@ -178,7 +178,7 @@ void LMST::paint(Point start, Point finish, bool direction, int color, int &valu
     return;
 }
 
-void LMST::draw(int parent, std::vector<int> &kids,
+void LRST::draw(int parent, std::vector<int> &kids,
                 size_t num,
                 int &value, int &result, int choice, int &decision) {
     if (num == kids.size()) {
@@ -203,7 +203,7 @@ void LMST::draw(int parent, std::vector<int> &kids,
     return;
 }
 
-int LMST::findPsiL(int label) {
+int LRST::findPsiL(int label) {
     if (psi_l[label] != -1)
         return psi_l[label];
     if (tree[label].empty()) {
@@ -222,7 +222,7 @@ int LMST::findPsiL(int label) {
     return psi_l[label];
 }
 
-int LMST::findPsiU(int label) {
+int LRST::findPsiU(int label) {
     if (psi_u[label] != -1)
         return psi_u[label];
     if (tree[label].empty()) {
@@ -241,14 +241,14 @@ int LMST::findPsiU(int label) {
     return psi_u[label];
 }
 
-void LMST::outputResultToVector() {
+void LRST::outputResultToVector() {
     if (m_result.size() != 0) return;
     int child_ = tree[root][0];
     bool choice = psi_l[child_] < psi_u[child_];
     outputResultToVectorOfLabel(child_, choice);
 }
 
-void LMST::outputResultToVectorOfLabel(int label, bool choice) {
+void LRST::outputResultToVectorOfLabel(int label, bool choice) {
     m_result.push_back(Line_L(parent[label], label, choice));
     std::vector<int> &kids = tree[label];
     int choice_record_ = choice ? choice_u[label] : choice_l[label];
@@ -258,13 +258,13 @@ void LMST::outputResultToVectorOfLabel(int label, bool choice) {
     }
 }
 
-void LMST::setPointsFromRST(RST *rst) {
-    //qDebug("set data for LMST");
+void LRST::setPointsFromRST(RST *rst) {
+    //qDebug("set data for LRST");
     mst.set_rst(rst);
 }
 
-void LMST::getResult(RST *rst) {
-    //qDebug("LMST end");
+void LRST::getResult(RST *rst) {
+    //qDebug("LRST end");
     rst->v_seg.clear();
     for (size_t i = 0; i < m_result.size(); i++) {
         Point A(m_points[m_result[i].start()].x, m_points[m_result[i].start()].y);
@@ -277,7 +277,7 @@ void LMST::getResult(RST *rst) {
         rst->v_seg.push_back(Segment(A, C));
         rst->v_seg.push_back(Segment(C, B));
     }
-    //qDebug("LMST with %d seg", rst->v_seg.size());
+    //qDebug("LRST with %d seg", rst->v_seg.size());
 }
 
 

@@ -2,7 +2,7 @@
 // Created by ZhuangTianYi on 15/7/10.
 //
 
-#include "ZMST.h"
+#include "ZRST.h"
 #include "RST.h"
 #include "Overlap.h"
 
@@ -36,7 +36,7 @@ inline int dist(const Point &a, const Point &b) {
 //SubProcedure for solve(). It would examine all the layouts for the sons of a
 //node and get the best one.layout::subAns and layout::bestLay should be
 //filled after this procedure.
-void ZMST::dfs(int root, int father, int stat, layout &lay,
+void ZRST::dfs(int root, int father, int stat, layout &lay,
                const vector<Line_Z> &lines, vector<vector<layout> > &subProb,
                const int *head, int *stack) {
     using Overlap::overlap;
@@ -69,7 +69,7 @@ void ZMST::dfs(int root, int father, int stat, layout &lay,
     }
 }
 
-void ZMST::solve() {
+void ZRST::solve() {
     smst.mst();
     //reserve before mass data pushing back
     lines_.reserve(smst.lines().size());
@@ -144,7 +144,7 @@ void ZMST::solve() {
 
 //SubProcedure for solve(). It would examine the subProb and look for
 //best solutions for each node.
-void ZMST::getAns(int root, const layout &lay,
+void ZRST::getAns(int root, const layout &lay,
                   const vector<vector<layout> > subProb,
                   const int *head) {
     for (int i = head[root]; i < head[root + 1]; i++) {
@@ -155,12 +155,12 @@ void ZMST::getAns(int root, const layout &lay,
     }
 }
 
-void ZMST::setPointsFromRST(RST *rst) {
+void ZRST::setPointsFromRST(RST *rst) {
     lines_.clear();
     smst.set_rst(rst);
 }
 
-void ZMST::getResult(RST *rst) {
+void ZRST::getResult(RST *rst) {
     rst->v_seg.clear();
     for (size_t i = 0; i < lines_.size(); i++) {
         Point A(smst.points()[lines_[i].start()].x, smst.points()[lines_[i].start()].y);

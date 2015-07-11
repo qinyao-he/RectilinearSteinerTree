@@ -13,7 +13,7 @@
 
 using std::vector;
 
-class ZMST {
+class ZRST {
 private:
     //A structure storing all possible midpoints and the best answer under the
     //restrict. The best layout would be in bestLay[] after solve() is called.
@@ -41,7 +41,7 @@ private:
     //SubProcedure for solve(). It would examine all the layouts for the sons of a
     //node and get the best one.layout::subAns and layout::bestLay should be
     //filled after this procedure.
-    void dfs(int root, int father, int stat, ZMST::layout &lay,
+    void dfs(int root, int father, int stat, ZRST::layout &lay,
              const vector<Line_Z> &lines, vector<vector<layout> > &subProb,
              const int *head, int *stack);
 
