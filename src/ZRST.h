@@ -16,21 +16,21 @@ using std::vector;
 class ZRST {
 private:
     struct layout {
-        Point midPoint;
-        int subAns;
-        int bestLay[8];
+        Point mid_point;
+        int sub_ans;
+        int best_lay[8];
 
-        layout() : subAns((~0u) >> 1) { }
+        layout() : sub_ans((~0u) >> 1) { }
 
-        layout(const Point &mid_) : midPoint(mid_), subAns((~0u) >> 1) { }
+        layout(const Point &mid_) : mid_point(mid_), sub_ans((~0u) >> 1) { }
     };
 
     MST mst;
     vector<Line_Z> m_lines;
 
-    void getAns(int root, const layout &lay,
-                const vector<vector<layout> > subProb,
-                const vector<int>& head);
+    void get_ans(int root, const layout &lay,
+                 const vector<vector<layout> > subProb,
+                 const vector<int> &head);
 
     void dfs(int root, int father, int stat, ZRST::layout &lay,
              const vector<Line_Z> &lines, vector<vector<layout> > &subProb,
