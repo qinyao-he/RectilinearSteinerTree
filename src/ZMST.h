@@ -16,7 +16,7 @@ using std::vector;
 class ZMST {
 private:
     //A structure storing all possible midpoints and the best answer under the
-    //restrict. The best layout would be in bestLay[] after exec() is called.
+    //restrict. The best layout would be in bestLay[] after solve() is called.
     struct layout {
         Point midPoint;
         int subAns;
@@ -32,13 +32,13 @@ private:
     //The result would be in m_lines. The edges is sorted by start().
     vector<Line_Z> lines_;
 
-    //SubProcedure for exec(). It would examine the subProb and look for
+    //SubProcedure for solve(). It would examine the subProb and look for
     //best solutions for each node.
     void getAns(int root, const layout &lay,
                 const vector<vector<layout> > subProb,
                 const int *head);
 
-    //SubProcedure for exec(). It would examine all the layouts for the sons of a
+    //SubProcedure for solve(). It would examine all the layouts for the sons of a
     //node and get the best one.layout::subAns and layout::bestLay should be
     //filled after this procedure.
     void dfs(int root, int father, int stat, ZMST::layout &lay,
@@ -67,7 +67,7 @@ public:
     }
 
     //The main algorithm
-    void exec();
+    void solve();
 
 public:
     void setPointsFromRST(RST *rst);

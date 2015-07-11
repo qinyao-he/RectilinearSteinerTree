@@ -33,7 +33,7 @@ inline int dist(const Point &a, const Point &b) {
     return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
-//SubProcedure for exec(). It would examine all the layouts for the sons of a
+//SubProcedure for solve(). It would examine all the layouts for the sons of a
 //node and get the best one.layout::subAns and layout::bestLay should be
 //filled after this procedure.
 void ZMST::dfs(int root, int father, int stat, layout &lay,
@@ -69,14 +69,14 @@ void ZMST::dfs(int root, int father, int stat, layout &lay,
     }
 }
 
-void ZMST::exec() {
+void ZMST::solve() {
     smst.mst();
     //reserve before mass data pushing back
     lines_.reserve(smst.lines().size());
     for (size_t i = 0; i < smst.lines().size(); i++)
         lines_.push_back(Line_Z(smst.lines()[i].start(), smst.lines()[i].end(),
                                 Point()));
-    //lines is a sorted line vector, while smst.m_lines is in father-child order
+    //lines is a sorted line vector, while smst.m_lines is in parent-child order
     sort(lines_.begin(), lines_.end(), lineCmp);
     //make the positive direction table
     int *head = new int[points().size() + 1];
@@ -142,7 +142,7 @@ void ZMST::exec() {
     delete[] father;
 }
 
-//SubProcedure for exec(). It would examine the subProb and look for
+//SubProcedure for solve(). It would examine the subProb and look for
 //best solutions for each node.
 void ZMST::getAns(int root, const layout &lay,
                   const vector<vector<layout> > subProb,
