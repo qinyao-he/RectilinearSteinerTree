@@ -9,7 +9,7 @@
 
 const int INF = INT_MAX;
 
-const int NUM = 100;
+const int NUM = 500;
 const int MAX_RANGE = 500;
 
 const int SCREEN_SIZE = 500;

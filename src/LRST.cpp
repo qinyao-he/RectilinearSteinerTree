@@ -71,7 +71,7 @@ int LRST::find_root() {
 }
 
 void LRST::build_tree(size_t father) {
-    int child;
+    size_t child;
     intree[father] = true;
     for (const auto& line : m_lines) {
         if (line.start() != father && line.end() != father) {
