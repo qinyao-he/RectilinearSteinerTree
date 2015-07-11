@@ -5,8 +5,12 @@
 #ifndef RECTILINEARSTEINERTREE_COMMON_H
 #define RECTILINEARSTEINERTREE_COMMON_H
 
+#include <limits>
+
+const int INF = INT_MAX;
+
 const int NUM = 100;
-const int MAX_RANGE = 1000;
+const int MAX_RANGE = 500;
 
 const int SCREEN_SIZE = 500;
 

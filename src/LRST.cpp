@@ -11,8 +11,7 @@
 #include <set>
 
 #include "RST.h"
-
-const int INF = 0x7FFFFFFF;
+#include "common.h"
 
 
 void LRST::solve() {

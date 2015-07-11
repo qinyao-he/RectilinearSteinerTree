@@ -1,13 +1,9 @@
 //
-//  overlap.h
-//  Overlap
-//
-//  Created by Yue Shichao on 6/6/13.
-//  Copyright (c) 2013 Yue Shichao. All rights reserved.
+// Created by ZhuangTianYi on 15/7/10.
 //
 
-#ifndef Overlap_overlap_h
-#define Overlap_overlap_h
+#ifndef RECTILINEARSTEINERTREE_OVERLAP_H
+#define RECTILINEARSTEINERTREE_OVERLAP_H
 
 #include <vector>
 #include <iostream>
@@ -22,13 +18,11 @@ namespace Overlap {
 
 using std::vector;
 
-//two vectors store the start point and the end point of all lines
-struct Points_Array {
+struct PointsArray {
     vector<Point> start;
     vector<Point> end;
 };
 
-//this struct is used for computing overlap by storing all the intervals
 struct Record {
     enum record_kind {
         VERTICAL = 0,
@@ -53,15 +47,14 @@ static void add_line(const Point &a, const Point &b, vector<Record> &records);
 
 static int compute_sum(vector<Record::Interval> &intervals);
 
-inline bool compare_Interval(const Record::Interval &a, const Record::Interval &b);
+inline bool compare_interval(const Record::Interval &a, const Record::Interval &b);
 
-static Points_Array convert_format(const vector<Point> &points,
+static PointsArray convert_format(const vector<Point> &points,
                                    const vector<Line_Z> &lines_z);
 
-//This funtion's aim is to compute the sum in given Line_Z vector
 static int overlap(const vector<Point> &points, const vector<Line_Z> &lines) {
     vector<Record> records;
-    Points_Array data = convert_format(points, lines);
+    PointsArray data = convert_format(points, lines);
     for (int i = 0; i < (int) data.start.size(); ++i) {
         add_line(data.start[i], data.end[i], records);
     }
@@ -72,9 +65,9 @@ static int overlap(const vector<Point> &points, const vector<Line_Z> &lines) {
     return sum;
 }
 
-static Points_Array convert_format(const vector<Point> &points,
+static PointsArray convert_format(const vector<Point> &points,
                                    const vector<Line_Z> &lines_z) {
-    Points_Array data;
+    PointsArray data;
     for (vector<Line_Z>::const_iterator i = lines_z.begin(); i != lines_z.end();
          ++i) {
         Point start, end, mid1, mid2;
@@ -108,7 +101,7 @@ static Points_Array convert_format(const vector<Point> &points,
 
 static int compute_sum(vector<Record::Interval> &intervals) {
     assert(intervals.size() > 0);
-    std::sort(&intervals[0], &intervals[0] + intervals.size(), compare_Interval);
+    std::sort(&intervals[0], &intervals[0] + intervals.size(), compare_interval);
     int head = intervals[0].start;
     int tail = intervals[0].end;
     int sum = 0;
@@ -172,7 +165,7 @@ inline void add_interval(const int a, const int b, Record &record) {
     record.intervals.push_back(interval);
 }
 
-inline bool compare_Interval(const Record::Interval &a, const Record::Interval &b) {
+inline bool compare_interval(const Record::Interval &a, const Record::Interval &b) {
     if (a.start < b.start) {
         return true;
     } else if (a.start == b.start) {
@@ -185,6 +178,4 @@ inline bool compare_Interval(const Record::Interval &a, const Record::Interval &
 
 }   //namespace Overlap
 
-#undef MAX
-#undef MIN
 #endif
