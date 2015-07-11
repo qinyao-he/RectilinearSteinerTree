@@ -1,6 +1,7 @@
 .idea/
 build/
 bin/
+test/*
 CMakeCache.txt
 CMakeFiles/
 Makefile
