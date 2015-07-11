@@ -11,12 +11,12 @@ public:
     virtual int solveRST(RST *rst) = 0;
 };
 
-class LMSTStrategy : public RSTStrategy {
+class LRSTStrategy : public RSTStrategy {
 public:
     int solveRST(RST *rst);
 };
 
-class ZMSTStrategy : public RSTStrategy {
+class ZRSTStrategy : public RSTStrategy {
 public:
     int solveRST(RST *rst);
 };

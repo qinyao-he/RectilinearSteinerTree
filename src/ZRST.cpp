@@ -24,7 +24,7 @@ using std::vector;
 //filled after this procedure.
 void ZRST::dfs(int root, int father, int stat, layout &lay,
                const vector<Line_Z> &lines, vector<vector<layout> > &subProb,
-               const vector<int>& head, int *stack) {
+               const vector<int>& head, vector<int>& stack) {
     using Overlap::overlap;
     //current node is a leaf
     if (head[root] == head[root + 1]) {
@@ -46,7 +46,7 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
         ans += overlap(points(), overLap) - point(root).distance(point(father));
         if (ans < lay.subAns) {
             lay.subAns = ans;
-            copy(stack, stack + id, lay.bestLay);
+            copy(stack.begin(), stack.begin() + id, lay.bestLay);
         }
     } else {
         for (size_t i = 0; (stack[id] = i) < subProb[son].size(); i++) {
@@ -112,7 +112,7 @@ void ZRST::solve() {
         }
     }
     //Caculate from leaves to root
-    int stack[6];
+    vector<int> stack(6);
     for (vector<Line>::const_reverse_iterator it = mst.lines().rbegin();
          it != mst.lines().rend(); ++it) {
         for (vector<layout>::iterator lit = subProb[it->end()].begin();

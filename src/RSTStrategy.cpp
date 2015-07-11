@@ -3,7 +3,7 @@
 
 RSTStrategy::RSTStrategy() { }
 
-int LMSTStrategy::solveRST(RST *rst) {
+int LRSTStrategy::solveRST(RST *rst) {
     LRST lmst;
     lmst.set_points(rst);
     lmst.solve();
@@ -11,7 +11,7 @@ int LMSTStrategy::solveRST(RST *rst) {
     return 1;
 }
 
-int ZMSTStrategy::solveRST(RST *rst) {
+int ZRSTStrategy::solveRST(RST *rst) {
     ZRST zmst;
     zmst.setPointsFromRST(rst);
     zmst.solve();
