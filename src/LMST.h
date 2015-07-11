@@ -40,16 +40,6 @@ public:
         return m_result;
     }
 
-    // A function object for comparing two Points. Since someone thinks that
-    // adding such comparison in the definition of Points is useless, I might
-    // as well use this way.
-    class IsLessThanForPoint {
-    public:
-        bool operator()(const Point &a, const Point &b) const {
-            return (a.x < b.x || (a.x == b.x && a.y < b.y));
-        }
-    };
-
 private:
     ////////////////////////////////////////////////////////////////////////////
     // Basic Utilities Section: Some basic functions and data.
@@ -78,7 +68,7 @@ private:
     ////////////////////////////////////////////////////////////////////////////
 
     // Find the Psi of all the edges.
-    void FindPsi();
+    void findPsi();
 
     // psi_l and psi_u are denoted just as the paper describes.
     // We use findPsiL and findPsiU to find the psi_l and psi_u,
@@ -117,7 +107,7 @@ private:
     std::vector<std::vector<int> > tree;
 
     // Organize the tree and save it as an adjacent table.
-    void organizeTree(int /*parent*/);
+    void build_tree(int /*parent*/);
 
     ////////////////////////////////////////////////////////////////////////////
     // Disperse Section:
@@ -131,7 +121,7 @@ private:
     std::vector<int> y_coord;
 
     // Desperse the coordinates.
-    void desperseData();
+    void desperse_data();
 
     // The x and y member disp_points_ and disp_lines_ represents the xth or
     // yth member of x_coord and y_coord
@@ -143,8 +133,8 @@ private:
     ////////////////////////////////////////////////////////////////////////////
 
     // Sets the lines for painting.
-    std::map<Point, int, LMST::IsLessThanForPoint> hori_line;
-    std::map<Point, int, LMST::IsLessThanForPoint> verti_line;
+    std::map<Point, int> hori_line;
+    std::map<Point, int> verti_line;
 
     // draw is the function that implements the dynamic programming process of
     // finding psi_l and psi_u by enumerating the kids of point label.

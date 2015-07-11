@@ -12,13 +12,8 @@
 //
 
 #include "LMST.h"
-#include <iostream>
-#include <vector>
 #include <list>
 #include <algorithm>
-#include <exception>
-#include <stdexcept>
-#include <cstdlib>
 #include <cassert>
 #include <fstream>
 #include <set>
@@ -42,10 +37,10 @@ void LMST::solve() {
     choice_l.resize(m_points.size(), -1);
     choice_u.resize(m_points.size(), -1);
     root = findRoot();
-    organizeTree(root);
+    build_tree(root);
     assert(tree[root].size() == 1);
-    desperseData();
-    FindPsi();
+    desperse_data();
+    findPsi();
     get_result();
     outputResultToVector();
 }
@@ -64,71 +59,75 @@ int LMST::get_result() {
     return psi_result;
 }
 
-void LMST::FindPsi() {
+void LMST::findPsi() {
     findPsiL(tree[root][0]);
     findPsiU(tree[root][0]);
 }
 
 int LMST::findRoot() {
-    std::vector<int> degree_(m_points.size(), 0);
-    typedef std::vector<Line>::iterator li_iter;
-    for (li_iter it = m_lines.begin(); it != m_lines.end(); ++it) {
-        degree_[(it->start())]++;
-        degree_[(it->end())]++;
+    std::vector<int> degree(m_points.size(), 0);
+    for (const auto& line : m_lines) {
+        degree[line.start()]++;
+        degree[line.end()]++;
     }
-    typedef std::vector<int>::iterator it_iter;
-    for (it_iter it = degree_.begin(); it != degree_.end(); ++it) {
+    for (auto it = degree.begin(); it != degree.end(); ++it) {
         if ((*it) == 1) {
-            return (it - degree_.begin());
+            return (it - degree.begin());
         }
     }
     assert(false);
+    return -1;
 }
 
-void LMST::organizeTree(int father) {
-    typedef std::vector<Line>::iterator li_iter;
-    int son;
+void LMST::build_tree(int father) {
+    int child;
     has_set[father] = true;
-    for (li_iter it = m_lines.begin(); it != m_lines.end(); ++it) {
-        if (it->start() != father && it->end() != father) continue;
-        if (it->start() == father) son = it->end();
-        else son = it->start();
-        if (has_set[son]) continue;
-        tree[father].push_back(son);
-        parent[son] = father;
-        organizeTree(son);
+    for (const auto& line : m_lines) {
+        if (line.start() != father && line.end() != father) {
+            continue;
+        }
+        if (line.start() == father) {
+            child = line.end();
+        } else {
+            child = line.start();
+        }
+        if (has_set[child]) {
+            continue;
+        }
+        tree[father].push_back(child);
+        build_tree(child);
     }
-    return;
 }
 
-void LMST::desperseData() {
-    typedef std::vector<Point>::iterator pt_iter;
-    typedef std::set<int>::iterator st_iter;
-    std::set<int> x_coord_set, y_coord_set;
-    for (pt_iter it = m_points.begin(); it != m_points.end(); ++it) {
-        int x = it->x, y = it->y;
-        if (x_coord_set.find(x) == x_coord_set.end()) x_coord_set.insert(x);
-        if (y_coord_set.find(y) == y_coord_set.end()) y_coord_set.insert(y);
+void LMST::desperse_data() {
+    x_coord.resize(0);
+    y_coord.resize(0);
+    std::map<int, int> x_coord_map, y_coord_map;
+    for (const auto& point : m_points) {
+        int x = point.x, y = point.y;
+        x_coord_map[x] = 0;
+        y_coord_map[y] = 0;
     }
-    for (st_iter it = x_coord_set.begin(); it != x_coord_set.end(); ++it) {
-        x_coord.push_back((*it));
+    for (const auto& x : x_coord_map) {
+        x_coord_map[x.first] = x_coord.size();
+        x_coord.push_back(x.first);
     }
-    for (st_iter it = y_coord_set.begin(); it != y_coord_set.end(); ++it) {
-        y_coord.push_back((*it));
+    for (const auto& y : y_coord_map) {
+        y_coord_map[y.first] = y_coord.size();
+        y_coord.push_back(y.first);
     }
-    for (pt_iter it = m_points.begin(); it != m_points.end(); ++it) {
-        int x = it->x, y = it->y;
-        int disp_x = find(x_coord.begin(), x_coord.end(), x) - x_coord.begin();
-        int disp_y = find(y_coord.begin(), y_coord.end(), y) - y_coord.begin();
+    for (const auto& point : m_points) {
+        int x = point.x, y = point.y;
+        int disp_x = x_coord_map[x];
+        int disp_y = y_coord_map[y];
         disp_points.push_back(Point(disp_x, disp_y));
     }
-    for (unsigned i = 0; i < x_coord_set.size(); i++) {
-        for (unsigned j = 0; j < y_coord_set.size(); j++) {
+    for (size_t i = 0; i < x_coord_map.size(); i++) {
+        for (size_t j = 0; j < y_coord_map.size(); j++) {
             hori_line.insert(std::pair<Point, int>(Point(i, j), 0));
             verti_line.insert(std::pair<Point, int>(Point(i, j), 0));
         }
     }
-    return;
 }
 
 void LMST::paintHori(int u, int v, int y, int color, int &value) {

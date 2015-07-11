@@ -15,7 +15,7 @@ struct Point {
         out << x << " " << y << std::endl;
     }
 
-    friend bool operator<(Point a, Point b) {
+    friend bool operator < (Point a, Point b) {
         return (a.x < b.x) || (a.x == b.x && a.y < b.y);
     }
 
