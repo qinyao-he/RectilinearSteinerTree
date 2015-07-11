@@ -18,9 +18,11 @@ public:
 
     class Dist {
     public:
-        Dist() { };
+        Dist() {}
 
-        Dist(const Point *point1, const Point *point2);
+        Dist(int dist, int x, int y) : m_dist(dist), m_dist_x(x), m_dist_y(y) { }
+
+        Dist(const Point& point1, const Point& point2);
 
         int dist() const { return m_dist; }
 

@@ -9,45 +9,47 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <vector>
+#include <limits>
+
+
+using std::vector;
 
 
 void MST::mst() {
     m_lines.clear();
 
-    Dist *const dist = new Dist[m_vertexs.size()];
-    int *const parent = new int[m_vertexs.size()];
+    const size_t n = m_vertexs.size();
 
-    for (int i = 1; i < m_vertexs.size(); i++) {
-        dist[i] = Dist(&m_vertexs[0], &m_vertexs[i]);
-        parent[i] = 0;
-    }
+    Dist dist_max(std::numeric_limits<int>::max(), 0, 0);
+    vector<Dist> dist(n, dist_max);
+    vector<int> parent(n, 0);
+    vector<bool> in_tree(n, false);
 
-    for (int i = 1; i < m_vertexs.size(); i++) {
-        Dist bestDist;
-        int bestChild = -1;
+    int t = 0;
+    dist[t] = Dist(m_vertexs[t], m_vertexs[t]);
 
-        for (int j = 1; j < m_vertexs.size(); j++) {
-            if ((dist[j].dist() != 0) && ((bestChild == -1) || (dist[j] < bestDist))) {
-                bestDist = dist[j];
-                bestChild = j;
-            }
-        }
-
-        m_lines.push_back(Line(parent[bestChild], bestChild));
-
-        for (int j = 1; j < m_vertexs.size(); j++) {
-            if (dist[j].dist() != 0) {
-                Dist tmpStatus(&m_vertexs[bestChild], &m_vertexs[j]);
-                if (tmpStatus < dist[j]) {
-                    dist[j] = tmpStatus;
-                    parent[j] = bestChild;
+    for (size_t k = 0; k < n - 1; k++) {
+        in_tree[t] = true;
+        for (int j = 0; j < n; j++)
+            if (j != t) {
+                Dist tmp(m_vertexs[t], m_vertexs[j]);
+                if (tmp < dist[j]) {
+                    dist[j] = tmp;
+                    parent[j] = t;
                 }
             }
+        Dist min = dist_max;
+        int min_v;
+        for (size_t i = 0; i < n; i++) {
+            if (dist[i] < min && !in_tree[i]) {
+                min = dist[i];
+                min_v = i;
+            }
         }
+        m_lines.push_back(Line(parent[t], t));
+        t = min_v;
     }
-
-    delete[] dist;
-    delete[] parent;
 }
 
 void MST::set_rst(RST *rst) {
@@ -58,10 +60,10 @@ void MST::set_rst(RST *rst) {
 
 // Dist
 
-MST::Dist::Dist(const Point *point1, const Point *point2) {
-    m_dist = std::abs(point1->x - point2->x) + std::abs(point1->y - point2->y);
-    m_dist_x = -std::abs(point1->y - point2->y);
-    m_dist_y = -std::max(point1->x, point2->x);
+MST::Dist::Dist(const Point& point1, const Point& point2) {
+    m_dist = std::abs(point1.x - point2.x) + std::abs(point1.y - point2.y);
+    m_dist_x = -std::abs(point1.y - point2.y);
+    m_dist_y = -std::max(point1.x, point2.x);
 }
 
 
