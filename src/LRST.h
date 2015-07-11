@@ -34,10 +34,6 @@ public:
     }
 
 private:
-    int dist(Point x, Point y) {
-        return std::abs(x.x - y.x) + std::abs(x.y - y.y);
-    }
-
     MST mst;
 
     std::vector<Point> m_points;
@@ -45,9 +41,9 @@ private:
 
     void findPsi();
 
-    std::vector<int> psi_l;
-    std::vector<int> psi_u;
-    int psi_result;
+    std::vector<int> layout_l;
+    std::vector<int> layout_u;
+    int layout_result;
 
     std::vector<int> choice_l;
     std::vector<int> choice_u;
@@ -60,21 +56,21 @@ private:
 
     int find_root();
 
-    std::vector<bool> has_set;
+    std::vector<bool> intree;
     std::vector<int> parent;
-    std::vector<std::vector<int> > tree;
+    std::vector<std::vector<int>> tree;
 
     void build_tree(int parent);
 
     std::vector<int> x_coord;
     std::vector<int> y_coord;
 
-    void desperse_data();
+    void descretize_data();
 
-    std::vector<Point> disp_points;
+    std::vector<Point> discr_points;
 
-    std::map<Point, int> hori_line;
-    std::map<Point, int> verti_line;
+    std::map<Point, int> hori_lines;
+    std::map<Point, int> verti_lines;
 
     void dfs(int parent, std::vector<int> & kids, size_t num,
              int & value, int & result, int choice, int & decision);
@@ -82,9 +78,9 @@ private:
     void paint(Point start, Point middle, bool direction,
                int color, int &value);
 
-    void paintHori(int u, int v, int y, int color, int &value);
+    void paint_hori(int u, int v, int y, int color, int &value);
 
-    void paintVerti(int u, int v, int x, int color, int &value);
+    void paint_verti(int u, int v, int x, int color, int &value);
 
     std::vector<Line_L> m_result;
 
