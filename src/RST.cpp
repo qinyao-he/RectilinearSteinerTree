@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <fstream>
 
-/* About RST */
 
 RST::RST() :
         isSolved_(0),
@@ -51,7 +50,6 @@ int RST::changeStrategy(int s_idx) {
             myStrategyIdx_ = 0;
         }
     }
-    // strategyChanged(s_idx);
     return myStrategyIdx_;
 }
 
