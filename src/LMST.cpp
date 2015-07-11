@@ -28,58 +28,58 @@
 const int INF = 0x7FFFFFFF;
 
 
-void LMST::init() {
+void LMST::solve() {
     std::vector<int> ivec;
-    smst_.mst();
-    points_ = smst_.points();
-    lines_ = smst_.lines();
-    assert(points_.size() > 1);
-    has_set_.resize(points_.size(), false);
-    tree_.resize(points_.size(), ivec);
-    father_.resize(points_.size(), -1);
-    psi_l_.resize(points_.size(), -1);
-    psi_u_.resize(points_.size(), -1);
-    choice_l_.resize(points_.size(), -1);
-    choice_u_.resize(points_.size(), -1);
+    mst.mst();
+    m_points = mst.points();
+    m_lines = mst.lines();
+    assert(m_points.size() > 1);
+    has_set.resize(m_points.size(), false);
+    tree.resize(m_points.size(), ivec);
+    parent.resize(m_points.size(), -1);
+    psi_l.resize(m_points.size(), -1);
+    psi_u.resize(m_points.size(), -1);
+    choice_l.resize(m_points.size(), -1);
+    choice_u.resize(m_points.size(), -1);
     FindRoot();
-    OrganizeTree(root_);
-    assert(tree_[root_].size() == 1);
+    OrganizeTree(root);
+    assert(tree[root].size() == 1);
     DesperseData();
     FindPsi();
-    Result();
-    OutputResultToVector();
+    get_result();
+    outputResultToVector();
 }
 
-LMST::LMST() : smst_(), psi_result_(INF) { }
+LMST::LMST() : mst(), psi_result(INF) { }
 
 
-int LMST::Result() {
-    if (psi_result_ != INF) return psi_result_;
+int LMST::get_result() {
+    if (psi_result != INF) return psi_result;
     int result = 0;
-    for (unsigned i = 0; i < lines_.size(); i++) {
-        result += dist(points_[lines_[i].start()], points_[lines_[i].end()]);
+    for (unsigned i = 0; i < m_lines.size(); i++) {
+        result += dist(m_points[m_lines[i].start()], m_points[m_lines[i].end()]);
     }
-    int diff = std::max(psi_l_[tree_[root_][0]], psi_u_[tree_[root_][0]]);
-    psi_result_ = result - diff;
-    return psi_result_;
+    int diff = std::max(psi_l[tree[root][0]], psi_u[tree[root][0]]);
+    psi_result = result - diff;
+    return psi_result;
 }
 
 void LMST::FindPsi() {
-    FindPsiL(tree_[root_][0]);
-    FindPsiU(tree_[root_][0]);
+    FindPsiL(tree[root][0]);
+    FindPsiU(tree[root][0]);
 }
 
 void LMST::FindRoot() {
-    std::vector<int> degree_(points_.size(), 0);
+    std::vector<int> degree_(m_points.size(), 0);
     typedef std::vector<Line>::iterator li_iter;
-    for (li_iter it = lines_.begin(); it != lines_.end(); ++it) {
+    for (li_iter it = m_lines.begin(); it != m_lines.end(); ++it) {
         degree_[(it->start())]++;
         degree_[(it->end())]++;
     }
     typedef std::vector<int>::iterator it_iter;
     for (it_iter it = degree_.begin(); it != degree_.end(); ++it) {
         if ((*it) == 1) {
-            root_ = (it - degree_.begin());
+            root = (it - degree_.begin());
             return;
         }
     }
@@ -89,14 +89,14 @@ void LMST::FindRoot() {
 void LMST::OrganizeTree(int father) {
     typedef std::vector<Line>::iterator li_iter;
     int son;
-    has_set_[father] = true;
-    for (li_iter it = lines_.begin(); it != lines_.end(); ++it) {
+    has_set[father] = true;
+    for (li_iter it = m_lines.begin(); it != m_lines.end(); ++it) {
         if (it->start() != father && it->end() != father) continue;
         if (it->start() == father) son = it->end();
         else son = it->start();
-        if (has_set_[son]) continue;
-        tree_[father].push_back(son);
-        father_[son] = father;
+        if (has_set[son]) continue;
+        tree[father].push_back(son);
+        father[son] = father;
         OrganizeTree(son);
     }
     return;
@@ -106,59 +106,59 @@ void LMST::DesperseData() {
     typedef std::vector<Point>::iterator pt_iter;
     typedef std::set<int>::iterator st_iter;
     std::set<int> x_coord, y_coord;
-    for (pt_iter it = points_.begin(); it != points_.end(); ++it) {
+    for (pt_iter it = m_points.begin(); it != m_points.end(); ++it) {
         int x = it->x, y = it->y;
         if (x_coord.find(x) == x_coord.end()) x_coord.insert(x);
         if (y_coord.find(y) == y_coord.end()) y_coord.insert(y);
     }
     for (st_iter it = x_coord.begin(); it != x_coord.end(); ++it) {
-        x_coord_.push_back((*it));
+        x_coord.push_back((*it));
     }
     for (st_iter it = y_coord.begin(); it != y_coord.end(); ++it) {
-        y_coord_.push_back((*it));
+        y_coord.push_back((*it));
     }
-    for (pt_iter it = points_.begin(); it != points_.end(); ++it) {
+    for (pt_iter it = m_points.begin(); it != m_points.end(); ++it) {
         int x = it->x, y = it->y;
-        int disp_x = find(x_coord_.begin(), x_coord_.end(), x) - x_coord_.begin();
-        int disp_y = find(y_coord_.begin(), y_coord_.end(), y) - y_coord_.begin();
-        disp_points_.push_back(Point(disp_x, disp_y));
+        int disp_x = find(x_coord.begin(), x_coord.end(), x) - x_coord.begin();
+        int disp_y = find(y_coord.begin(), y_coord.end(), y) - y_coord.begin();
+        disp_points.push_back(Point(disp_x, disp_y));
     }
-    for (unsigned i = 0; i < x_coord_.size(); i++) {
-        for (unsigned j = 0; j < y_coord_.size(); j++) {
-            hori_line_.insert(std::pair<Point, int>(Point(i, j), 0));
-            verti_line_.insert(std::pair<Point, int>(Point(i, j), 0));
+    for (unsigned i = 0; i < x_coord.size(); i++) {
+        for (unsigned j = 0; j < y_coord.size(); j++) {
+            hori_line.insert(std::pair<Point, int>(Point(i, j), 0));
+            verti_line.insert(std::pair<Point, int>(Point(i, j), 0));
         }
     }
     return;
 }
 
-void LMST::PaintHori(int u, int v, int y, int color, int &value) {
+void LMST::paintHori(int u, int v, int y, int color, int &value) {
     assert(u <= v && (color * color == 1));
     for (int i = u; i < v; i++) {
-        int hori = x_coord_[i + 1] - x_coord_[i];
-        assert(hori_line_.find(Point(i, y))->second + color >= 0);
-        if (color > 0 && hori_line_.find(Point(i, y))->second > 0)
+        int hori = x_coord[i + 1] - x_coord[i];
+        assert(hori_line.find(Point(i, y))->second + color >= 0);
+        if (color > 0 && hori_line.find(Point(i, y))->second > 0)
             value += hori;
-        hori_line_.find(Point(i, y))->second += color;
-        if (color < 0 && hori_line_.find(Point(i, y))->second > 0)
+        hori_line.find(Point(i, y))->second += color;
+        if (color < 0 && hori_line.find(Point(i, y))->second > 0)
             value -= hori;
     }
 }
 
-void LMST::PaintVerti(int u, int v, int x, int color, int &value) {
+void LMST::paintVerti(int u, int v, int x, int color, int &value) {
     assert(u <= v && (color * color == 1));
     for (int i = u; i < v; i++) {
-        int verti = y_coord_[i + 1] - y_coord_[i];
-        assert(verti_line_.find(Point(x, i))->second + color >= 0);
-        if (color > 0 && verti_line_.find(Point(x, i))->second > 0)
+        int verti = y_coord[i + 1] - y_coord[i];
+        assert(verti_line.find(Point(x, i))->second + color >= 0);
+        if (color > 0 && verti_line.find(Point(x, i))->second > 0)
             value += verti;
-        verti_line_.find(Point(x, i))->second += color;
-        if (color < 0 && verti_line_.find(Point(x, i))->second > 0)
+        verti_line.find(Point(x, i))->second += color;
+        if (color < 0 && verti_line.find(Point(x, i))->second > 0)
             value -= verti;
     }
 }
 
-void LMST::Paint(Point start, Point finish, bool direction, int color, int &value) {
+void LMST::paint(Point start, Point finish, bool direction, int color, int &value) {
     int x1 = start.x, y1 = start.y;
     int x2 = finish.x, y2 = finish.y;
     int x3, y3;
@@ -166,21 +166,21 @@ void LMST::Paint(Point start, Point finish, bool direction, int color, int &valu
         x3 = x1, y3 = y2;
         int u = std::min(y1, y3), v = std::max(y1, y3);
         // draw from (x1, u) to (x1, v)
-        PaintVerti(u, v, x1, color, value);
+        paintVerti(u, v, x1, color, value);
         u = std::min(x2, x3), v = std::max(x2, x3);
-        PaintHori(u, v, y2, color, value);
+        paintHori(u, v, y2, color, value);
     }
     else {
         x3 = x2, y3 = y1;
         int u = std::min(x1, x3), v = std::max(x1, x3);
-        PaintHori(u, v, y1, color, value);
+        paintHori(u, v, y1, color, value);
         u = std::min(y2, y3), v = std::max(y2, y3);
-        PaintVerti(u, v, x2, color, value);
+        paintVerti(u, v, x2, color, value);
     }
     return;
 }
 
-void LMST::Draw(int parent, std::vector<int> &kids,
+void LMST::draw(int parent, std::vector<int> &kids,
                 size_t num,
                 int &value, int &result, int choice, int &decision) {
     if (num == kids.size()) {
@@ -191,88 +191,88 @@ void LMST::Draw(int parent, std::vector<int> &kids,
         return;
     }
     // if the shape is L
-    Paint(disp_points_[parent], disp_points_[kids[num]], false, 1, value);
-    value += psi_l_[kids[num]];
-    Draw(parent, kids, num + 1, value, result, choice, decision);
-    value -= psi_l_[kids[num]];
-    Paint(disp_points_[parent], disp_points_[kids[num]], false, -1, value);
+    paint(disp_points[parent], disp_points[kids[num]], false, 1, value);
+    value += psi_l[kids[num]];
+    draw(parent, kids, num + 1, value, result, choice, decision);
+    value -= psi_l[kids[num]];
+    paint(disp_points[parent], disp_points[kids[num]], false, -1, value);
     // if the shape is U
-    Paint(disp_points_[parent], disp_points_[kids[num]], true, 1, value);
-    value += psi_u_[kids[num]];
-    Draw(parent, kids, num + 1, value, result, choice + (1 << num), decision);
-    value -= psi_u_[kids[num]];
-    Paint(disp_points_[parent], disp_points_[kids[num]], true, -1, value);
+    paint(disp_points[parent], disp_points[kids[num]], true, 1, value);
+    value += psi_u[kids[num]];
+    draw(parent, kids, num + 1, value, result, choice + (1 << num), decision);
+    value -= psi_u[kids[num]];
+    paint(disp_points[parent], disp_points[kids[num]], true, -1, value);
     return;
 }
 
 int LMST::FindPsiL(int label) {
-    if (psi_l_[label] != -1)
-        return psi_l_[label];
-    if (tree_[label].empty()) {
-        psi_l_[label] = 0;
+    if (psi_l[label] != -1)
+        return psi_l[label];
+    if (tree[label].empty()) {
+        psi_l[label] = 0;
         return 0;
     }
-    std::vector<int> &kids = tree_[label];
+    std::vector<int> &kids = tree[label];
     for (unsigned i = 0; i < kids.size(); i++) {
         FindPsiL(kids[i]);
         FindPsiU(kids[i]);
     }
     int value = 0, choice = 0;
-    Paint(disp_points_[father_[label]], disp_points_[label], false, 1, value);
-    Draw(label, kids, 0, value, psi_l_[label], choice, choice_l_[label]);
-    Paint(disp_points_[father_[label]], disp_points_[label], false, -1, value);
-    return psi_l_[label];
+    paint(disp_points[parent[label]], disp_points[label], false, 1, value);
+    draw(label, kids, 0, value, psi_l[label], choice, choice_l[label]);
+    paint(disp_points[parent[label]], disp_points[label], false, -1, value);
+    return psi_l[label];
 }
 
 int LMST::FindPsiU(int label) {
-    if (psi_u_[label] != -1)
-        return psi_u_[label];
-    if (tree_[label].empty()) {
-        psi_u_[label] = 0;
+    if (psi_u[label] != -1)
+        return psi_u[label];
+    if (tree[label].empty()) {
+        psi_u[label] = 0;
         return 0;
     }
-    std::vector<int> &kids = tree_[label];
+    std::vector<int> &kids = tree[label];
     for (unsigned i = 0; i < kids.size(); i++) {
         FindPsiL(kids[i]);
         FindPsiU(kids[i]);
     }
     int value = 0, choice = 0;
-    Paint(disp_points_[father_[label]], disp_points_[label], true, 1, value);
-    Draw(label, kids, 0, value, psi_u_[label], choice, choice_u_[label]);
-    Paint(disp_points_[father_[label]], disp_points_[label], true, -1, value);
-    return psi_u_[label];
+    paint(disp_points[parent[label]], disp_points[label], true, 1, value);
+    draw(label, kids, 0, value, psi_u[label], choice, choice_u[label]);
+    paint(disp_points[parent[label]], disp_points[label], true, -1, value);
+    return psi_u[label];
 }
 
-void LMST::OutputResultToVector() {
-    if (result_.size() != 0) return;
-    int child_ = tree_[root_][0];
-    bool choice = psi_l_[child_] < psi_u_[child_];
-    OutputResultToVectorOfLabel(child_, choice);
+void LMST::outputResultToVector() {
+    if (m_result.size() != 0) return;
+    int child_ = tree[root][0];
+    bool choice = psi_l[child_] < psi_u[child_];
+    outputResultToVectorOfLabel(child_, choice);
 }
 
-void LMST::OutputResultToVectorOfLabel(int label, bool choice) {
-    result_.push_back(Line_L(father_[label], label, choice));
-    std::vector<int> &kids = tree_[label];
-    int choice_record_ = choice ? choice_u_[label] : choice_l_[label];
+void LMST::outputResultToVectorOfLabel(int label, bool choice) {
+    m_result.push_back(Line_L(parent[label], label, choice));
+    std::vector<int> &kids = tree[label];
+    int choice_record_ = choice ? choice_u[label] : choice_l[label];
     for (unsigned i = 0; i < kids.size(); i++) {
         bool i_th = ((choice_record_ >> i) & 1) == 1;
-        OutputResultToVectorOfLabel(kids[i], i_th);
+        outputResultToVectorOfLabel(kids[i], i_th);
     }
 }
 
 void LMST::setPointsFromRST(RST *rst) {
     //qDebug("set data for LMST");
-    smst_.set_rst(rst);
+    mst.set_rst(rst);
 }
 
 void LMST::getResult(RST *rst) {
     //qDebug("LMST end");
     rst->v_seg.clear();
-    for (size_t i = 0; i < result_.size(); i++) {
-        Point A(points_[result_[i].start()].x, points_[result_[i].start()].y);
-        Point B(points_[result_[i].end()].x, points_[result_[i].end()].y);
+    for (size_t i = 0; i < m_result.size(); i++) {
+        Point A(m_points[m_result[i].start()].x, m_points[m_result[i].start()].y);
+        Point B(m_points[m_result[i].end()].x, m_points[m_result[i].end()].y);
         Point C;
-        if (result_[i].direction()) // horizontal
+        if (m_result[i].direction()) // horizontal
             C = Point(B.x, A.y);
         else
             C = Point(A.x, B.y);
