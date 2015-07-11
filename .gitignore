@@ -6,4 +6,5 @@ CMakeFiles/
 Makefile
 RectilinearSteinerTree
 cmake_install.cmake
+.DS_Store
 src/.DS_Store

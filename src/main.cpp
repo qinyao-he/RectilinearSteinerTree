@@ -2,6 +2,7 @@
 
 #include "RST.h"
 #include "RSTStrategy.h"
+#include "common.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -9,9 +10,9 @@
 using namespace cv;
 
 int main(int argc, char const *argv[]) {
-    const int n = 100;
+    const int n = NUM;
     RST* rst = new RST;
-    rst->changeStrategy(1);
+    rst->changeStrategy(2);
     std::mt19937 generator;
     std::uniform_int_distribution<int> uniform(0, 500);
     for (int i = 0; i < n; i++) {
