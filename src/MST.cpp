@@ -23,7 +23,7 @@ void MST::mst() {
 
     Dist dist_max(std::numeric_limits<int>::max(), 0, 0);
     vector<Dist> dist(n, dist_max);
-    vector<int> parent(n, 0);
+    vector<size_t> parent(n, 0);
     vector<bool> in_tree(n, false);
 
     size_t t = 0;
@@ -34,21 +34,21 @@ void MST::mst() {
         for (size_t j = 0; j < n; j++)
             if (j != t) {
                 Dist tmp(m_vertexs[t], m_vertexs[j]);
-                if (tmp < dist[j]) {
+                if (tmp < dist[j] && !in_tree[j]) {
                     dist[j] = tmp;
                     parent[j] = t;
                 }
             }
         Dist min = dist_max;
-        size_t min_v;
+        size_t min_v = 0;
         for (size_t i = 0; i < n; i++) {
             if (dist[i] < min && !in_tree[i]) {
                 min = dist[i];
                 min_v = i;
             }
         }
-        m_lines.push_back(Line(parent[t], t));
         t = min_v;
+        m_lines.push_back(Line(parent[t], t));
     }
 }
 
