@@ -18,19 +18,9 @@ using std::sort;
 using std::unique;
 using std::vector;
 
-//This function should have been provided in class Points, but there isn't one.
-inline bool operator==(const Point &a, const Point &b) {
-    return a.x == b.x && a.y == b.y;
-}
-
 //Compare the line by the start node.
 inline bool lineCmp(const Line_Z &a, const Line_Z &b) {
     return a.start() < b.start();
-}
-
-//The Manhattan distance of two points.
-inline int dist(const Point &a, const Point &b) {
-    return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
 //SubProcedure for solve(). It would examine all the layouts for the sons of a
@@ -57,7 +47,7 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
         }
         overLap.push_back(Line_Z(father, root, lay.midPoint));
         //current answer exclude the edge upon the node itself
-        ans += overlap(points(), overLap) - dist(point(root), point(father));
+        ans += overlap(points(), overLap) - point(root).distance(point(father));
         if (ans < lay.subAns) {
             lay.subAns = ans;
             copy(stack, stack + id, lay.bestLay);
@@ -72,12 +62,12 @@ void ZRST::dfs(int root, int father, int stat, layout &lay,
 void ZRST::solve() {
     smst.mst();
     //reserve before mass data pushing back
-    lines_.reserve(smst.lines().size());
+    m_lines.reserve(smst.lines().size());
     for (size_t i = 0; i < smst.lines().size(); i++)
-        lines_.push_back(Line_Z(smst.lines()[i].start(), smst.lines()[i].end(),
+        m_lines.push_back(Line_Z(smst.lines()[i].start(), smst.lines()[i].end(),
                                 Point()));
     //lines is a sorted line vector, while smst.m_lines is in parent-child order
-    sort(lines_.begin(), lines_.end(), lineCmp);
+    sort(m_lines.begin(), m_lines.end(), lineCmp);
     //make the positive direction table
     int *head = new int[points().size() + 1];
     for (size_t i = 0, j = 0; i <= points().size() && j <= lines().size();) {
@@ -91,8 +81,8 @@ void ZRST::solve() {
             *xgrids = new int[points().size()],
             *ygrids = new int[points().size()],
             xgridsize, ygridsize;
-    for (size_t i = 0; i < lines_.size(); i++) {
-        father[lines_[i].end()] = lines_[i].start();
+    for (size_t i = 0; i < m_lines.size(); i++) {
+        father[m_lines[i].end()] = m_lines[i].start();
     }
     father[0] = -1;
     for (size_t i = 0; i < points().size(); i++) {
@@ -106,8 +96,8 @@ void ZRST::solve() {
     vector<vector<layout> > subProb(vector<vector<layout> >(points().size(),
                                                             vector<layout>()));
     //Enumerate all layouts
-    for (vector<Line_Z>::iterator it = lines_.begin();
-         it != lines_.end(); ++it) {
+    for (vector<Line_Z>::iterator it = m_lines.begin();
+         it != m_lines.end(); ++it) {
         int minx = min(point(it->start()).x, point(it->end()).x),
                 maxx = max(point(it->start()).x, point(it->end()).x),
                 miny = min(point(it->start()).y, point(it->end()).y),
@@ -148,7 +138,7 @@ void ZRST::getAns(int root, const layout &lay,
                   const vector<vector<layout> > subProb,
                   const int *head) {
     for (int i = head[root]; i < head[root + 1]; i++) {
-        lines_[i].mid_point_set() =
+        m_lines[i].mid_point_set() =
                 subProb[line(i).end()][lay.bestLay[i - head[root]]].midPoint;
         getAns(line(i).end(), subProb[line(i).end()][lay.bestLay[i - head[root]]],
                subProb, head);
@@ -156,16 +146,16 @@ void ZRST::getAns(int root, const layout &lay,
 }
 
 void ZRST::setPointsFromRST(RST *rst) {
-    lines_.clear();
+    m_lines.clear();
     smst.set_rst(rst);
 }
 
 void ZRST::getResult(RST *rst) {
     rst->v_seg.clear();
-    for (size_t i = 0; i < lines_.size(); i++) {
-        Point A(smst.points()[lines_[i].start()].x, smst.points()[lines_[i].start()].y);
-        Point B(smst.points()[lines_[i].end()].x, smst.points()[lines_[i].end()].y);
-        Point C(lines_[i].mid_point().x, lines_[i].mid_point().y);
+    for (size_t i = 0; i < m_lines.size(); i++) {
+        Point A(smst.points()[m_lines[i].start()].x, smst.points()[m_lines[i].start()].y);
+        Point B(smst.points()[m_lines[i].end()].x, smst.points()[m_lines[i].end()].y);
+        Point C(m_lines[i].mid_point().x, m_lines[i].mid_point().y);
         Point D; // A - C -(default:vertical when A==C) D - B
         if (std::abs(A.y - C.y) < 0.1)
             D = Point(C.x, B.y);

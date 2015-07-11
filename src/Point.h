@@ -6,6 +6,7 @@
 #define RECTILINEARSTEINERTREE_POINT_H
 
 #include <iostream>
+#include <cstdlib>
 
 
 struct Point {
@@ -15,8 +16,16 @@ struct Point {
         out << x << " " << y << std::endl;
     }
 
-    friend bool operator < (Point a, Point b) {
-        return (a.x < b.x) || (a.x == b.x && a.y < b.y);
+    bool operator == (const Point& op) const {
+        return (x == op.x) && (y == op.y);
+    }
+
+    bool operator < (const Point& op) const {
+        return (x < op.x) || (x == op.x && y < op.y);
+    }
+
+    int distance(const Point& op) const {
+        return std::abs(x - op.x) + std::abs(y - op.y);
     }
 
     int x;

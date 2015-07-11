@@ -30,7 +30,7 @@ private:
     //Use smst to get data and the mst
     MST smst;
     //The result would be in m_lines. The edges is sorted by start().
-    vector<Line_Z> lines_;
+    vector<Line_Z> m_lines;
 
     //SubProcedure for solve(). It would examine the subProb and look for
     //best solutions for each node.
@@ -53,7 +53,7 @@ public:
 
     //accessor for m_lines
     const vector<Line_Z> &lines() const {
-        return lines_;
+        return m_lines;
     }
 
     //access a single point
